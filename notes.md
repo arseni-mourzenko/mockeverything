@@ -16,7 +16,7 @@
 
  - A good way to determine that two methods are the same is that we can't put two of them in the same class. For example, methods which take different parameters are different, but methods which differ only by their visibility are the same.
 
- # Examples to use
+# Examples to use
 
  - A library which calls `File.ReadAllText`.
 
