@@ -6,6 +6,8 @@
 namespace MockEverything.Inspection.MonoCecil
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Represents a type from an assembly loaded using Mono.Cecil.
@@ -21,8 +23,11 @@ namespace MockEverything.Inspection.MonoCecil
         /// Initializes a new instance of the <see cref="Type"/> class.
         /// </summary>
         /// <param name="definition">The Mono.Cecil definition of a type.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "The arguments are validated through Code Contracts.")]
         public Type(Mono.Cecil.TypeDefinition definition)
         {
+            Contract.Requires(definition != null);
+
             this.name = definition.Name;
         }
 
