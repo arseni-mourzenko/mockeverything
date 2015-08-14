@@ -11,7 +11,7 @@ namespace MockEverything.Attributes
     /// Represents an attribute which indicates that a constructor, method or property is a proxy of another constructor, method or property.
     /// </summary>
     [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property)]
-    public class ProxyMethodAttribute : Attribute
+    public sealed class ProxyMethodAttribute : Attribute
     {
         /// <summary>
         /// The type of the target method.

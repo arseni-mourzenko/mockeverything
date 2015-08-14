@@ -13,7 +13,7 @@ namespace MockEverything.Attributes
     /// Represents an attribute which indicates that a class is a proxy of another class.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class ProxyOfAttribute : Attribute
+    public sealed class ProxyOfAttribute : Attribute
     {
         /// <summary>
         /// The type of the class affected by the proxy.
@@ -48,6 +48,7 @@ namespace MockEverything.Attributes
         /// Provides the invariant contracts for the fields and properties of this object.
         /// </summary>
         [ContractInvariantMethod]
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Required for code contracts.")]
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
         private void ObjectInvariant()
         {
