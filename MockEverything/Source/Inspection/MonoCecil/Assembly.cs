@@ -14,8 +14,14 @@ namespace MockEverything.Inspection.MonoCecil
     /// </summary>
     public class Assembly : IAssembly
     {
+        /// <summary>
+        /// The full path to the file containing the assembly.
+        /// </summary>
         private readonly string path;
 
+        /// <summary>
+        /// The underlying Mono.Cecil assembly instance, loaded on demand.
+        /// </summary>
         private readonly Lazy<Mono.Cecil.AssemblyDefinition> underlyingAssembly;
 
         /// <summary>
