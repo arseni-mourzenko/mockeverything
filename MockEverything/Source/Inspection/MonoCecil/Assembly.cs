@@ -39,13 +39,15 @@ namespace MockEverything.Inspection.MonoCecil
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
+        /// <param name="expectedAttributes">The types of attributes the types to return should have.</param>
         /// <returns>Zero or more types.</returns>
-        public IEnumerable<IType> FindTypes(MemberType type = MemberType.All)
+        public IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
             Contract.Ensures(Contract.Result<IEnumerable<IType>>() != null);
 
             return from definition in this.FindTypeDefinitions()
                    where this.MatchTypeFilter(definition, type)
+                   where this.MatchAttributesFilter(definition, expectedAttributes)
                    select new Type(definition);
         }
 
@@ -74,6 +76,17 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(typeDefinition != null);
 
             return filter.HasFlag(this.IsTypeStatic(typeDefinition) ? MemberType.Static : MemberType.Instance);
+        }
+
+        private bool MatchAttributesFilter(Mono.Cecil.TypeDefinition typeDefinition, ICollection<System.Type> attributes)
+        {
+            Contract.Requires(typeDefinition != null);
+            Contract.Requires(attributes != null);
+
+            var actualAttributes = new HashSet<string>(
+                from a in typeDefinition.CustomAttributes select a.AttributeType.FullName);
+
+            return attributes.All(attribute => actualAttributes.Contains(attribute.FullName));
         }
 
         /// <summary>

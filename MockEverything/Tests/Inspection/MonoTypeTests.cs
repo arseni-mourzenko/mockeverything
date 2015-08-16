@@ -2,6 +2,7 @@
 {
     using Demo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
     using System;
     using System.Linq;
@@ -63,6 +64,30 @@
             Assert.IsTrue(this.MethodExists("SimpleClass", "InternalStaticMethod"));
         }
 
+        [TestMethod]
+        public void TestFindMethodsStaticWithStaticFilter()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "StaticMethod", MemberType.Static));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsStaticWithInstanceFilter()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "StaticMethod", MemberType.Instance));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsInstanceWithStaticFilter()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "SimpleMethod", MemberType.Static));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsInstanceWithInstanceFilter()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "SimpleMethod", MemberType.Instance));
+        }
+
         private bool MethodExists(string typeName, string methodName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
@@ -70,6 +95,17 @@
                 .FindTypes()
                 .Single(t => t.Name == typeName)
                 .FindTypes()
+                .Select(m => m.Name)
+                .Contains(methodName);
+        }
+
+        private bool MethodExists(string typeName, string methodName, MemberType filter)
+        {
+            var assembly = new Assembly(this.SampleAssemblyPath);
+            return assembly
+                .FindTypes()
+                .Single(t => t.Name == typeName)
+                .FindTypes(filter)
                 .Select(m => m.Name)
                 .Contains(methodName);
         }

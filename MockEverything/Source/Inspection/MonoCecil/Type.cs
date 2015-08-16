@@ -5,7 +5,6 @@
 
 namespace MockEverything.Inspection.MonoCecil
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
@@ -47,10 +46,28 @@ namespace MockEverything.Inspection.MonoCecil
         /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
+        /// <param name="type">The type of the members to include in the result.</param>
         /// <returns>Zero or more types.</returns>
-        public IEnumerable<IMethod> FindTypes()
+        public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All)
         {
-            return this.definition.Methods.Select(m => new Method(m));
+            Contract.Ensures(Contract.Result<IEnumerable<IMethod>>() != null);
+
+            return from definition in this.definition.Methods
+                   where this.MatchTypeFilter(definition, type)
+                   select new Method(definition);
+        }
+
+        /// <summary>
+        /// Determines whether a method, specified by a Mono.Cecil's method definition, matches a filter.
+        /// </summary>
+        /// <param name="methodDefinition">The Mono.Cecil's method definition of a method.</param>
+        /// <param name="filter">The filter which indicates which types should match.</param>
+        /// <returns><see langword="true"/> if the method matches the filter; otherwise, <see langword="false"/>.</returns>
+        private bool MatchTypeFilter(Mono.Cecil.MethodDefinition methodDefinition, MemberType filter)
+        {
+            Contract.Requires(methodDefinition != null);
+
+            return filter.HasFlag(methodDefinition.IsStatic ? MemberType.Static : MemberType.Instance);
         }
     }
 }

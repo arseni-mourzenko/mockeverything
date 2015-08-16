@@ -81,16 +81,40 @@
             Assert.IsTrue(this.TypeExists("SimpleClass", MemberType.Instance));
         }
 
+        [TestMethod]
+        public void TestFindTypesAttributeMissing()
+        {
+            Assert.IsFalse(this.TypeExists("SimpleClass", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindTypesSingleAttribute()
+        {
+            Assert.IsTrue(this.TypeExists("DecoratedClass", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindTypesAllAttributes()
+        {
+            Assert.IsTrue(this.TypeExists("DecoratedClass", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindTypesMoreAttributes()
+        {
+            Assert.IsFalse(this.TypeExists("DecoratedClass", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+        }
+
         private bool TypeExists(string typeName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
             return assembly.FindTypes().Select(t => t.Name).Contains(typeName);
         }
 
-        private bool TypeExists(string typeName, MemberType type)
+        private bool TypeExists(string typeName, MemberType type, params System.Type[] expectedAttributes)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
-            return assembly.FindTypes(type).Select(t => t.Name).Contains(typeName);
+            return assembly.FindTypes(type, expectedAttributes).Select(t => t.Name).Contains(typeName);
         }
 
         private string SampleAssemblyPath
