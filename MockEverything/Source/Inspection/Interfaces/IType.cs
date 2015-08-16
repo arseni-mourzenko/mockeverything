@@ -5,6 +5,7 @@
 
 namespace MockEverything.Inspection
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -21,7 +22,8 @@ namespace MockEverything.Inspection
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
+        /// <param name="expectedAttributes">The types of attributes the methods to return should have.</param>
         /// <returns>Zero or more types.</returns>
-        IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All);
+        IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params Type[] expectedAttributes);
     }
 }

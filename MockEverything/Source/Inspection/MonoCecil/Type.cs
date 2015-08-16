@@ -47,13 +47,15 @@ namespace MockEverything.Inspection.MonoCecil
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
+        /// <param name="expectedAttributes">The types of attributes the methods to return should have.</param>
         /// <returns>Zero or more types.</returns>
-        public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All)
+        public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
             Contract.Ensures(Contract.Result<IEnumerable<IMethod>>() != null);
 
             return from definition in this.definition.Methods
                    where this.MatchTypeFilter(definition, type)
+                   where this.MatchAttributesFilter(definition, expectedAttributes)
                    select new Method(definition);
         }
 
@@ -68,6 +70,26 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(methodDefinition != null);
 
             return filter.HasFlag(methodDefinition.IsStatic ? MemberType.Static : MemberType.Instance);
+        }
+
+        /// <summary>
+        /// Determines whether a method, specified by a Mono.Cecil's type definition, contains all of the specified attributes.
+        /// </summary>
+        /// <remarks>
+        /// If the type contains additional attributes, not specified in the list of attributes, it will have no effect on the result of this method.
+        /// </remarks>
+        /// <param name="methodDefinition">The Mono.Cecil's method definition of a type.</param>
+        /// <param name="attributes">The types of attributes the method should contain.</param>
+        /// <returns><see langword="true"/> if the method contains all of the specified attributes; otherwise, <see langword="false"/>.</returns>
+        private bool MatchAttributesFilter(Mono.Cecil.MethodDefinition methodDefinition, ICollection<System.Type> attributes)
+        {
+            Contract.Requires(methodDefinition != null);
+            Contract.Requires(attributes != null);
+
+            var actualAttributes = new HashSet<string>(
+                from a in methodDefinition.CustomAttributes select a.AttributeType.FullName);
+
+            return attributes.All(attribute => actualAttributes.Contains(attribute.FullName));
         }
     }
 }

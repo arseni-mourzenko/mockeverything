@@ -33,5 +33,11 @@
         internal static void InternalStaticMethod()
         {
         }
+
+        [Demo]
+        [DemoSecond]
+        public void DecoratedMethod()
+        {
+        }
     }
 }

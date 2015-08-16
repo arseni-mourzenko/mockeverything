@@ -88,6 +88,30 @@
             Assert.IsTrue(this.MethodExists("SimpleClass", "SimpleMethod", MemberType.Instance));
         }
 
+        [TestMethod]
+        public void TestFindMethodsAttributeMissing()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "SimpleMethod", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsSingleAttribute()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "DecoratedMethod", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsAllAttributes()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "DecoratedMethod", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsMoreAttributes()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "DecoratedMethod", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+        }
+
         private bool MethodExists(string typeName, string methodName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
@@ -99,13 +123,13 @@
                 .Contains(methodName);
         }
 
-        private bool MethodExists(string typeName, string methodName, MemberType filter)
+        private bool MethodExists(string typeName, string methodName, MemberType filter, params System.Type[] attributes)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
             return assembly
                 .FindTypes()
                 .Single(t => t.Name == typeName)
-                .FindTypes(filter)
+                .FindTypes(filter, attributes)
                 .Select(m => m.Name)
                 .Contains(methodName);
         }
