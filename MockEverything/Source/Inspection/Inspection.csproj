@@ -62,6 +62,7 @@
     <Compile Include="Interfaces\IMethod.cs" />
     <Compile Include="Interfaces\IAssembly.cs" />
     <Compile Include="Interfaces\IType.cs" />
+    <Compile Include="MemberType.cs" />
     <Compile Include="MonoCecil\Assembly.cs" />
     <Compile Include="MonoCecil\Method.cs" />
     <Compile Include="MonoCecil\Type.cs" />

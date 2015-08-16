@@ -2,6 +2,7 @@
 {
     using Demo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
     using System;
     using System.IO;
@@ -56,10 +57,40 @@
             Assert.IsTrue(this.TypeExists("StaticInternalClass"));
         }
 
+        [TestMethod]
+        public void TestFindTypesStaticWithStaticFilter()
+        {
+            Assert.IsTrue(this.TypeExists("StaticClass", MemberType.Static));
+        }
+
+        [TestMethod]
+        public void TestFindTypesStaticWithInstanceFilter()
+        {
+            Assert.IsFalse(this.TypeExists("StaticClass", MemberType.Instance));
+        }
+
+        [TestMethod]
+        public void TestFindTypesInstanceWithStaticFilter()
+        {
+            Assert.IsFalse(this.TypeExists("SimpleClass", MemberType.Static));
+        }
+
+        [TestMethod]
+        public void TestFindTypesInstanceWithInstanceFilter()
+        {
+            Assert.IsTrue(this.TypeExists("SimpleClass", MemberType.Instance));
+        }
+
         private bool TypeExists(string typeName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
             return assembly.FindTypes().Select(t => t.Name).Contains(typeName);
+        }
+
+        private bool TypeExists(string typeName, MemberType type)
+        {
+            var assembly = new Assembly(this.SampleAssemblyPath);
+            return assembly.FindTypes(type).Select(t => t.Name).Contains(typeName);
         }
 
         private string SampleAssemblyPath

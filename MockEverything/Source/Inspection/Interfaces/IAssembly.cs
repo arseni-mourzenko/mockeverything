@@ -15,7 +15,8 @@ namespace MockEverything.Inspection
         /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
+        /// <param name="type">The type of the members to include in the result.</param>
         /// <returns>Zero or more types.</returns>
-        IEnumerable<IType> FindTypes();
+        IEnumerable<IType> FindTypes(MemberType type = MemberType.All);
     }
 }

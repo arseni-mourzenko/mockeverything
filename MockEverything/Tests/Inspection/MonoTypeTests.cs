@@ -63,7 +63,6 @@
             Assert.IsTrue(this.MethodExists("SimpleClass", "InternalStaticMethod"));
         }
 
-
         private bool MethodExists(string typeName, string methodName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
