@@ -29,19 +29,37 @@
         [TestMethod]
         public void TestFindTypes()
         {
-            var assembly = new Assembly(this.SampleAssemblyPath);
-            var result = assembly.FindTypes().Select(t => t.Name).Contains("SimpleClass");
-
-            Assert.IsTrue(result);
+            Assert.IsTrue(this.TypeExists("SimpleClass"));
         }
 
         [TestMethod]
         public void TestFindTypesMissing()
         {
-            var assembly = new Assembly(this.SampleAssemblyPath);
-            var result = assembly.FindTypes().Select(t => t.Name).Contains("MissingType");
+            Assert.IsFalse(this.TypeExists("MissingType"));
+        }
 
-            Assert.IsFalse(result);
+        [TestMethod]
+        public void TestFindTypesInternal()
+        {
+            Assert.IsTrue(this.TypeExists("InternalClass"));
+        }
+
+        [TestMethod]
+        public void TestFindTypesStatic()
+        {
+            Assert.IsTrue(this.TypeExists("StaticClass"));
+        }
+
+        [TestMethod]
+        public void TestFindTypesStaticInternal()
+        {
+            Assert.IsTrue(this.TypeExists("StaticInternalClass"));
+        }
+
+        private bool TypeExists(string typeName)
+        {
+            var assembly = new Assembly(this.SampleAssemblyPath);
+            return assembly.FindTypes().Select(t => t.Name).Contains(typeName);
         }
 
         private string SampleAssemblyPath

@@ -1,14 +1,36 @@
 ﻿namespace MockEverythingTests.Inspection.Demo
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public class SimpleClass
     {
         public void SimpleMethod()
+        {
+        }
+
+        private void PrivateMethod()
+        {
+        }
+
+        protected void ProtectedMethod()
+        {
+        }
+
+        internal void InternalMethod()
+        {
+        }
+
+        public static void StaticMethod()
+        {
+        }
+
+        private static void PrivateStaticMethod()
+        {
+        }
+
+        protected static void ProtectedStaticMethod()
+        {
+        }
+
+        internal static void InternalStaticMethod()
         {
         }
     }

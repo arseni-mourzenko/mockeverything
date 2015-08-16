@@ -42,8 +42,11 @@
   <ItemGroup>
     <Compile Include="DecoratedClass.cs" />
     <Compile Include="DemoAttribute.cs" />
+    <Compile Include="InternalClass.cs" />
     <Compile Include="SimpleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticClass.cs" />
+    <Compile Include="StaticInternalClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
