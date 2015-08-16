@@ -112,6 +112,95 @@
             Assert.IsFalse(this.MethodExists("SimpleClass", "DecoratedMethod", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
         }
 
+        [TestMethod]
+        public void TestFindMethodsProperty()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_SimpleProperty"));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyPrivate()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_PrivateProperty"));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyPrivateGetter()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_PropertyPrivateGetter"));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyInstanceFilterStatic()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_SimpleProperty", MemberType.Static));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyStaticFilterStatic()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_StaticProperty", MemberType.Static));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyStaticFilterInstance()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_StaticProperty", MemberType.Instance));
+        }
+
+
+
+
+        [TestMethod]
+        public void TestFindMethodsPropertyAttributeMissing()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_SimpleProperty", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertySingleAttribute()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_DecoratedProperty", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyAllAttributes()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_DecoratedProperty", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyMoreAttributes()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_DecoratedProperty", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyGetterSingleAttribute()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_PropertyDecoratedGetter", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyGetterSingleAttributeMatchingSetter()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "set_PropertyDecoratedGetter", MemberType.Instance, typeof(DemoAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyGetterAllAttributes()
+        {
+            Assert.IsTrue(this.MethodExists("SimpleClass", "get_PropertyDecoratedGetter", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute)));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsPropertyGetterMoreAttributes()
+        {
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_PropertyDecoratedGetter", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+        }
+
+
+
         private bool MethodExists(string typeName, string methodName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);

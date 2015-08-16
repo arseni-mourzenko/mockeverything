@@ -78,7 +78,7 @@ namespace MockEverything.Inspection.MonoCecil
         /// <remarks>
         /// If the type contains additional attributes, not specified in the list of attributes, it will have no effect on the result of this method.
         /// </remarks>
-        /// <param name="methodDefinition">The Mono.Cecil's method definition of a type.</param>
+        /// <param name="methodDefinition">The Mono.Cecil's method definition of a method.</param>
         /// <param name="attributes">The types of attributes the method should contain.</param>
         /// <returns><see langword="true"/> if the method contains all of the specified attributes; otherwise, <see langword="false"/>.</returns>
         private bool MatchAttributesFilter(Mono.Cecil.MethodDefinition methodDefinition, ICollection<System.Type> attributes)
@@ -87,9 +87,55 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(attributes != null);
 
             var actualAttributes = new HashSet<string>(
-                from a in methodDefinition.CustomAttributes select a.AttributeType.FullName);
+                from a in this.FindAttributesOfMethod(methodDefinition) select a.FullName);
 
             return attributes.All(attribute => actualAttributes.Contains(attribute.FullName));
+        }
+
+        /// <summary>
+        /// Finds all the attributes of a method, including the attributes of the corresponding property if the method is a getter or a setter.
+        /// </summary>
+        /// <param name="methodDefinition">The Mono.Cecil's method definition of a method.</param>
+        /// <returns>Zero or more types if attributes. Duplicates are removed.</returns>
+        private IEnumerable<Mono.Cecil.TypeReference> FindAttributesOfMethod(Mono.Cecil.MethodDefinition methodDefinition)
+        {
+            Contract.Requires(methodDefinition != null);
+            Contract.Ensures(Contract.Result<IEnumerable<Mono.Cecil.TypeReference>>() != null);
+
+            var inProperty = methodDefinition.IsGetter || methodDefinition.IsSetter;
+            var attributes = inProperty ?
+                this.FindAttributesOfGetterOrSetter(methodDefinition) :
+                methodDefinition.CustomAttributes;
+
+            return attributes.Select(a => a.AttributeType).Distinct();
+        }
+
+        /// <summary>
+        /// Finds all the attributes of a getter or a setter, that is its own attributes and the ones of its property.
+        /// </summary>
+        /// <param name="methodDefinition">The Mono.Cecil's method definition of a getter or a setter.</param>
+        /// <returns>Zero or more types if attributes. May include duplicates.</returns>
+        private IEnumerable<Mono.Cecil.CustomAttribute> FindAttributesOfGetterOrSetter(Mono.Cecil.MethodDefinition methodDefinition)
+        {
+            Contract.Requires(methodDefinition != null);
+            Contract.Requires(methodDefinition.IsGetter || methodDefinition.IsSetter);
+            Contract.Ensures(Contract.Result<IEnumerable<Mono.Cecil.TypeReference>>() != null);
+
+            var propertyName = methodDefinition.Name.Substring(4);
+            return methodDefinition.CustomAttributes.Concat(this.FindPropertyByName(propertyName).CustomAttributes);
+        }
+
+        /// <summary>
+        /// Retrieves a property by its name.
+        /// </summary>
+        /// <param name="name">The short name of the property. This name doesn't contain any reference to the type, namespace or assembly.</param>
+        /// <returns></returns>
+        private Mono.Cecil.PropertyDefinition FindPropertyByName(string name)
+        {
+            Contract.Requires(name != null);
+            Contract.Ensures(Contract.Result<Mono.Cecil.PropertyDefinition>() != null);
+
+            return this.definition.Properties.Single(p => p.Name == name);
         }
     }
 }
