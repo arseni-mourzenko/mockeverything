@@ -78,6 +78,15 @@ namespace MockEverything.Inspection.MonoCecil
             return filter.HasFlag(this.IsTypeStatic(typeDefinition) ? MemberType.Static : MemberType.Instance);
         }
 
+        /// <summary>
+        /// Determines whether a type, specified by a Mono.Cecil's type definition, contains all of the specified attributes.
+        /// </summary>
+        /// <remarks>
+        /// If the type contains additional attributes, not specified in the list of attributes, it will have no effect on the result of this method.
+        /// </remarks>
+        /// <param name="typeDefinition">The Mono.Cecil's type definition of a type.</param>
+        /// <param name="attributes">The types of attributes the type should contain.</param>
+        /// <returns><see langword="true"/> if the type contains all of the specified attributes; otherwise, <see langword="false"/>.</returns>
         private bool MatchAttributesFilter(Mono.Cecil.TypeDefinition typeDefinition, ICollection<System.Type> attributes)
         {
             Contract.Requires(typeDefinition != null);
