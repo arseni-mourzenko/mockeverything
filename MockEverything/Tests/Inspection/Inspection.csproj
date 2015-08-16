@@ -52,12 +52,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MonoAssemblyTests.cs" />
+    <Compile Include="MonoTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Inspection\Inspection.csproj">
       <Project>{57a3ebd0-dab8-4a91-9db2-8a8ed3cb4cf7}</Project>
       <Name>Inspection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InspectionDemo\InspectionDemo.csproj">
+      <Project>{cdf34769-005f-452d-8c40-0145a7172f7c}</Project>
+      <Name>InspectionDemo</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

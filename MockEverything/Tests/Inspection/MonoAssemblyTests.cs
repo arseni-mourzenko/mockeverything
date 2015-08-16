@@ -1,11 +1,11 @@
 ﻿namespace MockEverythingTests.Inspection
 {
+    using Demo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection.MonoCecil;
     using System;
     using System.IO;
     using System.Linq;
-    using Reflection = System.Reflection;
 
     [TestClass]
     public class MonoAssemblyTests
@@ -29,8 +29,8 @@
         [TestMethod]
         public void TestFindTypes()
         {
-            var assembly = new Assembly(this.CurrentAssemblyPath);
-            var result = assembly.FindTypes().Select(t => t.Name).Contains("MonoAssemblyTests");
+            var assembly = new Assembly(this.SampleAssemblyPath);
+            var result = assembly.FindTypes().Select(t => t.Name).Contains("SimpleClass");
 
             Assert.IsTrue(result);
         }
@@ -38,19 +38,20 @@
         [TestMethod]
         public void TestFindTypesMissing()
         {
-            var assembly = new Assembly(this.CurrentAssemblyPath);
+            var assembly = new Assembly(this.SampleAssemblyPath);
             var result = assembly.FindTypes().Select(t => t.Name).Contains("MissingType");
 
             Assert.IsFalse(result);
         }
 
-        private string CurrentAssemblyPath
+        private string SampleAssemblyPath
         {
             get
             {
-                var codeBase = Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                var codeBase = typeof(SimpleClass).Assembly.CodeBase;
                 return Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
             }
         }
+
     }
 }

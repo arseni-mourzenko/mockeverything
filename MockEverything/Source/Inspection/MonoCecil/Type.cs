@@ -6,8 +6,10 @@
 namespace MockEverything.Inspection.MonoCecil
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     /// <summary>
     /// Represents a type from an assembly loaded using Mono.Cecil.
@@ -15,9 +17,9 @@ namespace MockEverything.Inspection.MonoCecil
     public class Type : IType
     {
         /// <summary>
-        /// The short name of the type. This name doesn't contain any reference to the namespace or the assembly.
+        /// The Mono.Cecil definition of a type.
         /// </summary>
-        private readonly string name;
+        private readonly Mono.Cecil.TypeDefinition definition;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Type"/> class.
@@ -28,7 +30,7 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(definition != null);
 
-            this.name = definition.Name;
+            this.definition = definition;
         }
 
         /// <summary>
@@ -38,8 +40,17 @@ namespace MockEverything.Inspection.MonoCecil
         {
             get
             {
-                return this.name;
+                return this.definition.Name;
             }
+        }
+
+        /// <summary>
+        /// Finds all types in the assembly.
+        /// </summary>
+        /// <returns>Zero or more types.</returns>
+        public IEnumerable<IMethod> FindTypes()
+        {
+            return this.definition.Methods.Select(m => new Method(m));
         }
     }
 }
