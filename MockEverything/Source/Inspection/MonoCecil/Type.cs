@@ -129,7 +129,8 @@ namespace MockEverything.Inspection.MonoCecil
         /// Retrieves a property by its name.
         /// </summary>
         /// <param name="name">The short name of the property. This name doesn't contain any reference to the type, namespace or assembly.</param>
-        /// <returns></returns>
+        /// <returns>The matching property.</returns>
+        /// <exception cref="System.InvalidOperationException">The property with this name doesn't exist.</exception>
         private Mono.Cecil.PropertyDefinition FindPropertyByName(string name)
         {
             Contract.Requires(name != null);
