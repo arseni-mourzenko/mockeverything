@@ -43,8 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Browsers\AssemblyBrowser.cs" />
+    <Compile Include="Browsers\ITypeMatchSearch.cs" />
     <Compile Include="Browsers\Match{TElement}.cs" />
+    <Compile Include="Browsers\TypeMatchSearch.cs" />
     <Compile Include="Browsers\TypeMatch.cs" />
+    <Compile Include="MatchNotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

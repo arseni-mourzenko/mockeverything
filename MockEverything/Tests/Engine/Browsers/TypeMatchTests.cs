@@ -1,10 +1,8 @@
 ﻿namespace MockEverythingTests.Engine.Browsers
 {
-    using System;
-    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine.Browsers;
-    using MockEverything.Inspection;
+    using Stubs;
 
     [TestClass]
     public class TypeMatchTests
@@ -25,21 +23,6 @@
             var expected = "SampleTarget";
 
             Assert.AreEqual(expected, actual);
-        }
-
-        private class TypeStub : IType
-        {
-            public TypeStub(string name)
-            {
-                this.Name = name;
-            }
-
-            public string Name { get; set; }
-
-            public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

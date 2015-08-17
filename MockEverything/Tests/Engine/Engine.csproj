@@ -50,11 +50,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Browsers\AssemblyBrowserTests.cs" />
     <Compile Include="Browsers\MatchTests.cs" />
+    <Compile Include="Browsers\Stubs\AssemblyStub.cs" />
+    <Compile Include="Browsers\Stubs\TypeStub.cs" />
     <Compile Include="Browsers\TypeMatchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Attributes\Attributes.csproj">
+      <Project>{27e2a265-f732-41a5-975a-f7348efd16b5}</Project>
+      <Name>Attributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Engine\Engine.csproj">
       <Project>{0330fe1b-3716-4f20-ae0c-c15fab1213b4}</Project>
       <Name>Engine</Name>

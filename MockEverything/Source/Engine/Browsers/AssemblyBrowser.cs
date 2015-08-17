@@ -5,10 +5,11 @@
 
 namespace MockEverything.Engine.Browsers
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
+    using System.Linq;
+    using Attributes;
     using Inspection;
 
     /// <summary>
@@ -56,7 +57,23 @@ namespace MockEverything.Engine.Browsers
         {
             Contract.Ensures(Contract.Result<IEnumerable<TypeMatch>>() != null);
 
-            throw new NotImplementedException();
+            return this.proxy.FindTypes(MemberType.Static, typeof(ProxyOfAttribute)).Select(this.CreateMatch);
+        }
+
+        /// <summary>
+        /// Creates a pair of matching types.
+        /// </summary>
+        /// <param name="proxyType">The proxy type.</param>
+        /// <returns>A pair of matching types.</returns>
+        private TypeMatch CreateMatch(IType proxyType)
+        {
+            Contract.Requires(proxyType != null);
+            Contract.Ensures(Contract.Result<TypeMatch>() != null);
+            Contract.Ensures(Contract.Result<TypeMatch>().Proxy == proxyType);
+
+            var targetType = this.matchSearch.FindMatch(proxyType, this.target);
+            Contract.Assume(targetType != null);
+            return new TypeMatch(proxyType, targetType);
         }
 
         /// <summary>
