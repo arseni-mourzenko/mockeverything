@@ -5,6 +5,7 @@
 
 namespace MockEverything.Engine.Browsers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
 
     /// <summary>
@@ -61,6 +62,18 @@ namespace MockEverything.Engine.Browsers
 
                 return this.target;
             }
+        }
+
+        /// <summary>
+        /// Provides the invariant contracts for the fields and properties of this object.
+        /// </summary>
+        [ContractInvariantMethod]
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Required for code contracts.")]
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.proxy != null);
+            Contract.Invariant(this.target != null);
         }
     }
 }
