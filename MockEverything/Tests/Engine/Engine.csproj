@@ -50,7 +50,19 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Browsers\MatchTests.cs" />
+    <Compile Include="Browsers\TypeMatchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Engine\Engine.csproj">
+      <Project>{0330fe1b-3716-4f20-ae0c-c15fab1213b4}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Inspection\Inspection.csproj">
+      <Project>{57a3ebd0-dab8-4a91-9db2-8a8ed3cb4cf7}</Project>
+      <Name>Inspection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

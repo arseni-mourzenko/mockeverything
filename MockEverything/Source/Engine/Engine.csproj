@@ -40,15 +40,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browsers\AssemblyBrowser.cs" />
+    <Compile Include="Browsers\Match{TElement}.cs" />
+    <Compile Include="Browsers\TypeMatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +54,18 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Browsers\" />
     <Folder Include="Discovery\" />
     <Folder Include="Tampering\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Attributes\Attributes.csproj">
+      <Project>{27e2a265-f732-41a5-975a-f7348efd16b5}</Project>
+      <Name>Attributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inspection\Inspection.csproj">
+      <Project>{57a3ebd0-dab8-4a91-9db2-8a8ed3cb4cf7}</Project>
+      <Name>Inspection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="C:\Program Files (x86)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
