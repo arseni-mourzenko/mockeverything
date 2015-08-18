@@ -19,11 +19,24 @@ namespace MockEverything.Inspection
         string Name { get; }
 
         /// <summary>
+        /// Gets the full name of the type. This name contains a namespace, followed by a dot, followed by the short name. It doesn't mention the assembly.
+        /// </summary>
+        string FullName { get; }
+
+        /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
         /// <param name="expectedAttributes">The types of attributes the methods to return should have.</param>
         /// <returns>Zero or more types.</returns>
         IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params Type[] expectedAttributes);
+
+        /// <summary>
+        /// Finds the attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>The instance of the attribute.</returns>
+        /// <exception cref="AttributeNotFoundException">The attribute cannot be found.</exception>
+        TAttribute FindAttribute<TAttribute>() where TAttribute : System.Attribute;
     }
 }

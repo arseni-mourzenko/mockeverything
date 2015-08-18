@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DecoratedClass.cs" />
+    <Compile Include="DecoratedCustomClass.cs" />
     <Compile Include="DemoAttribute.cs" />
     <Compile Include="DemoSecondAttribute.cs" />
     <Compile Include="InternalClass.cs" />

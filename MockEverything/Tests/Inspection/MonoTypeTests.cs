@@ -4,12 +4,27 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
-    using System;
     using System.Linq;
 
     [TestClass]
     public class MonoTypeTests
     {
+        [TestMethod]
+        public void TestGetName()
+        {
+            var actual = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass").Name;
+            var expected = "SimpleClass";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetFullName()
+        {
+            var actual = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass").FullName;
+            var expected = "MockEverythingTests.Inspection.Demo.SimpleClass";
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestMethod]
         public void TestFindMethods()
         {
@@ -109,7 +124,7 @@
         [TestMethod]
         public void TestFindMethodsMoreAttributes()
         {
-            Assert.IsFalse(this.MethodExists("SimpleClass", "DecoratedMethod", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+            Assert.IsFalse(this.MethodExists("SimpleClass", "DecoratedMethod", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(System.SerializableAttribute)));
         }
 
         [TestMethod]
@@ -148,9 +163,6 @@
             Assert.IsFalse(this.MethodExists("SimpleClass", "get_StaticProperty", MemberType.Instance));
         }
 
-
-
-
         [TestMethod]
         public void TestFindMethodsPropertyAttributeMissing()
         {
@@ -172,7 +184,7 @@
         [TestMethod]
         public void TestFindMethodsPropertyMoreAttributes()
         {
-            Assert.IsFalse(this.MethodExists("SimpleClass", "get_DecoratedProperty", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_DecoratedProperty", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(System.SerializableAttribute)));
         }
 
         [TestMethod]
@@ -196,15 +208,45 @@
         [TestMethod]
         public void TestFindMethodsPropertyGetterMoreAttributes()
         {
-            Assert.IsFalse(this.MethodExists("SimpleClass", "get_PropertyDecoratedGetter", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
+            Assert.IsFalse(this.MethodExists("SimpleClass", "get_PropertyDecoratedGetter", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(System.SerializableAttribute)));
         }
 
+        [TestMethod]
+        public void TestFindAttributeCompareTypes()
+        {
+            var actual = this.SampleAssembly
+                .FindType("MockEverythingTests.Inspection.Demo.DecoratedCustomClass")
+                .FindAttribute<DemoAttribute>()
+                .GetType();
 
+            var expected = typeof(DemoAttribute);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestFindAttribute()
+        {
+            var actual = this.SampleAssembly
+                .FindType("MockEverythingTests.Inspection.Demo.DecoratedCustomClass")
+                .FindAttribute<DemoAttribute>()
+                .Text;
+
+            var expected = "Hello, World!";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AttributeNotFoundException))]
+        public void TestFindAttributeMissing()
+        {
+            this.SampleAssembly
+                .FindType("MockEverythingTests.Inspection.Demo.DecoratedCustomClass")
+                .FindAttribute<DemoSecondAttribute>();
+        }
 
         private bool MethodExists(string typeName, string methodName)
         {
-            var assembly = new Assembly(this.SampleAssemblyPath);
-            return assembly
+            return this.SampleAssembly
                 .FindTypes()
                 .Single(t => t.Name == typeName)
                 .FindTypes()
@@ -214,8 +256,7 @@
 
         private bool MethodExists(string typeName, string methodName, MemberType filter, params System.Type[] attributes)
         {
-            var assembly = new Assembly(this.SampleAssemblyPath);
-            return assembly
+            return this.SampleAssembly
                 .FindTypes()
                 .Single(t => t.Name == typeName)
                 .FindTypes(filter, attributes)
@@ -223,12 +264,20 @@
                 .Contains(methodName);
         }
 
+        private Assembly SampleAssembly
+        {
+            get
+            {
+                return new Assembly(this.SampleAssemblyPath);
+            }
+        }
+
         private string SampleAssemblyPath
         {
             get
             {
                 var codeBase = typeof(SimpleClass).Assembly.CodeBase;
-                return Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
+                return System.Uri.UnescapeDataString(new System.UriBuilder(codeBase).Path);
             }
         }
     }

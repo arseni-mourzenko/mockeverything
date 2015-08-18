@@ -64,6 +64,7 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(!fullName.StartsWith("."));
             Contract.Requires(!fullName.EndsWith("."));
 
+            var all = this.FindTypeDefinitions().ToList();
             var match = this.FindTypeDefinitions().SingleOrDefault(t => t.FullName == fullName);
             if (match == null)
             {

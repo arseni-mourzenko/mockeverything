@@ -9,6 +9,8 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Reflection;
+    using Mono.Cecil;
 
     /// <summary>
     /// Represents a type from an assembly loaded using Mono.Cecil.
@@ -47,6 +49,20 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets the full name of the type. This name contains a namespace, followed by a dot, followed by the short name. It doesn't mention the assembly.
+        /// </summary>
+        public string FullName
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<string>() != null);
+                Contract.Ensures(Contract.Result<string>().Contains('.'));
+
+                return this.definition.FullName;
+            }
+        }
+
+        /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
@@ -60,6 +76,78 @@ namespace MockEverything.Inspection.MonoCecil
                    where this.MatchTypeFilter(definition, type)
                    where this.MatchAttributesFilter(definition, expectedAttributes)
                    select new Method(definition);
+        }
+
+        /// <summary>
+        /// Finds the attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>The instance of the attribute.</returns>
+        /// <exception cref="AttributeNotFoundException">The attribute cannot be found.</exception>
+        public TAttribute FindAttribute<TAttribute>() where TAttribute : System.Attribute
+        {
+            Contract.Ensures(Contract.Result<TAttribute>() != null);
+
+            var match = this.definition.CustomAttributes.SingleOrDefault(a => a.AttributeType.FullName == typeof(TAttribute).FullName);
+            if (match == null)
+            {
+                throw new AttributeNotFoundException();
+            }
+
+            Contract.Assert(match != null);
+            return this.InvokeConstructor<TAttribute>(match.ConstructorArguments);
+        }
+
+        /// <summary>
+        /// Invokes, for a specific attribute, a constructor containing the specific arguments.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute containing the constructor.</typeparam>
+        /// <param name="attributeArguments">The arguments to use when calling the constructor.</param>
+        /// <returns>A new instance of the specified attribute.</returns>
+        private T InvokeConstructor<T>(IEnumerable<CustomAttributeArgument> attributeArguments) where T : System.Attribute
+        {
+            Contract.Requires(attributeArguments != null);
+            Contract.Ensures(Contract.Result<T>() != null);
+
+            return this.InvokeConstructor<T>(
+                from argument in attributeArguments select argument.Type.FullName,
+                from argument in attributeArguments select argument.Value);
+        }
+
+        /// <summary>
+        /// Invokes a constructor containing the specific arguments.
+        /// </summary>
+        /// <typeparam name="T">The type containing the constructor.</typeparam>
+        /// <param name="argumentTypes">The full names of the types of arguments the constructor should take.</param>
+        /// <param name="argumentValues">The values of the arguments to pass to the constructor.</param>
+        /// <returns>A new instance of the specified class.</returns>
+        private T InvokeConstructor<T>(IEnumerable<string> argumentTypes, IEnumerable<object> argumentValues)
+        {
+            Contract.Requires(argumentTypes != null);
+            Contract.Requires(argumentValues != null);
+            Contract.Requires(argumentTypes.Count() == argumentValues.Count());
+            Contract.Ensures(Contract.Result<T>() != null);
+
+            var constructor = typeof(T).GetConstructors().SingleOrDefault(c => this.FindTypesOfParameters(c).SequenceEqual(argumentTypes));
+            if (constructor == null)
+            {
+                throw new TypeNotFoundException();
+            }
+
+            Contract.Assert(constructor != null);
+            return (T)constructor.Invoke(argumentValues.ToArray());
+        }
+
+        /// <summary>
+        /// Returns the full names of parameters required by a given constructor.
+        /// </summary>
+        /// <param name="info">The constructor info.</param>
+        /// <returns>Zero or more full names.</returns>
+        private IEnumerable<string> FindTypesOfParameters(ConstructorInfo info)
+        {
+            Contract.Ensures(Contract.Result<IEnumerable<string>>() != null);
+
+            return from parameter in info.GetParameters() select parameter.ParameterType.FullName;
         }
 
         /// <summary>

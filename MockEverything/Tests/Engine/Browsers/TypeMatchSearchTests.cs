@@ -6,5 +6,9 @@
     [TestClass]
     public class TypeMatchSearchTests
     {
+        [TestMethod]
+        public void TestFindMatch()
+        {
+        }
     }
 }

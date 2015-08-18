@@ -59,6 +59,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\AttributeNotFoundException.cs" />
     <Compile Include="Interfaces\IMethod.cs" />
     <Compile Include="Interfaces\IAssembly.cs" />
     <Compile Include="Interfaces\IType.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="MonoCecil\Method.cs" />
     <Compile Include="MonoCecil\Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeNotFoundException.cs" />
+    <Compile Include="Exceptions\TypeNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\MockEverything.snk">

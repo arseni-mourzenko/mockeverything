@@ -11,7 +11,20 @@
             this.Name = name;
         }
 
+        public string FullName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public string Name { get; set; }
+
+        public TAttribute FindAttribute<TAttribute>() where TAttribute : Attribute
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
