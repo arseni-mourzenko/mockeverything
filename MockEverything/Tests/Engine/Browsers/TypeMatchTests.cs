@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine.Browsers;
+    using MockEverything.Inspection;
     using Stubs;
 
     [TestClass]
@@ -10,7 +11,7 @@
         [TestMethod]
         public void TestGetProxy()
         {
-            var actual = new TypeMatch(new TypeStub("SampleProxy"), new TypeStub("SampleTarget")).Proxy.Name;
+            var actual = new Match<IType>(new TypeStub("SampleProxy"), new TypeStub("SampleTarget")).Proxy.Name;
             var expected = "SampleProxy";
 
             Assert.AreEqual(expected, actual);
@@ -19,7 +20,7 @@
         [TestMethod]
         public void TestGetTarget()
         {
-            var actual = new TypeMatch(new TypeStub("SampleProxy"), new TypeStub("SampleTarget")).Target.Name;
+            var actual = new Match<IType>(new TypeStub("SampleProxy"), new TypeStub("SampleTarget")).Target.Name;
             var expected = "SampleTarget";
 
             Assert.AreEqual(expected, actual);
