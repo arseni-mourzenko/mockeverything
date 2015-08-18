@@ -5,9 +5,8 @@
 
 namespace MockEverything.Engine.Browsers
 {
-    using System;
     using System.Diagnostics.Contracts;
-    using Attributes;
+    using System.Linq;
     using Inspection;
 
     /// <summary>
@@ -24,7 +23,28 @@ namespace MockEverything.Engine.Browsers
         /// <exception cref="MatchNotFoundException">The match doesn't exist.</exception>
         public IMethod FindMatch(IMethod proxy, IType targetType)
         {
-            throw new NotImplementedException();
+            Contract.Requires(proxy != null);
+            Contract.Requires(targetType != null);
+            Contract.Ensures(Contract.Result<IMethod>() != null);
+
+            var match = targetType.FindMethods().SingleOrDefault(m => this.IsMatch(m, proxy));
+            if (match == null)
+            {
+                throw new MatchNotFoundException();
+            }
+
+            return match;
+        }
+
+        /// <summary>
+        /// Checks whether the two methods are a match, in other words that one can be a proxy of another.
+        /// </summary>
+        /// <param name="first">The first method.</param>
+        /// <param name="second">The second method.</param>
+        /// <returns></returns>
+        private bool IsMatch(IMethod first, IMethod second)
+        {
+            return first.Name == second.Name;
         }
     }
 }

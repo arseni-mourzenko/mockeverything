@@ -46,6 +46,7 @@
     <Compile Include="Browsers\Assembly level\ITypeMatchSearch.cs" />
     <Compile Include="Browsers\Browser{TElement,TContainer,TMatchSearch}.cs" />
     <Compile Include="Browsers\IMatchSearch{TElement,TContainer}.cs" />
+    <Compile Include="Browsers\Type level\MethodMatchSearch.cs" />
     <Compile Include="Browsers\Type level\IMethodMatchSearch.cs" />
     <Compile Include="Browsers\Match{TElement}.cs" />
     <Compile Include="Browsers\Type level\TypeBrowser.cs" />

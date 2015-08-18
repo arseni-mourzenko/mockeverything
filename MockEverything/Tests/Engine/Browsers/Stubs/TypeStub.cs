@@ -6,9 +6,12 @@
 
     internal class TypeStub : IType
     {
-        public TypeStub(string name)
+        private readonly ICollection<IMethod> methods;
+
+        public TypeStub(string name, params IMethod[] methods)
         {
             this.Name = name;
+            this.methods = methods;
         }
 
         public string FullName
@@ -19,7 +22,7 @@
             }
         }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public TAttribute FindAttribute<TAttribute>() where TAttribute : Attribute
         {
@@ -28,7 +31,7 @@
 
         public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
-            throw new NotImplementedException();
+            return this.methods;
         }
     }
 }

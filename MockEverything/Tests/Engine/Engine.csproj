@@ -52,7 +52,10 @@
   <ItemGroup>
     <Compile Include="Browsers\AssemblyBrowserTests.cs" />
     <Compile Include="Browsers\MatchTests.cs" />
+    <Compile Include="Browsers\MethodMatchSearchTests.cs" />
+    <Compile Include="Browsers\MethodMatchTests.cs" />
     <Compile Include="Browsers\Stubs\AssemblyStub.cs" />
+    <Compile Include="Browsers\Stubs\MethodStub.cs" />
     <Compile Include="Browsers\Stubs\TypeStub.cs" />
     <Compile Include="Browsers\TypeMatchSearchTests.cs" />
     <Compile Include="Browsers\TypeMatchTests.cs" />
