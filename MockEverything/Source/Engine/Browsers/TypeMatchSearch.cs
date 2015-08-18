@@ -5,7 +5,8 @@
 
 namespace MockEverything.Engine.Browsers
 {
-    using System;
+    using System.Diagnostics.Contracts;
+    using Attributes;
     using Inspection;
 
     /// <summary>
@@ -22,7 +23,12 @@ namespace MockEverything.Engine.Browsers
         /// <exception cref="MatchNotFoundException">The match doesn't exist.</exception>
         public IType FindMatch(IType proxy, IAssembly targetAssembly)
         {
-            throw new NotImplementedException();
+            Contract.Requires(proxy != null);
+            Contract.Requires(targetAssembly != null);
+            Contract.Ensures(Contract.Result<IType>() != null);
+
+            var fullName = proxy.FindAttribute<ProxyOfAttribute>().TargetType.FullName;
+            return targetAssembly.FindType(fullName);
         }
     }
 }
