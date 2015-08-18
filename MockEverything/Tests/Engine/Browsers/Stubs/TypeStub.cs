@@ -26,7 +26,7 @@
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
+        public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
             throw new NotImplementedException();
         }

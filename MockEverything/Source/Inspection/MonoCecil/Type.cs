@@ -63,12 +63,12 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
-        /// Finds all types in the assembly.
+        /// Finds all methods of the type.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
         /// <param name="expectedAttributes">The types of attributes the methods to return should have.</param>
-        /// <returns>Zero or more types.</returns>
-        public IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
+        /// <returns>Zero or more methods.</returns>
+        public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
             Contract.Ensures(Contract.Result<IEnumerable<IMethod>>() != null);
 

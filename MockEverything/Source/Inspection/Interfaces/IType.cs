@@ -24,12 +24,12 @@ namespace MockEverything.Inspection
         string FullName { get; }
 
         /// <summary>
-        /// Finds all types in the assembly.
+        /// Finds all methods of the type.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
         /// <param name="expectedAttributes">The types of attributes the methods to return should have.</param>
-        /// <returns>Zero or more types.</returns>
-        IEnumerable<IMethod> FindTypes(MemberType type = MemberType.All, params Type[] expectedAttributes);
+        /// <returns>Zero or more methods.</returns>
+        IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params Type[] expectedAttributes);
 
         /// <summary>
         /// Finds the attribute of the specified type.

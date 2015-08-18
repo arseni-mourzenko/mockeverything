@@ -249,7 +249,7 @@
             return this.SampleAssembly
                 .FindTypes()
                 .Single(t => t.Name == typeName)
-                .FindTypes()
+                .FindMethods()
                 .Select(m => m.Name)
                 .Contains(methodName);
         }
@@ -259,7 +259,7 @@
             return this.SampleAssembly
                 .FindTypes()
                 .Single(t => t.Name == typeName)
-                .FindTypes(filter, attributes)
+                .FindMethods(filter, attributes)
                 .Select(m => m.Name)
                 .Contains(methodName);
         }
