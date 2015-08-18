@@ -20,5 +20,13 @@ namespace MockEverything.Inspection
         /// <param name="expectedAttributes">The types of attributes the types to return should have.</param>
         /// <returns>Zero or more types.</returns>
         IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params Type[] expectedAttributes);
+
+        /// <summary>
+        /// Finds a type with the specified name.
+        /// </summary>
+        /// <param name="fullName">The full name of the type, which contains the namespace, followed by a dot, followed by the short name of the type.</param>
+        /// <returns>The corresponding type.</returns>
+        /// <exception cref="TypeNotFoundException">The type with the specified time cannot be found.</exception>
+        IType FindType(string fullName);
     }
 }

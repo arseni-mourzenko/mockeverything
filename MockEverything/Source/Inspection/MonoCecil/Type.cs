@@ -39,6 +39,9 @@ namespace MockEverything.Inspection.MonoCecil
         {
             get
             {
+                Contract.Ensures(Contract.Result<string>() != null);
+                Contract.Ensures(!Contract.Result<string>().Contains('.'));
+
                 return this.definition.Name;
             }
         }

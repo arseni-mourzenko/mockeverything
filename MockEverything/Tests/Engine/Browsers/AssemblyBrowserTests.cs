@@ -103,6 +103,11 @@
 
                 return Enumerable.Empty<IType>();
             }
+
+            public IType FindType(string fullName)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

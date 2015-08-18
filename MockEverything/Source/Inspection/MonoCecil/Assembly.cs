@@ -52,6 +52,29 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Finds a type with the specified name.
+        /// </summary>
+        /// <param name="fullName">The full name of the type, which contains the namespace, followed by a dot, followed by the short name of the type.</param>
+        /// <returns>The corresponding type.</returns>
+        /// <exception cref="TypeNotFoundException">The type with the specified time cannot be found.</exception>
+        public IType FindType(string fullName)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(fullName));
+            Contract.Requires(fullName.Contains('.'));
+            Contract.Requires(!fullName.StartsWith("."));
+            Contract.Requires(!fullName.EndsWith("."));
+
+            var match = this.FindTypeDefinitions().SingleOrDefault(t => t.FullName == fullName);
+            if (match == null)
+            {
+                throw new TypeNotFoundException();
+            }
+
+            Contract.Assert(match != null);
+            return new Type(match);
+        }
+
+        /// <summary>
         /// Finds all the types within an assembly and returns them under a form of Mono.Cecil's definitions of types.
         /// </summary>
         /// <returns>Zero or more definitions of types.</returns>

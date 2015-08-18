@@ -1,5 +1,6 @@
 ﻿namespace MockEverythingTests.Engine.Browsers.Stubs
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
@@ -21,6 +22,11 @@
             Contract.Requires(types != null);
 
             return new AssemblyStub(types.Select(t => (IType)new TypeStub(t)).ToArray());
+        }
+
+        public IType FindType(string fullName)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)

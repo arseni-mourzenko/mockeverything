@@ -105,6 +105,28 @@
             Assert.IsFalse(this.TypeExists("DecoratedClass", MemberType.Instance, typeof(DemoAttribute), typeof(DemoSecondAttribute), typeof(SerializableAttribute)));
         }
 
+        [TestMethod]
+        public void TestFindType()
+        {
+            var actual = new Assembly(this.SampleAssemblyPath).FindType("MockEverythingTests.Inspection.Demo.SimpleClass").Name;
+            var expected = "SimpleClass";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotFoundException))]
+        public void TestFindTypeMissing()
+        {
+            new Assembly(this.SampleAssemblyPath).FindType("MockEverythingTests.Inspection.Demo.MissingType");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeNotFoundException))]
+        public void TestFindTypeWrongNamespace()
+        {
+            new Assembly(this.SampleAssemblyPath).FindType("MockEverythingTests.SimpleClass");
+        }
+
         private bool TypeExists(string typeName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);
