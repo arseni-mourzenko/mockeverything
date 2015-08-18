@@ -15,11 +15,11 @@ namespace MockEverything.Engine.Browsers
     public class TypeMatchSearch : ITypeMatchSearch
     {
         /// <summary>
-        /// Finds, within the proxy assembly, a type which corresponds to the target type.
+        /// Finds, within the target assembly, a type which corresponds to the proxy type.
         /// </summary>
         /// <param name="proxy">The proxy type.</param>
         /// <param name="targetAssembly">The assembly expected to contain the target type.</param>
-        /// <returns>The type from the target assembly which matches the specified target type.</returns>
+        /// <returns>The type from the target assembly which matches the specified proxy type.</returns>
         /// <exception cref="MatchNotFoundException">The match doesn't exist.</exception>
         public IType FindMatch(IType proxy, IAssembly targetAssembly)
         {
