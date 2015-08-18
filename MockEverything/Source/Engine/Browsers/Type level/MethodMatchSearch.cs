@@ -41,10 +41,10 @@ namespace MockEverything.Engine.Browsers
         /// </summary>
         /// <param name="first">The first method.</param>
         /// <param name="second">The second method.</param>
-        /// <returns></returns>
+        /// <returns><see langword="true"/> if there is a match; otherwise, <see langword="false"/>.</returns>
         private bool IsMatch(IMethod first, IMethod second)
         {
-            return first.Name == second.Name;
+            return first.Name == second.Name && first.ReturnType.FullName == second.ReturnType.FullName;
         }
     }
 }

@@ -14,13 +14,7 @@
             this.methods = methods;
         }
 
-        public string FullName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string FullName { get; set; }
 
         public string Name { get; private set; }
 

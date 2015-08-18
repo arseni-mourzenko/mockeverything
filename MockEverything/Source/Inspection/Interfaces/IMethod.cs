@@ -5,8 +5,6 @@
 
 namespace MockEverything.Inspection
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Represents a type from an assembly.
     /// </summary>
@@ -16,5 +14,10 @@ namespace MockEverything.Inspection
         /// Gets the short name of the method. This name doesn't contain any reference to the type, namespace or assembly.
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Gets the return type of the method. If the method doesn't return a value, the value will be <see langword="null"/>.
+        /// </summary>
+        IType ReturnType { get; }
     }
 }

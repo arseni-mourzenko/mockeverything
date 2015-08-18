@@ -5,7 +5,6 @@
 
 namespace MockEverything.Inspection.MonoCecil
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
 
@@ -15,9 +14,9 @@ namespace MockEverything.Inspection.MonoCecil
     public class Method : IMethod
     {
         /// <summary>
-        /// The short name of the method. This name doesn't contain any reference to the type, namespace or assembly.
+        /// The underlying definition of the method.
         /// </summary>
-        private readonly string name;
+        private readonly Mono.Cecil.MethodDefinition definition;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Method"/> class.
@@ -28,7 +27,7 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(definition != null);
 
-            this.name = definition.Name;
+            this.definition = definition;
         }
 
         /// <summary>
@@ -38,7 +37,22 @@ namespace MockEverything.Inspection.MonoCecil
         {
             get
             {
-                return this.name;
+                Contract.Ensures(Contract.Result<string>() != null);
+
+                return this.definition.Name;
+            }
+        }
+
+        /// <summary>
+        /// Gets the return type of the method.
+        /// </summary>
+        public IType ReturnType
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IType>() != null);
+
+                return new Type(this.definition.ReturnType.Resolve());
             }
         }
     }
