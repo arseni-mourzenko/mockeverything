@@ -12,7 +12,7 @@ namespace MockEverything.Engine.Browsers
     /// <summary>
     /// Represents a comparer which matches proxy types to target types.
     /// </summary>
-    public class TypeMatchSearch : IMatchSearch<IType, IAssembly>
+    public class TypeMatchSearch : IMatching<IType, IAssembly>
     {
         /// <summary>
         /// Finds, within the target assembly, a type which corresponds to the proxy type.

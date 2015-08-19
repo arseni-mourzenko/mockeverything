@@ -1,4 +1,4 @@
-﻿// <copyright file="IMatchSearch{TElement,TContainer}.cs">
+﻿// <copyright file="IMatching{TElement,TContainer}.cs">
 //      Copyright (c) Arseni Mourzenko 2015. The code is distributed under the MIT License.
 // </copyright>
 // <author id="5c2316d3-622a-4a8d-816d-5054a48f415f">Arseni Mourzenko</author>
@@ -10,7 +10,7 @@ namespace MockEverything.Engine.Browsers
     /// </summary>
     /// <typeparam name="TElement">The type of the elements to match.</typeparam>
     /// <typeparam name="TContainer">The type of the container which is used to search for matches.</typeparam>
-    public interface IMatchSearch<TElement, TContainer>
+    public interface IMatching<TElement, TContainer>
     {
         /// <summary>
         /// Finds, within the proxy container, an element which corresponds to the target element.

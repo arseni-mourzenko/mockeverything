@@ -21,7 +21,7 @@ namespace MockEverything.Engine.Browsers
         /// <param name="proxy">The proxy assembly.</param>
         /// <param name="target">The corresponding target assembly.</param>
         /// <param name="matchSearch">The searcher which, for every proxy type found, finds the corresponding target type.</param>
-        public AssemblyBrowser(IAssembly proxy, IAssembly target, IMatchSearch<IType, IAssembly> matchSearch) : base(proxy, target, matchSearch)
+        public AssemblyBrowser(IAssembly proxy, IAssembly target, IMatching<IType, IAssembly> matchSearch) : base(proxy, target, matchSearch)
         {
             Contract.Requires(proxy != null);
             Contract.Requires(target != null);

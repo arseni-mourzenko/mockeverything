@@ -21,7 +21,7 @@ namespace MockEverything.Engine.Browsers
         /// <param name="proxy">The proxy type.</param>
         /// <param name="target">The corresponding target type.</param>
         /// <param name="matchSearch">The searcher which, for every proxy method found, finds the corresponding target method.</param>
-        public TypeBrowser(IType proxy, IType target, IMatchSearch<IMethod, IType> matchSearch) : base(proxy, target, matchSearch)
+        public TypeBrowser(IType proxy, IType target, IMatching<IMethod, IType> matchSearch) : base(proxy, target, matchSearch)
         {
             Contract.Requires(proxy != null);
             Contract.Requires(target != null);

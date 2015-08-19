@@ -75,7 +75,7 @@
             return this.ProcessMatches(matches);
         }
 
-        private class TypeMatchSearchStub : IMatchSearch<IType, IAssembly>
+        private class TypeMatchSearchStub : IMatching<IType, IAssembly>
         {
             public IType FindMatch(IType proxy, IAssembly targetAssembly)
             {
@@ -83,7 +83,7 @@
             }
         }
 
-        private class TypeMatchSearchConstStub : IMatchSearch<IType, IAssembly>
+        private class TypeMatchSearchConstStub : IMatching<IType, IAssembly>
         {
             public IType FindMatch(IType proxy, IAssembly targetAssembly)
             {

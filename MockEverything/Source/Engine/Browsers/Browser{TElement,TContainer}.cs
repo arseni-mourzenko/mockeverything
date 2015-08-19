@@ -30,7 +30,7 @@ namespace MockEverything.Engine.Browsers
         /// <summary>
         /// The searcher which, for every proxy type found, finds the corresponding target type.
         /// </summary>
-        private readonly IMatchSearch<TElement, TContainer> matchSearch;
+        private readonly IMatching<TElement, TContainer> matchSearch;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Browser{TElement,TContainer}"/> class.
@@ -38,7 +38,7 @@ namespace MockEverything.Engine.Browsers
         /// <param name="proxy">The proxy assembly.</param>
         /// <param name="target">The corresponding target assembly.</param>
         /// <param name="matchSearch">The searcher which, for every proxy type found, finds the corresponding target type.</param>
-        protected Browser(TContainer proxy, TContainer target, IMatchSearch<TElement, TContainer> matchSearch)
+        protected Browser(TContainer proxy, TContainer target, IMatching<TElement, TContainer> matchSearch)
         {
             Contract.Requires(proxy != null);
             Contract.Requires(target != null);

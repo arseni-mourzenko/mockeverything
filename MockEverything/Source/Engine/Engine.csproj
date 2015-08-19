@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="Browsers\Assembly level\AssemblyBrowser.cs" />
     <Compile Include="Browsers\Browser{TElement,TContainer}.cs" />
-    <Compile Include="Browsers\IMatchSearch{TElement,TContainer}.cs" />
+    <Compile Include="Browsers\IMatching{TElement,TContainer}.cs" />
     <Compile Include="Browsers\Type level\MethodMatchSearch.cs" />
     <Compile Include="Browsers\Pair{TElement}.cs" />
     <Compile Include="Browsers\Type level\TypeBrowser.cs" />
