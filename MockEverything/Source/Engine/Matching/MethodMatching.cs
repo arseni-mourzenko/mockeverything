@@ -27,30 +27,13 @@ namespace MockEverything.Engine.Browsers
             Contract.Requires(targetType != null);
             Contract.Ensures(Contract.Result<IMethod>() != null);
 
-            var match = targetType.FindMethods().SingleOrDefault(m => this.IsMatch(m, proxy));
+            var match = targetType.FindMethods().SingleOrDefault(proxy.Equals);
             if (match == null)
             {
                 throw new MatchNotFoundException();
             }
 
             return match;
-        }
-
-        /// <summary>
-        /// Checks whether the two methods are a match, in other words that one can be a proxy of another.
-        /// </summary>
-        /// <param name="first">The first method.</param>
-        /// <param name="second">The second method.</param>
-        /// <returns><see langword="true"/> if there is a match; otherwise, <see langword="false"/>.</returns>
-        private bool IsMatch(IMethod first, IMethod second)
-        {
-            Contract.Requires(first != null);
-            Contract.Requires(second != null);
-
-            return
-                first.Name == second.Name &&
-                first.ReturnType.FullName == second.ReturnType.FullName &&
-                first.GenericTypes.SequenceEqual(second.GenericTypes);
         }
     }
 }
