@@ -142,7 +142,7 @@ namespace MockEverything.Inspection.MonoCecil
             {
                 variant = ParameterVariant.Ref;
             }
-            else if (definition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.ParamArrayAttribute"))
+            else if (definition.CustomAttributes.Any(a => a.AttributeType.FullName == typeof(System.ParamArrayAttribute).FullName))
             {
                 variant = ParameterVariant.Params;
             }
