@@ -1,9 +1,9 @@
 ﻿namespace MockEverythingTests.Engine.Browsers
 {
+    using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine.Browsers;
     using MockEverything.Inspection;
-    using Stubs;
 
     [TestClass]
     public class MethodMatchTests
