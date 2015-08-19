@@ -24,7 +24,7 @@ namespace MockEverything.Inspection
 
         /// <summary>
         /// <para>Gets the generic types of the method. If the method is not generic, the enumeration yields no results.</para>
-        /// <para>Every line contains a specification of a generic type. For a generic type with no constraints, the specification is an empty string. Otherwise, the specification contains sorted comma-separated values, every value corresponding to the full name of the type. The new constraint (https://msdn.microsoft.com/en-us/library/sd2w2ew5.aspx) is represented by the string "new()".</para>
+        /// <para>Every line contains a specification of a generic type. For a generic type with no constraints, the specification is an empty string. Otherwise, the specification contains sorted comma-separated values, every value corresponding to the full name of the type. The <see href="https://msdn.microsoft.com/en-us/library/sd2w2ew5.aspx">new constraint</see> is represented by the string "new()".</para>
         /// <para>For example, the method <c><![CDATA[void Demo<T1, T2>() where T2: IComparable, new()]]></c> has the following specification: "new(),System.IComparable".</para>
         /// </summary>
         /// <remarks>
