@@ -244,6 +244,38 @@
                 .FindAttribute<DemoSecondAttribute>();
         }
 
+        [TestMethod]
+        public void TestEqualsAllSame()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass");
+            var second = new TypeStub(string.Empty) { FullName = "MockEverythingTests.Inspection.Demo.SimpleClass" };
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsNull()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass");
+            Assert.IsFalse(first.Equals(null));
+        }
+
+        [TestMethod]
+        public void TestEqualsWrongType()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass");
+            Assert.IsFalse(first.Equals(27));
+        }
+
+        [TestMethod]
+        public void TestEqualsFullNameDifferent()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass");
+            var second = new TypeStub(string.Empty) { FullName = "Something.Else" };
+            Assert.IsFalse(first.Equals(second));
+            Assert.IsFalse(second.Equals(first));
+        }
+
         private bool MethodExists(string typeName, string methodName)
         {
             return this.SampleAssembly

@@ -18,6 +18,22 @@
 
         public string Name { get; private set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is IType))
+            {
+                return false;
+            }
+
+            var other = (IType)obj;
+            return other.FullName == this.FullName;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
+        }
+
         public TAttribute FindAttribute<TAttribute>() where TAttribute : Attribute
         {
             throw new NotImplementedException();

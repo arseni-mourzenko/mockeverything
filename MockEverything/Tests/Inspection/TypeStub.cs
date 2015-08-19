@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using MockEverything.Inspection;
 
     internal class TypeStub : IType
@@ -10,6 +11,9 @@
 
         public TypeStub(string name, params IMethod[] methods)
         {
+            Contract.Requires(name != null);
+            Contract.Requires(!name.Contains("."));
+
             this.Name = name;
             this.methods = methods;
         }
@@ -20,12 +24,12 @@
 
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != this.GetType())
+            if (obj == null || !(obj is IType))
             {
                 return false;
             }
 
-            var other = (Type)obj;
+            var other = (IType)obj;
             return other.FullName == this.FullName;
         }
 

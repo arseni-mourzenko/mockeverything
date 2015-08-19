@@ -1,4 +1,4 @@
-﻿namespace MockEverythingTests.Engine.Browsers.Stubs
+﻿namespace MockEverythingTests.Inspection
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -9,7 +9,7 @@
         public MethodStub(string name, IType returnType = null, IEnumerable<Parameter> parameters = null, IEnumerable<string> genericTypes = null)
         {
             this.Name = name;
-            this.ReturnType = returnType ?? new TypeStub("MethodReturn") { FullName = "Stubs.MethodReturn" };
+            this.ReturnType = returnType ?? new TypeStub("Void") { FullName = "System.Void" };
             this.Parameters = parameters ?? Enumerable.Empty<Parameter>();
             this.GenericTypes = genericTypes ?? Enumerable.Empty<string>();
         }
@@ -31,10 +31,10 @@
 
             var other = (IMethod)obj;
             return
-                other.Name == this.Name &&
-                other.ReturnType.Equals(this.ReturnType) &&
-                other.Parameters.SequenceEqual(this.Parameters) &&
-                other.GenericTypes.SequenceEqual(this.GenericTypes);
+                this.Name == other.Name &&
+                this.ReturnType.Equals(other.ReturnType) &&
+                this.Parameters.SequenceEqual(other.Parameters) &&
+                this.GenericTypes.SequenceEqual(other.GenericTypes);
         }
 
         public override int GetHashCode()

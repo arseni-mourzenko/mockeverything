@@ -34,10 +34,24 @@
         }
 
         [TestMethod]
-        public void TestEqualsTypeDifferent()
+        public void TestEqualsNull()
         {
             var p1 = new Parameter(ParameterVariant.In, new TypeStub("Hello"));
-            var p2 = new Parameter(ParameterVariant.In, new TypeStub("World"));
+            Assert.IsFalse(p1.Equals(null));
+        }
+
+        [TestMethod]
+        public void TestEqualsWrongType()
+        {
+            var p1 = new Parameter(ParameterVariant.In, new TypeStub("Hello") { FullName = "Sample.Hello" });
+            Assert.IsFalse(p1.Equals(27));
+        }
+
+        [TestMethod]
+        public void TestEqualsTypeDifferent()
+        {
+            var p1 = new Parameter(ParameterVariant.In, new TypeStub("Hello") { FullName = "Sample.Hello" });
+            var p2 = new Parameter(ParameterVariant.In, new TypeStub("World") { FullName = "Sample.World" });
             Assert.IsFalse(p1.Equals(p2));
         }
 

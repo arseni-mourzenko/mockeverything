@@ -145,6 +145,21 @@
         }
 
         [TestMethod]
+        public void TestEqualsAllSame()
+        {
+            var first = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "SimpleMethod");
+
+            var second = new MethodStub("SimpleMethod");
+
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestMethod]
         public void TestGetParameters()
         {
             var actual = this.SampleAssembly
@@ -157,8 +172,8 @@
 
             var expected = new[]
             {
-                new Parameter(ParameterVariant.In, new TypeStub("System.String")),
-                new Parameter(ParameterVariant.In, new TypeStub("System.Integer")),
+                new Parameter(ParameterVariant.In, new TypeStub("String") { FullName = "System.String" }),
+                new Parameter(ParameterVariant.In, new TypeStub("Int32") { FullName = "System.Int32" }),
             };
 
             CollectionAssert.AreEqual(expected, actual);
@@ -175,7 +190,7 @@
                 .Parameters
                 .ToList();
 
-            var expected = new[] { new Parameter(ParameterVariant.Out, new TypeStub("System.String")) };
+            var expected = new[] { new Parameter(ParameterVariant.Out, new TypeStub("String") { FullName = "System.String" }) };
 
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -191,7 +206,7 @@
                 .Parameters
                 .ToList();
 
-            var expected = new[] { new Parameter(ParameterVariant.Ref, new TypeStub("System.String")) };
+            var expected = new[] { new Parameter(ParameterVariant.Ref, new TypeStub("String") { FullName = "System.String" }) };
 
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -207,7 +222,7 @@
                 .Parameters
                 .ToList();
 
-            var expected = new[] { new Parameter(ParameterVariant.Params, new TypeStub("System.String")) };
+            var expected = new[] { new Parameter(ParameterVariant.Params, new TypeStub("String") { FullName = "System.String" }) };
 
             CollectionAssert.AreEqual(expected, actual);
         }

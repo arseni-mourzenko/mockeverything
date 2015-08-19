@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MethodStub.cs" />
     <Compile Include="MonoAssemblyTests.cs" />
     <Compile Include="MonoMethodTests.cs" />
     <Compile Include="MonoTypeTests.cs" />

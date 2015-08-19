@@ -98,17 +98,17 @@ namespace MockEverything.Inspection.MonoCecil
         /// <returns><see langword="true"/> if the object represent the same method; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != this.GetType())
+            if (obj == null || !(obj is IMethod))
             {
                 return false;
             }
 
-            var other = (Method)obj;
+            var other = (IMethod)obj;
             return
-                other.Name == this.Name &&
-                other.ReturnType == this.ReturnType &&
-                other.Parameters.SequenceEqual(this.Parameters) &&
-                other.GenericTypes.SequenceEqual(this.GenericTypes);
+                this.Name == other.Name &&
+                this.ReturnType.Equals(other.ReturnType) &&
+                this.Parameters.SequenceEqual(other.Parameters) &&
+                this.GenericTypes.SequenceEqual(other.GenericTypes);
         }
 
         /// <summary>
@@ -136,10 +136,18 @@ namespace MockEverything.Inspection.MonoCecil
             var variant = ParameterVariant.In;
             if (definition.IsOut)
             {
-                variant = definition.IsIn ? ParameterVariant.Ref : ParameterVariant.Out;
+                variant = ParameterVariant.Out;
+            }
+            else if (definition.ParameterType.IsByReference)
+            {
+                variant = ParameterVariant.Ref;
+            }
+            else if (definition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.ParamArrayAttribute"))
+            {
+                variant = ParameterVariant.Params;
             }
 
-            return new Parameter(ParameterVariant.In, new Type(definition.ParameterType.Resolve()));
+            return new Parameter(variant, new Type(definition.ParameterType.Resolve()));
         }
 
         /// <summary>

@@ -69,12 +69,12 @@ namespace MockEverything.Inspection.MonoCecil
         /// <returns><see langword="true"/> if the object represent the same type; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != this.GetType())
+            if (obj == null || !(obj is IType))
             {
                 return false;
             }
 
-            var other = (Type)obj;
+            var other = (IType)obj;
             return other.FullName == this.FullName;
         }
 

@@ -73,7 +73,7 @@ namespace MockEverything.Inspection
             }
 
             var other = (Parameter)obj;
-            return other.Variant == this.Variant && other.Type == this.Type;
+            return other.Variant == this.Variant && this.Type.Equals(other.Type);
         }
 
         /// <summary>
