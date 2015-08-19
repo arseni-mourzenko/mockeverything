@@ -36,6 +36,17 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets the full name of the assembly.
+        /// </summary>
+        public string FullName
+        {
+            get
+            {
+                return this.underlyingAssembly.Value.FullName;
+            }
+        }
+
+        /// <summary>
         /// Gets the version of the assembly.
         /// </summary>
         public Version Version
@@ -46,6 +57,33 @@ namespace MockEverything.Inspection.MonoCecil
 
                 return this.underlyingAssembly.Value.Name.Version;
             }
+        }
+
+        /// <summary>
+        /// Compares this object to the specified object to determine if both represent the same assembly.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns><see langword="true"/> if the object represent the same assembly; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is IAssembly))
+            {
+                return false;
+            }
+
+            var other = (IAssembly)obj;
+            return other.FullName == this.FullName;
+        }
+
+        /// <summary>
+        /// Generates the hash code of this object.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = (hash * 31) + this.FullName.GetHashCode();
+            return hash;
         }
 
         /// <summary>

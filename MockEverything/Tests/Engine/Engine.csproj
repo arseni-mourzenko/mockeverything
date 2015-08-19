@@ -51,9 +51,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Browsers\AssemblyBrowserTests.cs" />
+    <Compile Include="Discovery\DirectoryBasedDiscoveryTests.cs" />
     <Compile Include="Matching\PairTests.cs" />
     <Compile Include="Matching\MethodMatchingTests.cs" />
-    <Compile Include="Browsers\AssemblyStub.cs" />
     <Compile Include="Matching\TypeMatchingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

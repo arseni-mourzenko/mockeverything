@@ -7,6 +7,7 @@
     using System;
     using System.IO;
     using System.Linq;
+    using CommonStubs;
 
     [TestClass]
     public class MonoAssemblyTests
@@ -143,6 +144,40 @@
             var actual = assembly.Version;
             var expected = new Version("3.0.14.5021");
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestEqualsAllSame()
+        {
+            var first = new Assembly(this.SampleAssemblyPath);
+            var second = new AssemblyStub("MockEverythingTests.Inspection.Demo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsNull()
+        {
+            var first = new Assembly(this.SampleAssemblyPath);
+            Assert.IsFalse(first.Equals(null));
+        }
+
+        [TestMethod]
+        public void TestEqualsWrongType()
+        {
+            var first = new Assembly(this.SampleAssemblyPath);
+            Assert.IsFalse(first.Equals(27));
+        }
+
+        [TestMethod]
+        public void TestEqualsFullNameDifferent()
+        {
+            var first = new Assembly(this.SampleAssemblyPath);
+            var second = new AssemblyStub("WrongFullName");
+
+            Assert.IsFalse(first.Equals(second));
+            Assert.IsFalse(second.Equals(first));
         }
 
         private bool TypeExists(string typeName)

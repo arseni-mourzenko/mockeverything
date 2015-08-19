@@ -14,6 +14,11 @@ namespace MockEverything.Inspection
     public interface IAssembly
     {
         /// <summary>
+        /// Gets the full name of the assembly.
+        /// </summary>
+        string FullName { get; }
+
+        /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>

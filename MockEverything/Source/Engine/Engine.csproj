@@ -44,6 +44,10 @@
   <ItemGroup>
     <Compile Include="Browsers\AssemblyBrowser.cs" />
     <Compile Include="Browsers\Browser{TElement,TContainer}.cs" />
+    <Compile Include="Discovery\DirectoryBasedDiscovery.cs" />
+    <Compile Include="Discovery\DirectoryAccess.cs" />
+    <Compile Include="Discovery\IDirectoryAccess.cs" />
+    <Compile Include="Discovery\IProxiesDiscovery.cs" />
     <Compile Include="Matching\IMatching{TElement,TContainer}.cs" />
     <Compile Include="Matching\MethodMatching.cs" />
     <Compile Include="Matching\Pair{TElement}.cs" />
@@ -59,7 +63,6 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Discovery\" />
     <Folder Include="Tampering\" />
   </ItemGroup>
   <ItemGroup>

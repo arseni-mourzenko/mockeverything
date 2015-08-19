@@ -65,6 +65,34 @@ namespace MockEverything.Engine.Browsers
         }
 
         /// <summary>
+        /// Compares this object to the specified object to determine if both represent the same assembly.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns><see langword="true"/> if the object represent the same assembly; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is Pair<TElement>))
+            {
+                return false;
+            }
+
+            var other = (Pair<TElement>)obj;
+            return this.Proxy.Equals(other.Proxy) && this.Target.Equals(other.Target);
+        }
+
+        /// <summary>
+        /// Generates the hash code of this object.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = (hash * 31) + this.Proxy.GetHashCode();
+            hash = (hash * 31) + this.Target.GetHashCode();
+            return hash;
+        }
+
+        /// <summary>
         /// Provides the invariant contracts for the fields and properties of this object.
         /// </summary>
         [ContractInvariantMethod]

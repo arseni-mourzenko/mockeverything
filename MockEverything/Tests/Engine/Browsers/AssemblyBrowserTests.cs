@@ -16,8 +16,8 @@
         [TestMethod]
         public void TestFindTypes()
         {
-            var proxy = AssemblyStub.FromNames("Hello", "World");
-            var target = new AssemblyStub();
+            var proxy = AssemblyStub.FromNames(string.Empty, "Hello", "World");
+            var target = new AssemblyStub(string.Empty);
             var search = new TypeMatchSearchStub();
 
             var actual = this.ProcessMatches(new AssemblyBrowser(proxy, target, search));
@@ -28,8 +28,8 @@
         [TestMethod]
         public void TestFindTypesSameTarget()
         {
-            var proxy = AssemblyStub.FromNames("Hello", "World");
-            var target = new AssemblyStub();
+            var proxy = AssemblyStub.FromNames(string.Empty, "Hello", "World");
+            var target = new AssemblyStub(string.Empty);
             var search = new TypeMatchSearchConstStub();
 
             var actual = this.ProcessMatches(new AssemblyBrowser(proxy, target, search));
@@ -41,7 +41,7 @@
         public void TestFindTypesTargetInvocationTypeArgument()
         {
             var proxy = new ProxyAssemblyMock();
-            new AssemblyBrowser(proxy, new AssemblyStub(), new TypeMatchSearchConstStub()).FindTypes().ToList();
+            new AssemblyBrowser(proxy, new AssemblyStub(string.Empty), new TypeMatchSearchConstStub()).FindTypes().ToList();
 
             var actual = proxy.Type;
             var expected = MemberType.Static;
@@ -52,7 +52,7 @@
         public void TestFindTypesTargetInvocationAttributesArgument()
         {
             var proxy = new ProxyAssemblyMock();
-            new AssemblyBrowser(proxy, new AssemblyStub(), new TypeMatchSearchConstStub()).FindTypes().ToList();
+            new AssemblyBrowser(proxy, new AssemblyStub(string.Empty), new TypeMatchSearchConstStub()).FindTypes().ToList();
 
             var actual = proxy.ExpectedAttributes;
             var expected = new[] { typeof(ProxyOfAttribute) };
@@ -95,6 +95,14 @@
             public MemberType Type { get; private set; }
 
             public Type[] ExpectedAttributes { get; private set; }
+
+            public string FullName
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
 
             public IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params Type[] expectedAttributes)
             {
