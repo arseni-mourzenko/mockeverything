@@ -3,6 +3,7 @@
     using System.Linq;
     using Demo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
 
     [TestClass]
@@ -140,6 +141,26 @@
                 .ToList();
 
             var expected = new[] { string.Empty, "new(),System.IComparable" };
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetParameters()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "WithParameters")
+                .Parameters
+                .ToList();
+
+            var expected = new[]
+            {
+                new Parameter(ParameterVariant.In, new TypeStub("System.String")),
+                new Parameter(ParameterVariant.In, new TypeStub("System.Integer")),
+            };
+
             CollectionAssert.AreEqual(expected, actual);
         }
 

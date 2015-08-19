@@ -47,6 +47,19 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets the parameters of the method.
+        /// </summary>
+        public IEnumerable<Parameter> Parameters
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IEnumerable<Parameter>>() != null);
+
+                throw new System.NotImplementedException();
+            }
+        }
+
+        /// <summary>
         /// Gets the return type of the method.
         /// </summary>
         public IType ReturnType

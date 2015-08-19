@@ -80,5 +80,22 @@
         public void GenericSampleMultiple<T1, T2>(T1 hello, T2 world) where T2 : System.IComparable, new()
         {
         }
+
+        public void WithParameters(string one, int two)
+        {
+        }
+
+        public void WithOutParameters(out string one)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void WithRefParameters(ref string one)
+        {
+        }
+
+        public void WithInfiniteParams(params string[] lines)
+        {
+        }
     }
 }
