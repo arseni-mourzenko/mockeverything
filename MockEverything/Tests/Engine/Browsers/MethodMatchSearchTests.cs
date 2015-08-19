@@ -39,5 +39,25 @@
                 new MethodStub("DemoMethod", returnType: type1),
                 new TypeStub("TargetType", new MethodStub("DemoMethod", returnType: type2)));
         }
+
+        [TestMethod]
+        public void TestFindMatchGenerics()
+        {
+            var actual = new MethodMatchSearch().FindMatch(
+                new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }),
+                new TypeStub("TargetType", new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }))).Name;
+
+            var expected = "DemoMethod";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MatchNotFoundException))]
+        public void TestFindMatchDifferentGenerics()
+        {
+            new MethodMatchSearch().FindMatch(
+                new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }),
+                new TypeStub("TargetType", new MethodStub("DemoMethod")));
+        }
     }
 }

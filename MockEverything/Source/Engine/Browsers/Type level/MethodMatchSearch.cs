@@ -44,7 +44,13 @@ namespace MockEverything.Engine.Browsers
         /// <returns><see langword="true"/> if there is a match; otherwise, <see langword="false"/>.</returns>
         private bool IsMatch(IMethod first, IMethod second)
         {
-            return first.Name == second.Name && first.ReturnType.FullName == second.ReturnType.FullName;
+            Contract.Requires(first != null);
+            Contract.Requires(second != null);
+
+            return
+                first.Name == second.Name &&
+                first.ReturnType.FullName == second.ReturnType.FullName &&
+                first.GenericTypes.SequenceEqual(second.GenericTypes);
         }
     }
 }
