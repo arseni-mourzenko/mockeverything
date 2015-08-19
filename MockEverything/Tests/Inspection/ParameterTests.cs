@@ -1,5 +1,6 @@
 ﻿namespace MockEverythingTests.Inspection
 {
+    using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection;
 

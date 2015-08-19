@@ -1,15 +1,19 @@
-﻿namespace MockEverythingTests.Engine.Browsers.Stubs
+﻿namespace MockEverythingTests.CommonStubs
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using MockEverything.Inspection;
 
-    internal class TypeStub : IType
+    public class TypeStub : IType
     {
         private readonly ICollection<IMethod> methods;
 
         public TypeStub(string name, params IMethod[] methods)
         {
+            Contract.Requires(name != null);
+            Contract.Requires(!name.Contains("."));
+
             this.Name = name;
             this.methods = methods;
         }

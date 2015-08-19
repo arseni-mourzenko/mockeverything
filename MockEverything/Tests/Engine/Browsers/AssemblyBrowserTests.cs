@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Attributes;
     using MockEverything.Engine.Browsers;

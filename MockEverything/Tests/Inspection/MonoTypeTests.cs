@@ -1,10 +1,11 @@
 ﻿namespace MockEverythingTests.Inspection
 {
+    using System.Linq;
+    using CommonStubs;
     using Demo;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
-    using System.Linq;
 
     [TestClass]
     public class MonoTypeTests

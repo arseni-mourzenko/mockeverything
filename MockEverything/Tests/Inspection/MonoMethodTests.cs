@@ -5,6 +5,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
+    using CommonStubs;
 
     [TestClass]
     public class MonoMethodTests

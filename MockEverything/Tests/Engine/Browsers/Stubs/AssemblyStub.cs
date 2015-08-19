@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using CommonStubs;
     using MockEverything.Inspection;
 
     internal class AssemblyStub : IAssembly

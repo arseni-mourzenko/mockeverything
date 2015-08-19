@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using CommonStubs;
     using MockEverything.Inspection;
 
     public class MethodStub : IMethod

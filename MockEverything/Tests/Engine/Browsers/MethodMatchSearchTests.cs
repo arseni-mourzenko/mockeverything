@@ -1,5 +1,6 @@
 ﻿namespace MockEverythingTests.Engine.Browsers
 {
+    using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine;
     using MockEverything.Engine.Browsers;

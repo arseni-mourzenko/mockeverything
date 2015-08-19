@@ -56,7 +56,6 @@
     <Compile Include="Browsers\MethodMatchTests.cs" />
     <Compile Include="Browsers\Stubs\AssemblyStub.cs" />
     <Compile Include="Browsers\Stubs\MethodStub.cs" />
-    <Compile Include="Browsers\Stubs\TypeStub.cs" />
     <Compile Include="Browsers\TypeMatchSearchTests.cs" />
     <Compile Include="Browsers\TypeMatchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,6 +72,10 @@
     <ProjectReference Include="..\..\Source\Inspection\Inspection.csproj">
       <Project>{57a3ebd0-dab8-4a91-9db2-8a8ed3cb4cf7}</Project>
       <Name>Inspection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonStubs\CommonStubs.csproj">
+      <Project>{68088263-8c11-46b7-a57f-b44aeeab91d5}</Project>
+      <Name>CommonStubs</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
