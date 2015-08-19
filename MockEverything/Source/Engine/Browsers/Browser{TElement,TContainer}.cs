@@ -1,4 +1,4 @@
-﻿// <copyright file="Browser{TElement,TContainer,TMatchSearch}.cs">
+﻿// <copyright file="Browser{TElement,TContainer}.cs">
 //      Copyright (c) Arseni Mourzenko 2015. The code is distributed under the MIT License.
 // </copyright>
 // <author id="5c2316d3-622a-4a8d-816d-5054a48f415f">Arseni Mourzenko</author>
@@ -15,9 +15,7 @@ namespace MockEverything.Engine.Browsers
     /// </summary>
     /// <typeparam name="TElement">The type of the element which has to be found within the container.</typeparam>
     /// <typeparam name="TContainer">The type of the container containing the elements.</typeparam>
-    /// <typeparam name="TMatchSearch">The type of the matching mechanism which is able to determine that a given proxy element corresponds to a given target element.</typeparam>
-    public abstract class Browser<TElement, TContainer, TMatchSearch>
-        where TMatchSearch : IMatchSearch<TElement, TContainer>
+    public abstract class Browser<TElement, TContainer>
     {
         /// <summary>
         /// The proxy container.
@@ -32,15 +30,15 @@ namespace MockEverything.Engine.Browsers
         /// <summary>
         /// The searcher which, for every proxy type found, finds the corresponding target type.
         /// </summary>
-        private readonly TMatchSearch matchSearch;
+        private readonly IMatchSearch<TElement, TContainer> matchSearch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Browser{TElement,TContainer,TMatchSearch}"/> class.
+        /// Initializes a new instance of the <see cref="Browser{TElement,TContainer}"/> class.
         /// </summary>
         /// <param name="proxy">The proxy assembly.</param>
         /// <param name="target">The corresponding target assembly.</param>
         /// <param name="matchSearch">The searcher which, for every proxy type found, finds the corresponding target type.</param>
-        protected Browser(TContainer proxy, TContainer target, TMatchSearch matchSearch)
+        protected Browser(TContainer proxy, TContainer target, IMatchSearch<TElement, TContainer> matchSearch)
         {
             Contract.Requires(proxy != null);
             Contract.Requires(target != null);

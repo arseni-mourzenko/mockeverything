@@ -13,7 +13,7 @@ namespace MockEverything.Engine.Browsers
     /// <summary>
     /// Represents a browser which is able to find the proxy methods of a proxy type, matching them with the corresponding types from the target type.
     /// </summary>
-    public class TypeBrowser : Browser<IMethod, IType, IMethodMatchSearch>
+    public class TypeBrowser : Browser<IMethod, IType>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeBrowser"/> class.
