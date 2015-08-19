@@ -4,10 +4,9 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine;
     using MockEverything.Engine.Browsers;
-    using Stubs;
 
     [TestClass]
-    public class MethodMatchSearchTests
+    public class MethodMatchingTests
     {
         [TestMethod]
         public void TestFindMatch()

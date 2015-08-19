@@ -1,4 +1,4 @@
-﻿namespace MockEverythingTests.Engine.Browsers.Stubs
+﻿namespace MockEverythingTests.Engine.Browsers
 {
     using System;
     using System.Collections.Generic;

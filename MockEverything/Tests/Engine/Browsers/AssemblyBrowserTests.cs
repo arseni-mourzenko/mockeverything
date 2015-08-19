@@ -9,7 +9,6 @@
     using MockEverything.Attributes;
     using MockEverything.Engine.Browsers;
     using MockEverything.Inspection;
-    using Stubs;
 
     [TestClass]
     public class AssemblyBrowserTests

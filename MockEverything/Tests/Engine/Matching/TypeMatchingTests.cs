@@ -7,7 +7,7 @@
     using MockEverything.Inspection;
 
     [TestClass]
-    public class TypeMatchSearchTests
+    public class TypeMatchingTests
     {
         [TestMethod]
         public void TestFindMatch()
