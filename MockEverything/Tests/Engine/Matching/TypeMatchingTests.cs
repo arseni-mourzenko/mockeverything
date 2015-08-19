@@ -1,5 +1,6 @@
 ﻿namespace MockEverythingTests.Engine.Browsers
 {
+    using System;
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Attributes;
@@ -19,6 +20,11 @@
 
         private class TargetAssembly : IAssembly
         {
+            public void AlterVersion(Version version)
+            {
+                throw new NotImplementedException();
+            }
+
             public IType FindType(string fullName)
             {
                 return new TargetType();

@@ -28,5 +28,11 @@ namespace MockEverything.Inspection
         /// <returns>The corresponding type.</returns>
         /// <exception cref="TypeNotFoundException">The type with the specified time cannot be found.</exception>
         IType FindType(string fullName);
+
+        /// <summary>
+        /// Changes the version of the assembly by setting the specified one instead.
+        /// </summary>
+        /// <param name="version">The version to set.</param>
+        void AlterVersion(Version version);
     }
 }

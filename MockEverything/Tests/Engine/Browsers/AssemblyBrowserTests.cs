@@ -108,6 +108,11 @@
             {
                 throw new NotImplementedException();
             }
+
+            public void AlterVersion(Version version)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

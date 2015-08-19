@@ -127,6 +127,24 @@
             new Assembly(this.SampleAssemblyPath).FindType("MockEverythingTests.SimpleClass");
         }
 
+        [TestMethod]
+        public void TestGetVersion()
+        {
+            var actual = new Assembly(this.SampleAssemblyPath).Version;
+            var expected = new Version("1.0.0.0");
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestAlterVersion()
+        {
+            var assembly = new Assembly(this.SampleAssemblyPath);
+            assembly.AlterVersion(new Version(3, 0, 14, 5021));
+            var actual = assembly.Version;
+            var expected = new Version("3.0.14.5021");
+            Assert.AreEqual(expected, actual);
+        }
+
         private bool TypeExists(string typeName)
         {
             var assembly = new Assembly(this.SampleAssemblyPath);

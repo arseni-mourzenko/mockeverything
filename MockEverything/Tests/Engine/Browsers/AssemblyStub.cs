@@ -25,6 +25,11 @@
             return new AssemblyStub(types.Select(t => (IType)new TypeStub(t, "Demo." + t)).ToArray());
         }
 
+        public void AlterVersion(Version version)
+        {
+            throw new NotImplementedException();
+        }
+
         public IType FindType(string fullName)
         {
             throw new NotImplementedException();

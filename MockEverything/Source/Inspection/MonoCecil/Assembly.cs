@@ -36,6 +36,19 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets the version of the assembly.
+        /// </summary>
+        public Version Version
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<Version>() != null);
+
+                return this.underlyingAssembly.Value.Name.Version;
+            }
+        }
+
+        /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
@@ -73,6 +86,17 @@ namespace MockEverything.Inspection.MonoCecil
 
             Contract.Assert(match != null);
             return new Type(match);
+        }
+
+        /// <summary>
+        /// Changes the version of the assembly by setting the specified one instead.
+        /// </summary>
+        /// <param name="version">The version to set.</param>
+        public void AlterVersion(Version version)
+        {
+            Contract.Requires(version != null);
+
+            this.underlyingAssembly.Value.Name.Version = version;
         }
 
         /// <summary>
