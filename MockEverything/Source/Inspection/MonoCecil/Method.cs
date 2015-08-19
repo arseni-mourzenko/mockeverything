@@ -55,7 +55,7 @@ namespace MockEverything.Inspection.MonoCecil
             {
                 Contract.Ensures(Contract.Result<IEnumerable<Parameter>>() != null);
 
-                throw new System.NotImplementedException();
+                return this.definition.Parameters.Select(this.GenerateParameter);
             }
         }
 
@@ -89,6 +89,57 @@ namespace MockEverything.Inspection.MonoCecil
                     yield return string.Join(",", this.DescribeGenericParameter(parameter).OrderBy(c => c));
                 }
             }
+        }
+
+        /// <summary>
+        /// Compares this object to the specified object to determine if both represent the same method.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns><see langword="true"/> if the object represent the same method; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            var other = (Method)obj;
+            return
+                other.Name == this.Name &&
+                other.ReturnType == this.ReturnType &&
+                other.Parameters.SequenceEqual(this.Parameters) &&
+                other.GenericTypes.SequenceEqual(this.GenericTypes);
+        }
+
+        /// <summary>
+        /// Generates the hash code of this object.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = hash * 31 + this.Name.GetHashCode();
+            hash = hash * 31 + this.ReturnType.GetHashCode();
+            return hash;
+        }
+
+        /// <summary>
+        /// Creates a parameter from a Mono.Cecil definition of a parameter.
+        /// </summary>
+        /// <param name="definition">Mono.Cecil definition of a parameter.</param>
+        /// <returns>The corresponding parameter object.</returns>
+        private Parameter GenerateParameter(ParameterDefinition definition)
+        {
+            Contract.Requires(definition != null);
+            Contract.Ensures(Contract.Result<Parameter>() != null);
+
+            var variant = ParameterVariant.In;
+            if (definition.IsOut)
+            {
+                variant = definition.IsIn ? ParameterVariant.Ref : ParameterVariant.Out;
+            }
+
+            return new Parameter(ParameterVariant.In, new Type(definition.ParameterType.Resolve()));
         }
 
         /// <summary>

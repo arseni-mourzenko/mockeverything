@@ -50,7 +50,7 @@ namespace MockEverything.Inspection
         /// <summary>
         /// Gets the type of the parameter.
         /// </summary>
-        private IType Type
+        public IType Type
         {
             get
             {
@@ -58,6 +58,34 @@ namespace MockEverything.Inspection
 
                 return this.type;
             }
+        }
+
+        /// <summary>
+        /// Compares this object to the specified object to determine if both represent the same parameter.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns><see langword="true"/> if the object represent the same parameter; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            var other = (Parameter)obj;
+            return other.Variant == this.Variant && other.Type == this.Type;
+        }
+
+        /// <summary>
+        /// Generates the hash code of this object.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = hash * 31 + this.Variant.GetHashCode();
+            hash = hash * 31 + this.Type.GetHashCode();
+            return hash;
         }
 
         /// <summary>

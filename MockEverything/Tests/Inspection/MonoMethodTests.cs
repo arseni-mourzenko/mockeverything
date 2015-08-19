@@ -164,6 +164,54 @@
             CollectionAssert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void TestGetParametersOut()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "WithOutParameters")
+                .Parameters
+                .ToList();
+
+            var expected = new[] { new Parameter(ParameterVariant.Out, new TypeStub("System.String")) };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetParametersRef()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "WithRefParameters")
+                .Parameters
+                .ToList();
+
+            var expected = new[] { new Parameter(ParameterVariant.Ref, new TypeStub("System.String")) };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetParametersInfinite()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "WithInfiniteParams")
+                .Parameters
+                .ToList();
+
+            var expected = new[] { new Parameter(ParameterVariant.Params, new TypeStub("System.String")) };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
         private Assembly SampleAssembly
         {
             get

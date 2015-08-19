@@ -54,6 +54,7 @@
     <Compile Include="MonoAssemblyTests.cs" />
     <Compile Include="MonoMethodTests.cs" />
     <Compile Include="MonoTypeTests.cs" />
+    <Compile Include="ParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeStub.cs" />
   </ItemGroup>

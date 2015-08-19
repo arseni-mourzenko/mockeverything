@@ -63,6 +63,33 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Compares this object to the specified object to determine if both represent the same type.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns><see langword="true"/> if the object represent the same type; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            var other = (Type)obj;
+            return other.FullName == this.FullName;
+        }
+
+        /// <summary>
+        /// Generates the hash code of this object.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = hash * 31 + this.FullName.GetHashCode();
+            return hash;
+        }
+
+        /// <summary>
         /// Finds all methods of the type.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>
