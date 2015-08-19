@@ -60,5 +60,25 @@
 
             set;
         }
+
+        public void GenericSample<T1, T2>(T1 hello, T2 world)
+        {
+        }
+
+        public void GenericSampleWithConstraints<T1, T2>(T1 hello, T2 world) where T2 : System.Exception
+        {
+        }
+
+        public void GenericSampleWithStructContraint<T1, T2>(T1 hello, T2 world) where T2 : struct
+        {
+        }
+
+        public void GenericSampleNew<T1, T2>(T1 hello, T2 world) where T2 : new()
+        {
+        }
+
+        public void GenericSampleMultiple<T1, T2>(T1 hello, T2 world) where T2 : System.IComparable, new()
+        {
+        }
     }
 }
