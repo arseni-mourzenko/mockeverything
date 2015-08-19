@@ -83,8 +83,8 @@ namespace MockEverything.Inspection
         public override int GetHashCode()
         {
             var hash = 17;
-            hash = hash * 31 + this.Variant.GetHashCode();
-            hash = hash * 31 + this.Type.GetHashCode();
+            hash = (hash * 31) + this.Variant.GetHashCode();
+            hash = (hash * 31) + this.Type.GetHashCode();
             return hash;
         }
 

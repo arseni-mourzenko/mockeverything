@@ -118,8 +118,8 @@ namespace MockEverything.Inspection.MonoCecil
         public override int GetHashCode()
         {
             var hash = 17;
-            hash = hash * 31 + this.Name.GetHashCode();
-            hash = hash * 31 + this.ReturnType.GetHashCode();
+            hash = (hash * 31) + this.Name.GetHashCode();
+            hash = (hash * 31) + this.ReturnType.GetHashCode();
             return hash;
         }
 
