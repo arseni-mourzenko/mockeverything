@@ -11,7 +11,7 @@
         [TestMethod]
         public void TestGetProxy()
         {
-            var actual = new Match<IMethod>(new MethodStub("SampleProxy"), new MethodStub("SampleTarget")).Proxy.Name;
+            var actual = new Pair<IMethod>(new MethodStub("SampleProxy"), new MethodStub("SampleTarget")).Proxy.Name;
             var expected = "SampleProxy";
 
             Assert.AreEqual(expected, actual);
@@ -20,7 +20,7 @@
         [TestMethod]
         public void TestGetTarget()
         {
-            var actual = new Match<IMethod>(new MethodStub("SampleProxy"), new MethodStub("SampleTarget")).Target.Name;
+            var actual = new Pair<IMethod>(new MethodStub("SampleProxy"), new MethodStub("SampleTarget")).Target.Name;
             var expected = "SampleTarget";
 
             Assert.AreEqual(expected, actual);

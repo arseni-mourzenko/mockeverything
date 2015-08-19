@@ -11,7 +11,7 @@
         [TestMethod]
         public void TestGetProxy()
         {
-            var actual = new Match<IType>(
+            var actual = new Pair<IType>(
                 new TypeStub("SampleProxy", "Demo.SampleProxy"),
                 new TypeStub("SampleTarget", "Demo.SampleTarget")).Proxy.Name;
 
@@ -23,7 +23,7 @@
         [TestMethod]
         public void TestGetTarget()
         {
-            var actual = new Match<IType>(
+            var actual = new Pair<IType>(
                 new TypeStub("SampleProxy", "Demo.SampleProxy"),
                 new TypeStub("SampleTarget", "Demo.SampleTarget")).Target.Name;
 

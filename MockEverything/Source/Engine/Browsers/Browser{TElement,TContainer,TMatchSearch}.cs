@@ -68,9 +68,9 @@ namespace MockEverything.Engine.Browsers
         /// Finds the proxy types, indicating, for each type, its corresponding type from the target assembly.
         /// </summary>
         /// <returns>The pairs matching the proxy type to the target type.</returns>
-        public IEnumerable<Match<TElement>> FindTypes()
+        public IEnumerable<Pair<TElement>> FindTypes()
         {
-            Contract.Ensures(Contract.Result<IEnumerable<Match<TElement>>>() != null);
+            Contract.Ensures(Contract.Result<IEnumerable<Pair<TElement>>>() != null);
 
             return this.FindAllInProxy().Select(this.CreateMatch);
         }
@@ -86,14 +86,14 @@ namespace MockEverything.Engine.Browsers
         /// </summary>
         /// <param name="proxyType">The proxy type.</param>
         /// <returns>A pair of matching types.</returns>
-        private Match<TElement> CreateMatch(TElement proxyType)
+        private Pair<TElement> CreateMatch(TElement proxyType)
         {
             Contract.Requires(proxyType != null);
-            Contract.Ensures(Contract.Result<Match<TElement>>() != null);
+            Contract.Ensures(Contract.Result<Pair<TElement>>() != null);
 
             var targetType = this.matchSearch.FindMatch(proxyType, this.target);
             Contract.Assume(targetType != null);
-            return new Match<TElement>(proxyType, targetType);
+            return new Pair<TElement>(proxyType, targetType);
         }
 
         /// <summary>

@@ -60,7 +60,7 @@
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        private List<string> ProcessMatches(IEnumerable<Match<IType>> matches)
+        private List<string> ProcessMatches(IEnumerable<Pair<IType>> matches)
         {
             Contract.Requires(matches != null);
 

@@ -1,4 +1,4 @@
-﻿// <copyright file="Match{TElement}.cs">
+﻿// <copyright file="Pair{TElement}.cs">
 //      Copyright (c) Arseni Mourzenko 2015. The code is distributed under the MIT License.
 // </copyright>
 // <author id="5c2316d3-622a-4a8d-816d-5054a48f415f">Arseni Mourzenko</author>
@@ -9,10 +9,10 @@ namespace MockEverything.Engine.Browsers
     using System.Diagnostics.Contracts;
 
     /// <summary>
-    /// Represents a match between an element from the proxy assembly with an element from the target assembly.
+    /// Represents a pair of elements, one from the proxy container, the other from the target container.
     /// </summary>
-    /// <typeparam name="TElement">The type of the elements to match.</typeparam>
-    public class Match<TElement>
+    /// <typeparam name="TElement">The type of the elements which form a pair.</typeparam>
+    public class Pair<TElement>
     {
         /// <summary>
         /// The proxy element.
@@ -25,11 +25,11 @@ namespace MockEverything.Engine.Browsers
         private readonly TElement target;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Match{TElement}"/> class.
+        /// Initializes a new instance of the <see cref="Pair{TElement}"/> class.
         /// </summary>
         /// <param name="proxy">The proxy element.</param>
         /// <param name="target">The corresponding target element.</param>
-        public Match(TElement proxy, TElement target)
+        public Pair(TElement proxy, TElement target)
         {
             Contract.Requires(proxy != null);
             Contract.Requires(target != null);
