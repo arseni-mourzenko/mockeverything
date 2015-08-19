@@ -1,4 +1,4 @@
-﻿// <copyright file="TypeMatchSearch.cs">
+﻿// <copyright file="TypeMatching.cs">
 //      Copyright (c) Arseni Mourzenko 2015. The code is distributed under the MIT License.
 // </copyright>
 // <author id="5c2316d3-622a-4a8d-816d-5054a48f415f">Arseni Mourzenko</author>
@@ -12,7 +12,7 @@ namespace MockEverything.Engine.Browsers
     /// <summary>
     /// Represents a comparer which matches proxy types to target types.
     /// </summary>
-    public class TypeMatchSearch : IMatching<IType, IAssembly>
+    public class TypeMatching : IMatching<IType, IAssembly>
     {
         /// <summary>
         /// Finds, within the target assembly, a type which corresponds to the proxy type.

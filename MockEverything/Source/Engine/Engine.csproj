@@ -45,10 +45,10 @@
     <Compile Include="Browsers\Assembly level\AssemblyBrowser.cs" />
     <Compile Include="Browsers\Browser{TElement,TContainer}.cs" />
     <Compile Include="Browsers\IMatching{TElement,TContainer}.cs" />
-    <Compile Include="Browsers\Type level\MethodMatchSearch.cs" />
+    <Compile Include="Browsers\Type level\MethodMatching.cs" />
     <Compile Include="Browsers\Pair{TElement}.cs" />
     <Compile Include="Browsers\Type level\TypeBrowser.cs" />
-    <Compile Include="Browsers\Assembly level\TypeMatchSearch.cs" />
+    <Compile Include="Browsers\Assembly level\TypeMatching.cs" />
     <Compile Include="MatchNotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

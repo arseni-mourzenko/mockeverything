@@ -12,7 +12,7 @@
         [TestMethod]
         public void TestFindMatch()
         {
-            var actual = new TypeMatchSearch().FindMatch(new ProxyType(), new TargetAssembly()).Name;
+            var actual = new TypeMatching().FindMatch(new ProxyType(), new TargetAssembly()).Name;
             var expected = "TargetType";
             Assert.AreEqual(expected, actual);
         }
