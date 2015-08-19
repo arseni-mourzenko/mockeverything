@@ -9,7 +9,7 @@
         public MethodStub(string name, IType returnType = null, IEnumerable<Parameter> parameters = null, IEnumerable<string> genericTypes = null)
         {
             this.Name = name;
-            this.ReturnType = returnType ?? new TypeStub("Void") { FullName = "System.Void" };
+            this.ReturnType = returnType ?? new TypeStub("Void", "System.Void");
             this.Parameters = parameters ?? Enumerable.Empty<Parameter>();
             this.GenericTypes = genericTypes ?? Enumerable.Empty<string>();
         }

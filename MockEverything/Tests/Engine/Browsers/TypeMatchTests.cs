@@ -11,7 +11,10 @@
         [TestMethod]
         public void TestGetProxy()
         {
-            var actual = new Match<IType>(new TypeStub("SampleProxy"), new TypeStub("SampleTarget")).Proxy.Name;
+            var actual = new Match<IType>(
+                new TypeStub("SampleProxy", "Demo.SampleProxy"),
+                new TypeStub("SampleTarget", "Demo.SampleTarget")).Proxy.Name;
+
             var expected = "SampleProxy";
 
             Assert.AreEqual(expected, actual);
@@ -20,7 +23,10 @@
         [TestMethod]
         public void TestGetTarget()
         {
-            var actual = new Match<IType>(new TypeStub("SampleProxy"), new TypeStub("SampleTarget")).Target.Name;
+            var actual = new Match<IType>(
+                new TypeStub("SampleProxy", "Demo.SampleProxy"),
+                new TypeStub("SampleTarget", "Demo.SampleTarget")).Target.Name;
+
             var expected = "SampleTarget";
 
             Assert.AreEqual(expected, actual);

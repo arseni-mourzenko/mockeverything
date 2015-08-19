@@ -173,8 +173,8 @@
 
             var expected = new[]
             {
-                new Parameter(ParameterVariant.In, new TypeStub("String") { FullName = "System.String" }),
-                new Parameter(ParameterVariant.In, new TypeStub("Int32") { FullName = "System.Int32" }),
+                new Parameter(ParameterVariant.In, new TypeStub("String", "System.String")),
+                new Parameter(ParameterVariant.In, new TypeStub("Int32", "System.Int32")),
             };
 
             CollectionAssert.AreEqual(expected, actual);
@@ -191,7 +191,7 @@
                 .Parameters
                 .ToList();
 
-            var expected = new[] { new Parameter(ParameterVariant.Out, new TypeStub("String") { FullName = "System.String" }) };
+            var expected = new[] { new Parameter(ParameterVariant.Out, new TypeStub("String", "System.String")) };
 
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -207,7 +207,7 @@
                 .Parameters
                 .ToList();
 
-            var expected = new[] { new Parameter(ParameterVariant.Ref, new TypeStub("String") { FullName = "System.String" }) };
+            var expected = new[] { new Parameter(ParameterVariant.Ref, new TypeStub("String", "System.String")) };
 
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -223,7 +223,7 @@
                 .Parameters
                 .ToList();
 
-            var expected = new[] { new Parameter(ParameterVariant.Params, new TypeStub("String") { FullName = "System.String" }) };
+            var expected = new[] { new Parameter(ParameterVariant.Params, new TypeStub("String", "System.String")) };
 
             CollectionAssert.AreEqual(expected, actual);
         }

@@ -14,7 +14,7 @@
         {
             var actual = new MethodMatchSearch().FindMatch(
                 new MethodStub("DemoMethod"),
-                new TypeStub("TargetType", new MethodStub("DemoMethod"))).Name;
+                new TypeStub("TargetType", "Demo.TargetType", new MethodStub("DemoMethod"))).Name;
 
             var expected = "DemoMethod";
             Assert.AreEqual(expected, actual);
@@ -26,19 +26,19 @@
         {
             new MethodMatchSearch().FindMatch(
                 new MethodStub("DemoMethod"),
-                new TypeStub("TargetType", new MethodStub("HelloWorld")));
+                new TypeStub("TargetType", "Demo.TargetType", new MethodStub("HelloWorld")));
         }
 
         [TestMethod]
         [ExpectedException(typeof(MatchNotFoundException))]
         public void TestFindMatchDifferentReturnTypes()
         {
-            var type1 = new TypeStub("Type1") { FullName = "Stubs.Type1" };
-            var type2 = new TypeStub("Type2") { FullName = "Stubs.Type2" };
+            var type1 = new TypeStub("Type1", "Stubs.Type1");
+            var type2 = new TypeStub("Type2", "Stubs.Type2");
 
             new MethodMatchSearch().FindMatch(
                 new MethodStub("DemoMethod", returnType: type1),
-                new TypeStub("TargetType", new MethodStub("DemoMethod", returnType: type2)));
+                new TypeStub("TargetType", "Demo.TargetType", new MethodStub("DemoMethod", returnType: type2)));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@
         {
             var actual = new MethodMatchSearch().FindMatch(
                 new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }),
-                new TypeStub("TargetType", new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }))).Name;
+                new TypeStub("TargetType", "Demo.TargetType", new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }))).Name;
 
             var expected = "DemoMethod";
             Assert.AreEqual(expected, actual);
@@ -58,7 +58,7 @@
         {
             new MethodMatchSearch().FindMatch(
                 new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }),
-                new TypeStub("TargetType", new MethodStub("DemoMethod")));
+                new TypeStub("TargetType", "Demo.TargetType", new MethodStub("DemoMethod")));
         }
     }
 }

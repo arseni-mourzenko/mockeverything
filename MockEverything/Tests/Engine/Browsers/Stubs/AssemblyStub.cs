@@ -22,7 +22,7 @@
         {
             Contract.Requires(types != null);
 
-            return new AssemblyStub(types.Select(t => (IType)new TypeStub(t)).ToArray());
+            return new AssemblyStub(types.Select(t => (IType)new TypeStub(t, "Demo." + t)).ToArray());
         }
 
         public IType FindType(string fullName)

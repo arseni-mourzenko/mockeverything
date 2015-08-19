@@ -9,16 +9,19 @@
     {
         private readonly ICollection<IMethod> methods;
 
-        public TypeStub(string name, params IMethod[] methods)
+        public TypeStub(string name, string fullName, params IMethod[] methods)
         {
             Contract.Requires(name != null);
             Contract.Requires(!name.Contains("."));
+            Contract.Requires(fullName != null);
+            Contract.Requires(name.Contains("."));
 
             this.Name = name;
+            this.FullName = fullName;
             this.methods = methods;
         }
 
-        public string FullName { get; set; }
+        public string FullName { get; private set; }
 
         public string Name { get; private set; }
 

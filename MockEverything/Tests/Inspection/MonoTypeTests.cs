@@ -249,7 +249,7 @@
         public void TestEqualsAllSame()
         {
             var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass");
-            var second = new TypeStub(string.Empty) { FullName = "MockEverythingTests.Inspection.Demo.SimpleClass" };
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.SimpleClass");
             Assert.IsTrue(first.Equals(second));
             Assert.IsTrue(second.Equals(first));
         }
@@ -272,7 +272,7 @@
         public void TestEqualsFullNameDifferent()
         {
             var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.SimpleClass");
-            var second = new TypeStub(string.Empty) { FullName = "Something.Else" };
+            var second = new TypeStub(string.Empty, "Something.Else");
             Assert.IsFalse(first.Equals(second));
             Assert.IsFalse(second.Equals(first));
         }

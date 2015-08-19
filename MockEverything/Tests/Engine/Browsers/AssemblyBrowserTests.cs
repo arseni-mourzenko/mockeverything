@@ -79,7 +79,7 @@
         {
             public IType FindMatch(IType proxy, IAssembly targetAssembly)
             {
-                return new TypeStub(proxy.Name + "Target");
+                return new TypeStub(proxy.Name + "Target", "Demo." + proxy.Name + "Target");
             }
         }
 
@@ -87,7 +87,7 @@
         {
             public IType FindMatch(IType proxy, IAssembly targetAssembly)
             {
-                return new TypeStub("ThisIsATarget");
+                return new TypeStub("ThisIsATarget", "Demo.ThisIsATarget");
             }
         }
 
