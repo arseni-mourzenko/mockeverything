@@ -42,13 +42,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Browsers\Assembly level\AssemblyBrowser.cs" />
+    <Compile Include="Browsers\AssemblyBrowser.cs" />
     <Compile Include="Browsers\Browser{TElement,TContainer}.cs" />
-    <Compile Include="Browsers\IMatching{TElement,TContainer}.cs" />
-    <Compile Include="Browsers\Type level\MethodMatching.cs" />
-    <Compile Include="Browsers\Pair{TElement}.cs" />
-    <Compile Include="Browsers\Type level\TypeBrowser.cs" />
-    <Compile Include="Browsers\Assembly level\TypeMatching.cs" />
+    <Compile Include="Matching\IMatching{TElement,TContainer}.cs" />
+    <Compile Include="Matching\MethodMatching.cs" />
+    <Compile Include="Matching\Pair{TElement}.cs" />
+    <Compile Include="Browsers\TypeBrowser.cs" />
+    <Compile Include="Matching\TypeMatching.cs" />
     <Compile Include="MatchNotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
