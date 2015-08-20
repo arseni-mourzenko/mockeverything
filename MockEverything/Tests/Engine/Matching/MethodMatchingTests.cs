@@ -4,6 +4,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine;
     using MockEverything.Engine.Browsers;
+    using MockEverything.Inspection;
 
     [TestClass]
     public class MethodMatchingTests
@@ -58,6 +59,34 @@
             new MethodMatching().FindMatch(
                 new MethodStub("DemoMethod", genericTypes: new[] { "System.IComparable" }),
                 new TypeStub("TargetType", "Demo.TargetType", new MethodStub("DemoMethod")));
+        }
+
+        [TestMethod]
+        public void TestFindMatchParameters()
+        {
+            var stringType = new TypeStub("String", "System.String");
+            var actual = new MethodMatching().FindMatch(
+                new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.In, stringType) }),
+                new TypeStub(
+                    "TargetType",
+                    "Demo.TargetType",
+                    new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.In, stringType) }))).Name;
+
+            var expected = "DemoMethod";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MatchNotFoundException))]
+        public void TestFindMatchDifferentParameters()
+        {
+            var stringType = new TypeStub("String", "System.String");
+            new MethodMatching().FindMatch(
+                new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.In, stringType) }),
+                new TypeStub(
+                    "TargetType",
+                    "Demo.TargetType",
+                    new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.Ref, stringType) })));
         }
     }
 }
