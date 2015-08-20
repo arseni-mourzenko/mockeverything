@@ -63,6 +63,22 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets the generic types of the class. If the class is not generic, the enumeration yields no results.
+        /// </summary>
+        public IEnumerable<string> GenericTypes
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IEnumerable<string>>() != null);
+
+                foreach (var parameter in this.definition.GenericParameters)
+                {
+                    yield return string.Join(",", parameter.Describe().OrderBy(c => c));
+                }
+            }
+        }
+
+        /// <summary>
         /// Compares this object to the specified object to determine if both represent the same type.
         /// </summary>
         /// <param name="obj">The object to compare.</param>
@@ -75,7 +91,7 @@ namespace MockEverything.Inspection.MonoCecil
             }
 
             var other = (IType)obj;
-            return other.FullName == this.FullName;
+            return this.FullName == other.FullName && this.GenericTypes.SequenceEqual(other.GenericTypes);
         }
 
         /// <summary>

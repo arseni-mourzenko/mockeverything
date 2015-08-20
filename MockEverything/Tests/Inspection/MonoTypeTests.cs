@@ -277,6 +277,62 @@
             Assert.IsFalse(second.Equals(first));
         }
 
+        [TestMethod]
+        public void TestEqualsWithGenerics()
+        {
+            var aa = this.SampleAssembly.FindTypes();
+            var first = this.SampleAssembly.FindTypes().Single(t => t.Name == "SimpleGeneric`1" && t.GenericTypes.Count() == 1);
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.SimpleGeneric`1") { GenericTypes = new[] { string.Empty } };
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsWithGenericsDifferentNumber()
+        {
+            var first = this.SampleAssembly.FindTypes().Single(t => t.Name == "SimpleGeneric`2" && t.GenericTypes.Count() == 2);
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.SimpleGeneric`2") { GenericTypes = new[] { string.Empty } };
+            Assert.IsFalse(first.Equals(second));
+            Assert.IsFalse(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsWithGenericsConstraint()
+        {
+            var aaa = this.SampleAssembly.FindTypes();
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.GenericsWithConstraints`1");
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.GenericsWithConstraints`1") { GenericTypes = new[] { "System.IComparable" } };
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsWithGenericsDifferentConstraint()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.GenericsWithConstraints`1");
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.GenericsWithConstraints`1") { GenericTypes = new[] { "System.IFormattable" } };
+            Assert.IsFalse(first.Equals(second));
+            Assert.IsFalse(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsWithGenericsNewConstraint()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.GenericsWithNewConstraint`1");
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.GenericsWithNewConstraint`1") { GenericTypes = new[] { "new(),System.IComparable" } };
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestMethod]
+        public void TestEqualsWithGenericsDifferentNewConstraint()
+        {
+            var first = this.SampleAssembly.FindType("MockEverythingTests.Inspection.Demo.GenericsWithNewConstraint`1");
+            var second = new TypeStub(string.Empty, "MockEverythingTests.Inspection.Demo.GenericsWithNewConstraint`1") { GenericTypes = new[] { "System.IComparable" } };
+            Assert.IsFalse(first.Equals(second));
+            Assert.IsFalse(second.Equals(first));
+        }
+
         private bool MethodExists(string typeName, string methodName)
         {
             return this.SampleAssembly

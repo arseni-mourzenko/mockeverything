@@ -24,6 +24,11 @@ namespace MockEverything.Inspection
         string FullName { get; }
 
         /// <summary>
+        /// Gets the generic types of the class. If the class is not generic, the enumeration yields no results.
+        /// </summary>
+        IEnumerable<string> GenericTypes { get; }
+
+        /// <summary>
         /// Finds all methods of the type.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>

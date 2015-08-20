@@ -54,6 +54,14 @@
                 }
             }
 
+            public IEnumerable<string> GenericTypes
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
             public string Name
             {
                 get
@@ -80,6 +88,14 @@
                 get
                 {
                     throw new System.NotImplementedException();
+                }
+            }
+
+            public IEnumerable<string> GenericTypes
+            {
+                get
+                {
+                    throw new NotImplementedException();
                 }
             }
 

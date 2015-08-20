@@ -86,7 +86,7 @@ namespace MockEverything.Inspection.MonoCecil
 
                 foreach (var parameter in this.definition.GenericParameters)
                 {
-                    yield return string.Join(",", this.DescribeGenericParameter(parameter).OrderBy(c => c));
+                    yield return string.Join(",", parameter.Describe().OrderBy(c => c));
                 }
             }
         }
@@ -148,27 +148,6 @@ namespace MockEverything.Inspection.MonoCecil
             }
 
             return new Parameter(variant, new Type(definition.ParameterType.Resolve()));
-        }
-
-        /// <summary>
-        /// Enumerates the elements which will be part of the specification of a generic type.
-        /// </summary>
-        /// <param name="parameter">The generic parameter.</param>
-        /// <returns>Zero or more elements to include in the specification.</returns>
-        private IEnumerable<string> DescribeGenericParameter(GenericParameter parameter)
-        {
-            Contract.Requires(parameter != null);
-            Contract.Ensures(Contract.Result<IEnumerable<string>>() != null);
-
-            if (parameter.HasDefaultConstructorConstraint)
-            {
-                yield return "new()";
-            }
-
-            foreach (var constraint in parameter.Constraints)
-            {
-                yield return constraint.FullName;
-            }
         }
     }
 }

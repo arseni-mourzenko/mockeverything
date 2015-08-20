@@ -44,6 +44,7 @@
     <Compile Include="DecoratedCustomClass.cs" />
     <Compile Include="DemoAttribute.cs" />
     <Compile Include="DemoSecondAttribute.cs" />
+    <Compile Include="Generics.cs" />
     <Compile Include="InternalClass.cs" />
     <Compile Include="SimpleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
