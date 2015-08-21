@@ -19,6 +19,11 @@ namespace MockEverything.Inspection
         string FullName { get; }
 
         /// <summary>
+        /// Gets the full path to the file containing the assembly.
+        /// </summary>
+        string FilePath { get; }
+
+        /// <summary>
         /// Finds all types in the assembly.
         /// </summary>
         /// <param name="type">The type of the members to include in the result.</param>

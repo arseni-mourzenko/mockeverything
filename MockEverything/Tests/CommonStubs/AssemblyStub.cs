@@ -28,6 +28,14 @@
             }
         }
 
+        public string FilePath
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is IAssembly))

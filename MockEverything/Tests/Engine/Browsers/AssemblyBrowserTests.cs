@@ -104,6 +104,14 @@
                 }
             }
 
+            public string FilePath
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
             public IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params Type[] expectedAttributes)
             {
                 this.Type = type;

@@ -20,6 +20,14 @@
 
         private class TargetAssembly : IAssembly
         {
+            public string FilePath
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
             public string FullName
             {
                 get

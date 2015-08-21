@@ -31,6 +31,8 @@ namespace MockEverything.Inspection.MonoCecil
         /// <param name="path">The full path to the file containing the assembly.</param>
         public Assembly(string path)
         {
+            Contract.Requires(path != null);
+
             this.path = path;
             this.underlyingAssembly = new Lazy<Mono.Cecil.AssemblyDefinition>(() => Mono.Cecil.AssemblyDefinition.ReadAssembly(this.path));
         }
@@ -42,7 +44,22 @@ namespace MockEverything.Inspection.MonoCecil
         {
             get
             {
+                Contract.Ensures(Contract.Result<string>() != null);
+
                 return this.underlyingAssembly.Value.FullName;
+            }
+        }
+
+        /// <summary>
+        /// Gets the full path to the file containing the assembly.
+        /// </summary>
+        public string FilePath
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<string>() != null);
+
+                return this.path;
             }
         }
 

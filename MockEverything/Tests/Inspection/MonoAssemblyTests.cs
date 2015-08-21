@@ -13,7 +13,7 @@
     public class MonoAssemblyTests
     {
         [TestMethod]
-        public void ConstructorWithWrongNameLazy()
+        public void TestConstructorWithWrongNameLazy()
         {
             // The assembly shouldn't be loaded when a constructor is called, but only when we actually need it. Thus, calling a constructor with a name shouldn't be a problem.
             var assembly = new Assembly(@"not a real path");
@@ -22,7 +22,7 @@
 
         [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
-        public void ConstructorWithWrongName()
+        public void TestConstructorWithWrongName()
         {
             var assembly = new Assembly(@"not a real path");
             assembly.FindTypes().ToList();
@@ -133,6 +133,14 @@
         {
             var actual = new Assembly(this.SampleAssemblyPath).Version;
             var expected = new Version("1.0.0.0");
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetFilePath()
+        {
+            var actual = new Assembly(this.SampleAssemblyPath).FilePath;
+            var expected = this.SampleAssemblyPath;
             Assert.AreEqual(expected, actual);
         }
 
