@@ -42,7 +42,9 @@ The system contains the following limitations:
 
  1. [Type parameters covariance][2] is ignored when doing the matching between proxies and their targets. I've never seen it being used in .NET Framework or third-party libraries; therefore, I assume that it is unnecessary to make the code more difficult for such edge case.
 
- 2. The access to the assemblies is done through .NET Framework's `System.IO` methods, which means the terrible [259-characters paths](http://stackoverflow.com/q/5188527/240613) limitation.
+ 1. The access to the assemblies is done through .NET Framework's `System.IO` methods, which means the terrible [259-characters paths](http://stackoverflow.com/q/5188527/240613) limitation.
+
+ 1. Both proxy and target assemblies should be class libraries. Given that the primary goal of this project is to tamper third-party libraries, this limitation seems fair.
 
 ## Contributions
 
