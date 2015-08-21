@@ -26,7 +26,7 @@ The tampering is done in four steps:
 
  1. The resulting assembly public key is altered. This step is necessary when dealing with signed assemblies. Although private key of the target assembly remains unknown, only the public key is needed, since its validation is not done when running code in full trust.
 
- To do its job, tampering relies on the [browsers](https://github.com/MainMa/mockeverything/tree/master/MockEverything/Source/Engine/Browsers): one for the types, another one for the methods. Those browsers search the proxy assembly or type for possible proxies, and match them with the corresponding types or methods from the target assembly: the matching is done by [matching classes](https://github.com/MainMa/mockeverything/tree/master/MockEverything/Source/Engine/Matching).
+To do its job, tampering relies on the [browsers](https://github.com/MainMa/mockeverything/tree/master/MockEverything/Source/Engine/Browsers): one for the types, another one for the methods. Those browsers search the proxy assembly or type for possible proxies, and match them with the corresponding types or methods from the target assembly: the matching is done by [matching classes](https://github.com/MainMa/mockeverything/tree/master/MockEverything/Source/Engine/Matching).
 
 In turn, browsers use the [inspection facade](https://github.com/MainMa/mockeverything/tree/master/MockEverything/Source/Inspection) to get the information they need from the assemblies. Currently, the only inspection facade uses Mono.Cecil. A similar facade can be created for System.Reflection.
 
