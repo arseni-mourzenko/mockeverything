@@ -10,7 +10,6 @@ namespace MockEverything.Engine.Discovery
     using System.Linq;
     using Browsers;
     using Inspection;
-    using Inspection.MonoCecil;
 
     /// <summary>
     /// Represents a discovery which searches for proxy assemblies and their targets within a directory.
