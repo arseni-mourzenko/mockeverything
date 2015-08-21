@@ -30,6 +30,19 @@ namespace MockEverything.Engine.Tampering
         public Version ResultVersion { get; set; }
 
         /// <summary>
+        /// Gets the full path of the directory containing the executing assembly.
+        /// </summary>
+        private string CurrentDirectoryPath
+        {
+            get
+            {
+                var codebase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                var path = Uri.UnescapeDataString(new UriBuilder(codebase).Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
+        /// <summary>
         /// Merges the proxy and the target assemblies and tampers the resulting one.
         /// </summary>
         /// <returns>The resulting assembly.</returns>
@@ -40,20 +53,41 @@ namespace MockEverything.Engine.Tampering
             var tempMergedAssemblyPath = Path.GetTempFileName();
             var result = new Assembly(tempMergedAssemblyPath);
 
-            var types = new AssemblyBrowser(result, result, new TypeMatching()).FindTypes();
+            this.Rewrite(result);
+            result.ReplacePublicKey(this.Pair.Target);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Rewrites the target methods by the proxy ones.
+        /// </summary>
+        /// <param name="assembly">The assembly to modify.</param>
+        private void Rewrite(Assembly assembly)
+        {
+            Contract.Requires(assembly != null);
+
+            var types = new AssemblyBrowser(assembly, assembly, new TypeMatching()).FindTypes();
             var pairs = types.SelectMany(t => new TypeBrowser(t.Proxy, t.Target, new MethodMatching()).FindTypes());
 
             foreach (var pair in pairs)
             {
                 pair.Target.ReplaceBody(pair.Proxy);
             }
+        }
+
+        /// <summary>
+        /// Changes the version of the assembly, if a specific version is set.
+        /// </summary>
+        /// <param name="assembly">The assembly to modify.</param>
+        private void AlterVersion(Assembly assembly)
+        {
+            Contract.Requires(assembly != null);
 
             if (this.ResultVersion != null)
             {
-                result.AlterVersion(this.ResultVersion);
+                assembly.AlterVersion(this.ResultVersion);
             }
-
-            return result;
         }
 
         /// <summary>
@@ -74,19 +108,6 @@ namespace MockEverything.Engine.Tampering
             };
 
             new ILRepack(options).Repack();
-        }
-
-        /// <summary>
-        /// Gets the full path of the directory containing the executing assembly.
-        /// </summary>
-        private string CurrentDirectoryPath
-        {
-            get
-            {
-                var codebase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-                var path = Uri.UnescapeDataString(new UriBuilder(codebase).Path);
-                return Path.GetDirectoryName(path);
-            }
         }
     }
 }

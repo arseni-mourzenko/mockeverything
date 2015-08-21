@@ -44,5 +44,22 @@ namespace MockEverything.Inspection
         /// </summary>
         /// <param name="version">The version to set.</param>
         void AlterVersion(Version version);
+
+        /// <summary>
+        /// Replaces the public key of the current assembly by the key of the specified model assembly.
+        /// </summary>
+        /// <remarks>
+        /// <para>Implementers are allowed to accept only assemblies of the same type to be passed as a parameter, and throw <see cref="NotImplementedException"/> if the type of the model assemblies is different.</para>
+        /// <para>Implementers should not set a contract requiring the model assembly to be of the same type, since it would violate the interface and would be difficult to impossible to enforce by the callers.</para>
+        /// </remarks>
+        /// <param name="model">The assembly containing the public key which should be copied to this assembly.</param>
+        /// <exception cref="NotImplementedException">The type of the model assembly doesn't match the type of the current object.</exception>
+        void ReplacePublicKey(IAssembly model);
+
+        /// <summary>
+        /// Saves the assembly to a file.
+        /// </summary>
+        /// <param name="path">The full path of the file.</param>
+        void Save(string path);
     }
 }

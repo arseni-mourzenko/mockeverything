@@ -73,5 +73,15 @@
         {
             return this.types;
         }
+
+        public void ReplacePublicKey(IAssembly model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

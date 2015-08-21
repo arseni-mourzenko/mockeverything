@@ -67,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MonoAssemblyPublicKeyTests.cs" />
     <Compile Include="MonoAssemblyTests.cs" />
     <Compile Include="MonoMethodReplacementTests.cs" />
     <Compile Include="MonoMethodTests.cs" />
@@ -82,6 +83,10 @@
     <ProjectReference Include="..\CommonStubs\CommonStubs.csproj">
       <Project>{68088263-8c11-46b7-a57f-b44aeeab91d5}</Project>
       <Name>CommonStubs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InspectionDemoSigned\InspectionDemoSigned.csproj">
+      <Project>{825da0c8-8df7-432c-9e84-56cbfa1f8755}</Project>
+      <Name>InspectionDemoSigned</Name>
     </ProjectReference>
     <ProjectReference Include="..\InspectionDemo\InspectionDemo.csproj">
       <Project>{cdf34769-005f-452d-8c40-0145a7172f7c}</Project>

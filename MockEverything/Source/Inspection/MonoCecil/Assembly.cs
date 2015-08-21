@@ -9,6 +9,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using Mono.Cecil;
 
     /// <summary>
     /// Represents an assembly loaded using Mono.Cecil.
@@ -144,6 +145,17 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Saves the assembly to a file.
+        /// </summary>
+        /// <param name="path">The full path of the file.</param>
+        public void Save(string path)
+        {
+            Contract.Requires(path != null);
+
+            this.underlyingAssembly.Value.Write(path);
+        }
+
+        /// <summary>
         /// Changes the version of the assembly by setting the specified one instead.
         /// </summary>
         /// <param name="version">The version to set.</param>
@@ -152,6 +164,38 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(version != null);
 
             this.underlyingAssembly.Value.Name.Version = version;
+        }
+
+        /// <summary>
+        /// Replaces the public key of the current assembly by the key of the specified model assembly.
+        /// </summary>
+        /// <param name="model">The assembly containing the public key which should be copied to this assembly.</param>
+        /// <exception cref="System.NotImplementedException">The other method is not an instance of the <see cref="Assembly"/> class.</exception>
+        public void ReplacePublicKey(IAssembly model)
+        {
+            Contract.Requires(model != null);
+
+            var otherAssembly = model as Assembly;
+            if (otherAssembly == null)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            this.ReplacePublicKey(otherAssembly.underlyingAssembly.Value.Name);
+        }
+
+        /// <summary>
+        /// Replaces the public key of the current assembly by the key from the specified name.
+        /// </summary>
+        /// <param name="modelName">The name of the assembly containing the public key which should be copied to this assembly.</param>
+        private void ReplacePublicKey(AssemblyNameDefinition modelName)
+        {
+            Contract.Requires(modelName != null);
+
+            var name = this.underlyingAssembly.Value.Name;
+            name.HasPublicKey = modelName.HasPublicKey;
+            name.PublicKey = modelName.PublicKey;
+            name.PublicKeyToken = modelName.PublicKeyToken;
         }
 
         /// <summary>

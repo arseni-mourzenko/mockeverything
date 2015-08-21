@@ -208,6 +208,5 @@
                 return Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
             }
         }
-
     }
 }

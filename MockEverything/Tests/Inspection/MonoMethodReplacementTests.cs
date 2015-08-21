@@ -4,7 +4,6 @@
     using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection.MonoCecil;
-    using Demo;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
