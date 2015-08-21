@@ -1,14 +1,12 @@
 ﻿namespace MockEverythingTests.Inspection
 {
     using System;
+    using System.IO;
     using CommonStubs;
+    using Demo;
+    using DemoSigned;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection.MonoCecil;
-    using Demo;
-    using Mono.Cecil;
-    using Mono.Cecil.Cil;
-    using DemoSigned;
-    using System.IO;
 
     [TestClass]
     public class MonoAssemblyPublicKeyTests
@@ -17,10 +15,11 @@
         [ExpectedException(typeof(NotImplementedException))]
         public void TestReplacePublicKeyWrongType()
         {
-            new Assembly(this.GetAssemblyPath<SimpleClass>()).ReplacePublicKey(new AssemblyStub("StubAssembly"));
+            new Assembly(this.FindAssemblyPathOf<SimpleClass>()).ReplacePublicKey(new AssemblyStub("StubAssembly"));
         }
 
         [TestMethod]
+        [TestCategory("System tests")]
         public void TestReplacePublicKey()
         {
             var originalKey = typeof(SimpleClass).Assembly.GetName().GetPublicKey();
@@ -28,8 +27,8 @@
             CollectionAssert.AreNotEqual(originalKey, newKey);
 
             var tempPath = Path.GetTempFileName();
-            var assembly = new Assembly(this.GetAssemblyPath<SimpleClass>());
-            var signedAssembly = new Assembly(this.GetAssemblyPath<ClassFromSignedAssembly>());
+            var assembly = new Assembly(this.FindAssemblyPathOf<SimpleClass>());
+            var signedAssembly = new Assembly(this.FindAssemblyPathOf<ClassFromSignedAssembly>());
             assembly.ReplacePublicKey(signedAssembly);
             assembly.Save(tempPath);
 
@@ -39,6 +38,7 @@
         }
 
         [TestMethod]
+        [TestCategory("System tests")]
         public void TestReplacePublicKeyToken()
         {
             var originalKey = typeof(SimpleClass).Assembly.GetName().GetPublicKeyToken();
@@ -46,8 +46,8 @@
             CollectionAssert.AreNotEqual(originalKey, newKey);
 
             var tempPath = Path.GetTempFileName();
-            var assembly = new Assembly(this.GetAssemblyPath<SimpleClass>());
-            var signedAssembly = new Assembly(this.GetAssemblyPath<ClassFromSignedAssembly>());
+            var assembly = new Assembly(this.FindAssemblyPathOf<SimpleClass>());
+            var signedAssembly = new Assembly(this.FindAssemblyPathOf<ClassFromSignedAssembly>());
             assembly.ReplacePublicKey(signedAssembly);
             assembly.Save(tempPath);
 
@@ -56,7 +56,7 @@
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        private string GetAssemblyPath<T>()
+        private string FindAssemblyPathOf<T>()
         {
             var codeBase = typeof(T).Assembly.CodeBase;
             return Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
