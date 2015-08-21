@@ -55,6 +55,7 @@
     <Compile Include="Matching\TypeMatching.cs" />
     <Compile Include="MatchNotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tampering\ITampering.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\MockEverything.snk">
@@ -62,9 +63,7 @@
     </None>
     <None Include="Settings.StyleCop" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tampering\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Attributes\Attributes.csproj">
       <Project>{27e2a265-f732-41a5-975a-f7348efd16b5}</Project>

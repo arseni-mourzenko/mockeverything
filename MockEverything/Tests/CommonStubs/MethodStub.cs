@@ -1,5 +1,6 @@
 ﻿namespace MockEverythingTests.CommonStubs
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using MockEverything.Inspection;
@@ -40,6 +41,11 @@
         public override int GetHashCode()
         {
             return 0;
+        }
+
+        public void ReplaceBody(IMethod other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

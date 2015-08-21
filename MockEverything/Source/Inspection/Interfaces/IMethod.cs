@@ -5,6 +5,7 @@
 
 namespace MockEverything.Inspection
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -36,5 +37,16 @@ namespace MockEverything.Inspection
         /// The generic aspect of the container class has no effect on the result.
         /// </remarks>
         IEnumerable<string> GenericTypes { get; }
+
+        /// <summary>
+        /// Replaces the body of this method by a body of the specified one.
+        /// </summary>
+        /// <remarks>
+        /// <para>Implementers are allowed to accept only methods of the same type to be passed as a parameter, and throw <see cref="NotImplementedException"/> if the type of the other method is different.</para>
+        /// <para>Implementers should not set a contract requiring the other method to be of the same type, since it would violate the interface and would be difficult to impossible to enforce by the callers.</para>
+        /// </remarks>
+        /// <param name="other">The method to use as a replacement.</param>
+        /// <exception cref="NotImplementedException">The type of the other method doesn't match the type of the current object.</exception>
+        void ReplaceBody(IMethod other);
     }
 }

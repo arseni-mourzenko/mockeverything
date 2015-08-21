@@ -10,6 +10,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Diagnostics.Contracts;
     using System.Linq;
     using Mono.Cecil;
+    using Mono.Collections.Generic;
 
     /// <summary>
     /// Represents a method from an assembly loaded using Mono.Cecil.
@@ -121,6 +122,62 @@ namespace MockEverything.Inspection.MonoCecil
             hash = (hash * 31) + this.Name.GetHashCode();
             hash = (hash * 31) + this.ReturnType.GetHashCode();
             return hash;
+        }
+
+        /// <summary>
+        /// Replaces the body of this method by a body of the specified one.
+        /// </summary>
+        /// <param name="other">The method to use as a replacement.</param>
+        /// <exception cref="System.NotImplementedException">The other method is not an instance of the <see cref="Method"/> class.</exception>
+        public void ReplaceBody(IMethod other)
+        {
+            Contract.Requires(other != null);
+
+            var otherMethod = other as Method;
+            if (otherMethod == null)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            this.ReplaceBody(otherMethod.definition);
+        }
+
+        /// <summary>
+        /// Replaces the body of this method by a body of the specified method definition.
+        /// </summary>
+        /// <param name="definition">The method to use as a replacement.</param>
+        private void ReplaceBody(MethodDefinition definition)
+        {
+            Contract.Requires(definition != null);
+
+            var source = definition.Body;
+            var destination = this.definition.Body;
+
+            this.ReplaceCollectionContents(source.Variables, destination.Variables);
+            this.ReplaceCollectionContents(source.ExceptionHandlers, destination.ExceptionHandlers);
+            this.ReplaceCollectionContents(source.Instructions, destination.Instructions);
+        }
+
+        /// <summary>
+        /// Replaces the contents of a collection by the contents of a sequence.
+        /// </summary>
+        /// <typeparam name="TElement">The type of the elements in the collection.</typeparam>
+        /// <param name="source">The source sequence.</param>
+        /// <param name="destination">The collection to modify.</param>
+        private void ReplaceCollectionContents<TElement>(IEnumerable<TElement> source, Collection<TElement> destination)
+        {
+            Contract.Requires(source != null);
+            Contract.Requires(destination != null);
+
+            while (destination.Any())
+            {
+                destination.RemoveAt(0);
+            }
+
+            foreach (var element in source)
+            {
+                destination.Add(element);
+            }
         }
 
         /// <summary>
