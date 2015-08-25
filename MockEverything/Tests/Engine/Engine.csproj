@@ -75,6 +75,10 @@
       <Project>{68088263-8c11-46b7-a57f-b44aeeab91d5}</Project>
       <Name>CommonStubs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FileProxies\FileProxies.csproj">
+      <Project>{be5571d9-1f96-4fd2-a32e-8b679a11fcee}</Project>
+      <Name>FileProxies</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

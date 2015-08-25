@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReadFile
+﻿namespace MockEverythingTests.ReadFile
 {
-    class Program
+    using System;
+    using System.IO;
+
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            var contents = File.ReadAllText(@"H:\file\which\does\not\exist");
+            Console.WriteLine(contents);
         }
     }
 }
