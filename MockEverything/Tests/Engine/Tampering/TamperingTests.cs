@@ -3,12 +3,13 @@
     using System;
     using System.Diagnostics;
     using System.IO;
-    using FileProxies;
+    using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine.Browsers;
     using MockEverything.Engine.Tampering;
     using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
+    using NetProxies;
 
     [TestClass]
     public class TamperingTests
@@ -18,15 +19,17 @@
         public void TestTampering()
         {
             var testsPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(this.CurrentPath)));
-            var readFileDirectoryPath = Path.Combine(testsPath, @"ReadFile\bin\Debug");
-            var readFileExePath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.ReadFile.exe");
+            var readFileDirectoryPath = Path.Combine(testsPath, @"DownloadString\bin\Debug");
+            var readFileExePath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.DownloadString.exe");
             var tampering = new Tampering
             {
-                Pair = new Pair<IAssembly>(new Assembly(this.FindAssemblyPathOf<FileAccess>()), new Assembly(this.FindAssemblyPathOf<FileProxy>())),
+                Pair = new Pair<IAssembly>(
+                    proxy: new Assembly(this.FindAssemblyPathOf(typeof(WebClientProxy))),
+                    target: new Assembly(this.FindAssemblyPathOf<WebClient>())),
                 ResultVersion = new Version("2.0.14.2075"),
             };
 
-            tampering.Tamper().Save(Path.Combine(readFileDirectoryPath, "mscorlib.dll"));
+            tampering.Tamper().Save(Path.Combine(readFileDirectoryPath, "System.dll"));
 
             var info = new ProcessStartInfo(readFileExePath)
             {
@@ -53,7 +56,12 @@
 
         private string FindAssemblyPathOf<T>()
         {
-            var codeBase = typeof(T).Assembly.CodeBase;
+            return this.FindAssemblyPathOf(typeof(T));
+        }
+
+        private string FindAssemblyPathOf(System.Type type)
+        {
+            var codeBase = type.Assembly.CodeBase;
             return Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
         }
     }

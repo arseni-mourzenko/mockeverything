@@ -50,7 +50,8 @@ namespace MockEverything.Engine.Tampering
         {
             Contract.Ensures(Contract.Result<IAssembly>() != null);
 
-            var tempMergedAssemblyPath = Path.GetTempFileName();
+            var tempMergedAssemblyPath = Path.GetTempFileName() + ".dll";
+            this.Merge(tempMergedAssemblyPath);
             var result = new Assembly(tempMergedAssemblyPath);
 
             this.Rewrite(result);

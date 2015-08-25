@@ -79,6 +79,10 @@
       <Project>{be5571d9-1f96-4fd2-a32e-8b679a11fcee}</Project>
       <Name>FileProxies</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NetProxies\NetProxies.csproj">
+      <Project>{9f5f2360-0034-4080-a08d-00e2f949fe51}</Project>
+      <Name>NetProxies</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

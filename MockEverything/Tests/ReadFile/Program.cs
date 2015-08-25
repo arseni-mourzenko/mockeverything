@@ -5,7 +5,7 @@
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var contents = File.ReadAllText(@"H:\file\which\does\not\exist");
             Console.WriteLine(contents);

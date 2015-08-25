@@ -4,10 +4,10 @@
     using MockEverything.Attributes;
 
     [ProxyOf(typeof(File))]
-    public class FileProxy
+    public static class FileProxy
     {
         [ProxyMethod(TargetMethodType.Static)]
-        public string ReadAllText(string path)
+        public static string ReadAllText(string path)
         {
             return "Hello, World!";
         }

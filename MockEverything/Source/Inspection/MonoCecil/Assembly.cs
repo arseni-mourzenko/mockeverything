@@ -34,8 +34,23 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(path != null);
 
+            Console.WriteLine("Assembly initialized with path " + path);
+            Console.WriteLine(Environment.StackTrace);
+
             this.path = path;
-            this.underlyingAssembly = new Lazy<Mono.Cecil.AssemblyDefinition>(() => Mono.Cecil.AssemblyDefinition.ReadAssembly(this.path));
+            this.underlyingAssembly = new Lazy<Mono.Cecil.AssemblyDefinition>(
+                () =>
+                {
+                    try
+                    {
+                        return Mono.Cecil.AssemblyDefinition.ReadAssembly(this.path);
+                    }
+                    catch (BadImageFormatException)
+                    {
+                        Console.WriteLine(this.path);
+                        throw;
+                    }
+                });
         }
 
         /// <summary>
