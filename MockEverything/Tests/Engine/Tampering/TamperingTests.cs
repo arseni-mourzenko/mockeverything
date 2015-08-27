@@ -33,14 +33,16 @@
 
             var info = new ProcessStartInfo(readFileExePath)
             {
-                WindowStyle = ProcessWindowStyle.Hidden
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
             };
 
             using (var process = Process.Start(info))
             {
                 process.WaitForExit();
                 var actual = process.StandardOutput.ReadToEnd();
-                var expected = "Hello, World!";
+                var expected = "Hello, World!" + Environment.NewLine;
                 Assert.AreEqual(expected, actual);
             }
         }

@@ -153,8 +153,38 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Ensures(Contract.Result<T>() != null);
 
             return this.InvokeConstructor<T>(
-                from argument in attributeArguments select argument.Type.FullName,
-                from argument in attributeArguments select argument.Value);
+                attributeArguments.Select(argument => argument.Type.FullName),
+                attributeArguments.Select(this.TransformCustomAttributeArgumentValue));
+        }
+
+        /// <summary>
+        /// Transforms the value of a custom attribute argument, if needed, for instance by changing its type. This method should be used when loading the custom attribute arguments in order to use them to invoke a constructor.
+        /// </summary>
+        /// <param name="argument">The attribute argument structure containing the value to eventually transform.</param>
+        /// <returns>The transformed value, or <c>argument.Value</c>.</returns>
+        private object TransformCustomAttributeArgumentValue(CustomAttributeArgument argument)
+        {
+            if (argument.Type.FullName == typeof(System.Type).FullName)
+            {
+                // It seems that Mono.Cecil considers the case of types as special, and uses an instance of `Mono.Cecil.TypeDefinition` class as a value, instead of the expected `System.Type`. Once we start invoking a constructor, it then fails with `ArgumentException` because of this type mismatch. This happens with attributes such as `ProxyOf(typeof(Something))`.
+                var wronglyTypedValue = (TypeDefinition)argument.Value;
+                return new Type(wronglyTypedValue).ToSystemType();
+            }
+
+            return argument.Value;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="System.Type"/> representation of the current type.
+        /// </summary>
+        /// <returns>The <see cref="System.Type"/> representation of the current type.</returns>
+        private System.Type ToSystemType()
+        {
+            Contract.Ensures(Contract.Result<System.Type>() != null);
+
+            var a = typeof(System.Net.WebClient).Assembly.FullName;
+            var assembly = System.Reflection.Assembly.Load(this.definition.Module.Assembly.FullName);
+            return assembly.GetType(this.definition.FullName);
         }
 
         /// <summary>
