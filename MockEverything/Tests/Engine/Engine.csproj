@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PelicanDD.CodeBase.Profiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4fe98d7cb7fa7660, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\il-repack\ILRepack\bin\Release\PelicanDD.CodeBase.Profiler.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
