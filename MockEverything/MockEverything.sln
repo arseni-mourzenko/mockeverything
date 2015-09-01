@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{494B817A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadString", "Tests\DownloadString\DownloadString.csproj", "{10F6D421-E9E6-4372-9254-D674682F3924}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonStaticProxy", "Tests\NonStaticProxy\NonStaticProxy.csproj", "{EC21657A-0711-41D1-97DF-E292045C5A84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{10F6D421-E9E6-4372-9254-D674682F3924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10F6D421-E9E6-4372-9254-D674682F3924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10F6D421-E9E6-4372-9254-D674682F3924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC21657A-0711-41D1-97DF-E292045C5A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC21657A-0711-41D1-97DF-E292045C5A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC21657A-0711-41D1-97DF-E292045C5A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC21657A-0711-41D1-97DF-E292045C5A84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,5 +135,6 @@ Global
 		{85EBC6AE-F40D-4ABF-8827-F31C5D00FD41} = {494B817A-FE54-4AC1-B406-7AF3144AF065}
 		{494B817A-FE54-4AC1-B406-7AF3144AF065} = {2A78A722-6A7E-4A63-A657-5881ECCBF1FD}
 		{10F6D421-E9E6-4372-9254-D674682F3924} = {85EBC6AE-F40D-4ABF-8827-F31C5D00FD41}
+		{EC21657A-0711-41D1-97DF-E292045C5A84} = {2A78A722-6A7E-4A63-A657-5881ECCBF1FD}
 	EndGlobalSection
 EndGlobal

@@ -52,6 +52,7 @@
     <Compile Include="Discovery\DirectoryAccess.cs" />
     <Compile Include="Discovery\IDirectoryAccess.cs" />
     <Compile Include="Discovery\IProxiesDiscovery.cs" />
+    <Compile Include="InstanceProxyException.cs" />
     <Compile Include="Matching\IMatching{TElement,TContainer}.cs" />
     <Compile Include="Matching\MethodMatching.cs" />
     <Compile Include="Matching\Pair{TElement}.cs" />

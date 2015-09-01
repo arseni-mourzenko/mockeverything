@@ -7,6 +7,7 @@ namespace MockEverything.Engine.Browsers
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Linq;
     using Attributes;
     using Inspection;
 
@@ -34,6 +35,12 @@ namespace MockEverything.Engine.Browsers
         /// <returns>Zero or more elements.</returns>
         protected override IEnumerable<IType> FindAllInProxy()
         {
+            var instanceProxies = this.Proxy.FindTypes(MemberType.Instance, typeof(ProxyOfAttribute)).ToList();
+            if (instanceProxies.Any())
+            {
+                throw new InstanceProxyException(instanceProxies);
+            }
+
             return this.Proxy.FindTypes(MemberType.Static, typeof(ProxyOfAttribute));
         }
     }

@@ -71,7 +71,12 @@
 
         public IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
         {
-            return this.types;
+            if (type == MemberType.Static)
+            {
+                return this.types;
+            }
+
+            return Enumerable.Empty<IType>();
         }
 
         public void ReplacePublicKey(IAssembly model)

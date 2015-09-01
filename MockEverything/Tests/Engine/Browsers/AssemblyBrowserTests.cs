@@ -7,8 +7,10 @@
     using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Attributes;
+    using MockEverything.Engine;
     using MockEverything.Engine.Browsers;
     using MockEverything.Inspection;
+    using NonStaticProxy;
 
     [TestClass]
     public class AssemblyBrowserTests
@@ -57,6 +59,41 @@
             var actual = proxy.ExpectedAttributes;
             var expected = new[] { typeof(ProxyOfAttribute) };
             CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InstanceProxyException))]
+        public void TestFindTypesNonStaticProxies()
+        {
+            this.AssemblyBrowserWithNonStaticProxies.FindTypes().ToList();
+        }
+
+        [TestMethod]
+        public void TestFindTypesNonStaticProxiesListTypes()
+        {
+            try
+            {
+                this.AssemblyBrowserWithNonStaticProxies.FindTypes().ToList();
+            }
+            catch (InstanceProxyException ex)
+            {
+                var expected = new[] { new TypeStub("NonStaticSampleProxy", "NonStaticProxy.NonStaticSampleProxy") };
+                var actual = ex.Types.ToArray();
+                CollectionAssert.AreEqual(expected, actual);
+            }
+        }
+
+        private AssemblyBrowser AssemblyBrowserWithNonStaticProxies
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IAssembly>() != null);
+
+                var codeBase = typeof(NonStaticSampleProxy).Assembly.CodeBase;
+                var path = Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
+                var proxy = new MockEverything.Inspection.MonoCecil.Assembly(path);
+                return new AssemblyBrowser(proxy, new AssemblyStub(string.Empty), new TypeMatchSearchConstStub());
+            }
         }
 
         private List<string> ProcessMatches(IEnumerable<Pair<IType>> matches)
