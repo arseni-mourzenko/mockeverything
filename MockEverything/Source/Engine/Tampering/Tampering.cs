@@ -6,7 +6,6 @@
 namespace MockEverything.Engine.Tampering
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
@@ -14,27 +13,12 @@ namespace MockEverything.Engine.Tampering
     using ILRepacking;
     using Inspection;
     using Inspection.MonoCecil;
-    using PelicanDD.CodeBase.Profiler;
 
     /// <summary>
     /// Represents the tampering which executes the steps required to create a tampered assembly from a proxy and a target.
     /// </summary>
     public class Tampering : ITampering
     {
-        /// <summary>
-        /// The code profiler to use to profile the tampering.
-        /// </summary>
-        private readonly CodeProfiler profiler;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Tampering"/> class.
-        /// </summary>
-        /// <param name="profiler">The code profiler to use to profile the tampering.</param>
-        public Tampering(CodeProfiler profiler = null)
-        {
-            this.profiler = profiler ?? new CodeProfiler();
-        }
-
         /// <summary>
         /// Gets or sets the pair of proxy and target assemblies.
         /// </summary>
@@ -67,18 +51,15 @@ namespace MockEverything.Engine.Tampering
             Contract.Ensures(Contract.Result<IAssembly>() != null);
 
             var tempMergedAssemblyPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(this.Pair.Target.FilePath));
-            this.profiler.Measure("MockEverything.Engine.Tampering.Tamper:Merge", () => this.Merge(tempMergedAssemblyPath));
+            this.Merge(tempMergedAssemblyPath);
             var result = new Assembly(tempMergedAssemblyPath);
 
-            return this.profiler.MeasureAndReturn("MockEverything.Engine.Tampering.Tamper:Post", () =>
-            {
-                this.AlterVersion(result);
-                result.ReplacePublicKey(this.Pair.Target);
+            this.AlterVersion(result);
+            result.ReplacePublicKey(this.Pair.Target);
 
-                this.Rewrite(result);
+            this.Rewrite(result);
 
-                return result;
-            });
+            return result;
         }
 
         /// <summary>
@@ -127,21 +108,9 @@ namespace MockEverything.Engine.Tampering
                 TargetKind = ILRepack.Kind.Dll,
                 SearchDirectories = new[] { this.Pair.Target.FilePath, this.Pair.Proxy.FilePath }.Select(Path.GetDirectoryName),
                 KeyFile = Path.Combine(this.CurrentDirectoryPath, "MockEverything.snk"),
-                Profiler = this.profiler,
             };
 
             new ILRepack(options).Repack();
-        }
-
-        /// <summary>
-        /// Provides the invariant contracts for the fields and properties of this object.
-        /// </summary>
-        [ContractInvariantMethod]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Required for code contracts.")]
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.profiler != null);
         }
     }
 }
