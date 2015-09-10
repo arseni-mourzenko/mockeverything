@@ -65,6 +65,7 @@
     <Compile Include="Interfaces\IAssembly.cs" />
     <Compile Include="Interfaces\IType.cs" />
     <Compile Include="MemberType.cs" />
+    <Compile Include="MonoCecil\DefaultAssemblyResolver.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="MonoCecil\Assembly.cs" />
     <Compile Include="MonoCecil\Method.cs" />

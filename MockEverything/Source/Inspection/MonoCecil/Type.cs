@@ -8,6 +8,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using Mono.Cecil;
@@ -131,14 +132,41 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Ensures(Contract.Result<TAttribute>() != null);
 
-            var match = this.definition.CustomAttributes.SingleOrDefault(a => a.AttributeType.FullName == typeof(TAttribute).FullName);
+            var match = this.FindAttribute(typeof(TAttribute).FullName);
+            return this.InvokeConstructor<TAttribute>(match.ConstructorArguments);
+        }
+
+        /// <summary>
+        /// Lists the values of the arguments which are expected to be passed to an attribute constructor.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>Zero or more objects.</returns>
+        /// <exception cref="AttributeNotFoundException">The attribute cannot be found.</exception>
+        public IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : System.Attribute
+        {
+            Contract.Ensures(Contract.Result<IEnumerable<object>>() != null);
+
+            var match = this.FindAttribute(typeof(TAttribute).FullName);
+            return match.ConstructorArguments.Select(c => c.Value);
+        }
+
+        /// <summary>
+        /// Finds the attribute of the specified type.
+        /// </summary>
+        /// <param name="fullName">The full name of the attribute.</param>
+        /// <returns>The Mono.Cecil representation of the attribute.</returns>
+        private CustomAttribute FindAttribute(string fullName)
+        {
+            Contract.Requires(fullName != null);
+            Contract.Ensures(Contract.Result<CustomAttribute>() != null);
+
+            var match = this.definition.CustomAttributes.SingleOrDefault(a => a.AttributeType.FullName == fullName);
             if (match == null)
             {
                 throw new AttributeNotFoundException();
             }
 
-            Contract.Assert(match != null);
-            return this.InvokeConstructor<TAttribute>(match.ConstructorArguments);
+            return match;
         }
 
         /// <summary>
@@ -182,7 +210,6 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Ensures(Contract.Result<System.Type>() != null);
 
-            var a = typeof(System.Net.WebClient).Assembly.FullName;
             var assembly = System.Reflection.Assembly.Load(this.definition.Module.Assembly.FullName);
             return assembly.GetType(this.definition.FullName);
         }

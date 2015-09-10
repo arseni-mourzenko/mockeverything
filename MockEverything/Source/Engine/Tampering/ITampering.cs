@@ -27,7 +27,8 @@ namespace MockEverything.Engine.Tampering
         /// <summary>
         /// Merges the proxy and the target assemblies and tampers the resulting one.
         /// </summary>
+        /// <param name="dependenciesLocations">The paths to the directories which may contain the dependencies.</param>
         /// <returns>The resulting assembly.</returns>
-        IAssembly Tamper();
+        IAssembly Tamper(params string[] dependenciesLocations);
     }
 }

@@ -43,5 +43,13 @@ namespace MockEverything.Inspection
         /// <returns>The instance of the attribute.</returns>
         /// <exception cref="AttributeNotFoundException">The attribute cannot be found.</exception>
         TAttribute FindAttribute<TAttribute>() where TAttribute : System.Attribute;
+
+        /// <summary>
+        /// Lists the values of the arguments which are expected to be passed to an attribute constructor.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>Zero or more objects.</returns>
+        /// <exception cref="AttributeNotFoundException">The attribute cannot be found.</exception>
+        IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : System.Attribute;
     }
 }

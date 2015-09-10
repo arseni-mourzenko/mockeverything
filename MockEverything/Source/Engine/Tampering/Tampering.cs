@@ -45,14 +45,15 @@ namespace MockEverything.Engine.Tampering
         /// <summary>
         /// Merges the proxy and the target assemblies and tampers the resulting one.
         /// </summary>
+        /// <param name="dependenciesLocations">The paths to the directories which may contain the dependencies.</param>
         /// <returns>The resulting assembly.</returns>
-        public IAssembly Tamper()
+        public IAssembly Tamper(params string[] dependenciesLocations)
         {
             Contract.Ensures(Contract.Result<IAssembly>() != null);
 
-            var tempMergedAssemblyPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(this.Pair.Target.FilePath));
+            var tempMergedAssemblyPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + "-" + Path.GetFileName(this.Pair.Target.FilePath));
             this.Merge(tempMergedAssemblyPath);
-            var result = new Assembly(tempMergedAssemblyPath);
+            var result = new Assembly(tempMergedAssemblyPath, dependenciesLocations);
 
             this.AlterVersion(result);
             result.ReplacePublicKey(this.Pair.Target);

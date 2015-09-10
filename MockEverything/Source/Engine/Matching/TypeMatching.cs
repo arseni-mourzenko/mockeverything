@@ -6,6 +6,7 @@
 namespace MockEverything.Engine.Browsers
 {
     using System.Diagnostics.Contracts;
+    using System.Linq;
     using Attributes;
     using Inspection;
 
@@ -27,7 +28,9 @@ namespace MockEverything.Engine.Browsers
             Contract.Requires(targetAssembly != null);
             Contract.Ensures(Contract.Result<IType>() != null);
 
-            var fullName = proxy.FindAttribute<ProxyOfAttribute>().TargetType.FullName;
+            var values = proxy.FindAttributeValues<ProxyOfAttribute>().ToList();
+            var type = (dynamic)values.Single();
+            string fullName = type.FullName;
             return targetAssembly.FindType(fullName);
         }
     }

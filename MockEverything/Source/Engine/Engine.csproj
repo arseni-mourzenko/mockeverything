@@ -43,6 +43,7 @@
       <HintPath>..\..\packages\ILRepack.Lib.2.0.5\lib\net40\ILRepack.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
     using Mono.Cecil;
 
@@ -24,13 +25,14 @@ namespace MockEverything.Inspection.MonoCecil
         /// <summary>
         /// The underlying Mono.Cecil assembly instance, loaded on demand.
         /// </summary>
-        private readonly Lazy<Mono.Cecil.AssemblyDefinition> underlyingAssembly;
+        private readonly Lazy<AssemblyDefinition> underlyingAssembly;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Assembly"/> class.
         /// </summary>
         /// <param name="path">The full path to the file containing the assembly.</param>
-        public Assembly(string path)
+        /// <param name="dependenciesLocations">The paths to the directories which may contain the dependencies.</param>
+        public Assembly(string path, params string[] dependenciesLocations)
         {
             Contract.Requires(path != null);
 
@@ -38,12 +40,13 @@ namespace MockEverything.Inspection.MonoCecil
             Console.WriteLine(Environment.StackTrace);
 
             this.path = path;
-            this.underlyingAssembly = new Lazy<Mono.Cecil.AssemblyDefinition>(
+            this.underlyingAssembly = new Lazy<AssemblyDefinition>(
                 () =>
                 {
                     try
                     {
-                        return Mono.Cecil.AssemblyDefinition.ReadAssembly(this.path);
+                        var readerParams = new ReaderParameters { AssemblyResolver = new DefaultAssemblyResolver(dependenciesLocations) };
+                        return AssemblyDefinition.ReadAssembly(this.path, readerParams);
                     }
                     catch (BadImageFormatException)
                     {
