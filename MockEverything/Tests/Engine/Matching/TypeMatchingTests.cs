@@ -93,6 +93,11 @@
                 throw new System.NotImplementedException();
             }
 
+            public IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : Attribute
+            {
+                throw new NotImplementedException();
+            }
+
             public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
             {
                 throw new System.NotImplementedException();
@@ -128,6 +133,11 @@
             public TAttribute FindAttribute<TAttribute>() where TAttribute : System.Attribute
             {
                 return (TAttribute)(object)new ProxyOfAttribute(typeof(TargetType));
+            }
+
+            public IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : Attribute
+            {
+                throw new NotImplementedException();
             }
 
             public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)

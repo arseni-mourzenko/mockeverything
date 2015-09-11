@@ -54,5 +54,10 @@
         {
             return this.methods;
         }
+
+        public IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : Attribute
+        {
+            throw new NotImplementedException();
+        }
     }
 }
