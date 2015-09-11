@@ -51,7 +51,10 @@ namespace MockEverything.Engine.Tampering
         {
             Contract.Ensures(Contract.Result<IAssembly>() != null);
 
-            var tempMergedAssemblyPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + "-" + Path.GetFileName(this.Pair.Target.FilePath));
+            var tempDirectoryPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            var tempMergedAssemblyPath = Path.Combine(tempDirectoryPath, Path.GetFileName(this.Pair.Target.FilePath));
+            Directory.CreateDirectory(tempDirectoryPath);
+
             this.Merge(tempMergedAssemblyPath);
             var result = new Assembly(tempMergedAssemblyPath, dependenciesLocations);
 
