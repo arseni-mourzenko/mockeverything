@@ -1,5 +1,6 @@
 ﻿namespace MockEverythingExample1.Sample
 {
+    using System;
     using Exchanger;
     using Library;
 
@@ -9,6 +10,9 @@
         {
             WebClientExchanger.PersonName = "Jeff";
             var actual = new Demo().FindName();
+            Console.WriteLine(actual);
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
         }
     }
 }
