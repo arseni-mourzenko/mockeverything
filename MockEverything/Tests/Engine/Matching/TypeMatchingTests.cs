@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Attributes;
     using MockEverything.Engine.Browsers;
@@ -48,7 +49,7 @@
 
             public IEnumerable<IType> FindTypes(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             public void ReplacePublicKey(IAssembly model)
@@ -68,7 +69,7 @@
             {
                 get
                 {
-                    throw new System.NotImplementedException();
+                    return "TargetType";
                 }
             }
 
@@ -88,9 +89,9 @@
                 }
             }
 
-            public TAttribute FindAttribute<TAttribute>() where TAttribute : System.Attribute
+            public TAttribute FindAttribute<TAttribute>() where TAttribute : Attribute
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             public IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : Attribute
@@ -100,7 +101,7 @@
 
             public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -110,7 +111,7 @@
             {
                 get
                 {
-                    throw new System.NotImplementedException();
+                    throw new NotImplementedException();
                 }
             }
 
@@ -126,23 +127,23 @@
             {
                 get
                 {
-                    throw new System.NotImplementedException();
+                    throw new NotImplementedException();
                 }
             }
 
-            public TAttribute FindAttribute<TAttribute>() where TAttribute : System.Attribute
+            public TAttribute FindAttribute<TAttribute>() where TAttribute : Attribute
             {
                 return (TAttribute)(object)new ProxyOfAttribute(typeof(TargetType));
             }
 
             public IEnumerable<object> FindAttributeValues<TAttribute>() where TAttribute : Attribute
             {
-                throw new NotImplementedException();
+                yield return typeof(TargetType);
             }
 
             public IEnumerable<IMethod> FindMethods(MemberType type = MemberType.All, params System.Type[] expectedAttributes)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
     }
