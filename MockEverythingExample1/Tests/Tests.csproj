@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MockEverything.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=dfbdbd59282ae78f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MockEverything\Source\Attributes\bin\Debug\MockEverything.Attributes.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -103,6 +99,6 @@
   -->
   <UsingTask AssemblyFile="$(SolutionDir)..\MockEverything\Source\BuildTask\$(OutDir)MockEverything.BuildTask.dll" TaskName="MockEverything.BuildTask.TamperingTask" />
   <Target Name="AfterBuild">
-    <TamperingTask ProxyAssemblyPath="$(TargetDir)\MockEverythingExample1.Proxies.dll" TargetAssemblyPath="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" DestinationPath="$(TargetDir)" CustomVersion="13.7.0.167" />
+    <TamperingTask ProxyAssemblyPath="$(TargetDir)\MockEverythingExample1.Proxies.dll" TargetAssemblyPath="C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll" DestinationPath="$(TargetDir)" CustomVersion="13.7.0.167" />
   </Target>
 </Project>
