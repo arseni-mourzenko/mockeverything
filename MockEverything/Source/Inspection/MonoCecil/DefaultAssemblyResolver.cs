@@ -7,18 +7,38 @@ namespace MockEverything.Inspection.MonoCecil
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using Mono.Cecil;
 
+    /// <summary>
+    /// Represents the assembly resolver which searched for assemblies in the specified directories.
+    /// </summary>
     internal class DefaultAssemblyResolver : BaseAssemblyResolver
     {
+        /// <summary>
+        /// The paths of directories to search.
+        /// </summary>
         private readonly IEnumerable<string> paths;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultAssemblyResolver"/> class.
+        /// </summary>
+        /// <param name="paths">The paths of directories to search.</param>
         public DefaultAssemblyResolver(params string[] paths)
         {
+            Contract.Requires(paths != null);
+
             this.paths = paths;
         }
 
+        /// <summary>
+        /// Attempts to resolve the assembly by searching for it in the specified directories.
+        /// </summary>
+        /// <param name="name">The reference name of the assembly.</param>
+        /// <returns>The definition of the assembly.</returns>
+        /// <exception cref="AssemblyResolutionException">The assembly wasn't found in any of the listed directories.</exception>
         public override AssemblyDefinition Resolve(AssemblyNameReference name)
         {
             try
@@ -45,6 +65,17 @@ namespace MockEverything.Inspection.MonoCecil
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Provides the invariant contracts for the fields and properties of this object.
+        /// </summary>
+        [ContractInvariantMethod]
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Required for code contracts.")]
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.paths != null);
         }
     }
 }
