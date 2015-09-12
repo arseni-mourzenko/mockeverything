@@ -10,6 +10,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.IO;
+    using System.Linq;
     using Mono.Cecil;
 
     /// <summary>
@@ -47,22 +48,22 @@ namespace MockEverything.Inspection.MonoCecil
             }
             catch (AssemblyResolutionException)
             {
-                Trace.WriteLine("Trying to resolve assembly " + name.FullName);
-                foreach (var path in this.paths)
+                Trace.WriteLine("Second-chance attempt to resolve assembly " + name.FullName + "...");
+                var definitions = from dirPath in this.paths
+                                  let filePath = Path.Combine(dirPath, name.Name + ".dll")
+                                  where File.Exists(filePath)
+                                  let definition = AssemblyDefinition.ReadAssembly(filePath)
+                                  where definition.FullName == name.FullName
+                                  select definition;
+
+                var match = definitions.SingleOrDefault();
+                if (match != null)
                 {
-                    var filePath = Path.Combine(path, name.Name + ".dll");
-                    Trace.WriteLine("Searching for " + filePath);
-                    if (File.Exists(filePath))
-                    {
-                        var definition = AssemblyDefinition.ReadAssembly(filePath);
-                        Trace.WriteLine("Comparing to " + definition.FullName);
-                        if (definition.FullName == name.FullName)
-                        {
-                            return definition;
-                        }
-                    }
+                    Trace.WriteLine("Assembly " + name.FullName + " was resolved.");
+                    return match;
                 }
 
+                Trace.WriteLine("Failed to resolve assembly " + name.FullName + ".");
                 throw;
             }
         }
