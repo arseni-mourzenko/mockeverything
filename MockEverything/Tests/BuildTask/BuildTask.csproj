@@ -96,6 +96,6 @@
   -->
   <UsingTask AssemblyFile="$(SolutionDir)\Source\BuildTask\$(OutDir)MockEverything.BuildTask.dll" TaskName="MockEverything.BuildTask.TamperingTask" />
   <Target Name="AfterBuild">
-    <TamperingTask ProxyAssemblyPath="$(TargetDir)\MockEverythingTests.BuildTaskProxies.dll" TargetAssemblyPath="C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll" DestinationPath="$(TargetDir)" CustomVersion="13.7.0.167" />
+    <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="13.7.0.167" />
   </Target>
 </Project>

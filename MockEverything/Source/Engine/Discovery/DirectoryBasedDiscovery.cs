@@ -5,9 +5,14 @@
 
 namespace MockEverything.Engine.Discovery
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
+    using Attributes;
     using Browsers;
     using Inspection;
 
@@ -70,20 +75,56 @@ namespace MockEverything.Engine.Discovery
             Contract.Requires(proxyPath != null);
             Contract.Ensures(Contract.Result<Pair<IAssembly>>() != null);
 
-            var lengthToRemove = proxyPath.Length - DirectoryBasedDiscovery.ProxySuffix.Length + 2;
+            var proxy = this.dataAccess.LoadAssembly(proxyPath);
+            return new Pair<IAssembly>(proxy: proxy, target: this.FindTarget(proxy));
+        }
 
-            Contract.Assume(lengthToRemove > 0);
-            Contract.Assume(lengthToRemove < proxyPath.Length);
+        /// <summary>
+        /// Finds a target assembly corresponding to the proxy assembly.
+        /// </summary>
+        /// <param name="proxy">The proxy assembly.</param>
+        /// <returns>The corresponding target assembly.</returns>
+        /// <exception cref="MatchNotFoundException">The target assembly file doesn't exist.</exception>
+        private IAssembly FindTarget(IAssembly proxy)
+        {
+            Contract.Requires(proxy != null);
+            Contract.Ensures(Contract.Result<IAssembly>() != null);
 
-            var targetPath = proxyPath.Substring(0, lengthToRemove) + DirectoryBasedDiscovery.TargetSuffix;
-            if (!this.dataAccess.FileExists(targetPath))
+            Trace.WriteLine(string.Format("Exploring proxy {0}.", proxy.FullName));
+
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(this.ResolveAssembly);
+
+            var pathsOfTargetAssemblies = from type in Assembly.Load(File.ReadAllBytes(proxy.FilePath)).GetTypes()
+                                          let attr = type.GetCustomAttribute<ProxyOfAttribute>()
+                                          where attr != null
+                                          let targetAssembly = attr.TargetType.Assembly
+                                          select new Uri(targetAssembly.CodeBase).AbsolutePath;
+
+            var distinctPaths = pathsOfTargetAssemblies.Distinct().ToList();
+            switch (distinctPaths.Count)
             {
-                throw new MatchNotFoundException();
-            }
+                case 0:
+                    throw new MatchNotFoundException();
 
-            return new Pair<IAssembly>(
-                proxy: this.dataAccess.LoadAssembly(proxyPath),
-                target: this.dataAccess.LoadAssembly(targetPath));
+                case 1:
+                    return this.dataAccess.LoadAssembly(distinctPaths.Single());
+
+                default:
+                    throw new MultipleTargetsException();
+            }
+        }
+
+        /// <summary>
+        /// Attempts to resolve the assembly by searching within the current directory.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="args">The event arguments.</param>
+        /// <returns>The assembly, or <see langword="null"/> if the assembly doesn't exist.</returns>
+        private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+        {
+            var folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
+            return File.Exists(assemblyPath) ? Assembly.LoadFrom(assemblyPath) : null;
         }
     }
 }

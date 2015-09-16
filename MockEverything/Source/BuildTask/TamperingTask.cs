@@ -8,26 +8,22 @@ namespace MockEverything.BuildTask
     using System;
     using System.Diagnostics;
     using System.IO;
-    using Engine.Browsers;
+    using System.Linq;
+    using Engine.Discovery;
     using Engine.Tampering;
-    using Inspection;
-    using Inspection.MonoCecil;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
 
+    /// <summary>
+    /// Represents the build task which transforms target assemblies corresponding to the proxy assemblies found in a specified directory.
+    /// </summary>
     public class TamperingTask : Task
     {
         /// <summary>
-        /// Gets or sets the path of the assembly containing the proxy code.
+        /// Gets or sets the absolute path to the directory containing the proxy assemblies.
         /// </summary>
         [Required]
-        public string ProxyAssemblyPath { get; set; }
-
-        /// <summary>
-        /// Gets or sets the path of the assembly containing the proxy code.
-        /// </summary>
-        [Required]
-        public string TargetAssemblyPath { get; set; }
+        public string ProxiesPath { get; set; }
 
         /// <summary>
         /// Gets or sets the destination path. Usually, this is set to <c>$(TargetPath)</c>.
@@ -36,7 +32,7 @@ namespace MockEverything.BuildTask
         public string DestinationPath { get; set; }
 
         /// <summary>
-        /// Gets or sets the version of the resulting assembly. If this value is <see langword="null"/>, the version will correspond to the version of the original target assembly.
+        /// Gets or sets the version of the resulting assemblies. If this value is <see langword="null"/>, the version will correspond to the version of the original target assembly.
         /// </summary>
         public string CustomVersion { get; set; }
 
@@ -46,24 +42,22 @@ namespace MockEverything.BuildTask
         /// <returns><see langword="true"/> if the task successfully executed; otherwise, <see langword="false"/>.</returns>
         public override bool Execute()
         {
-            this.Log.LogWarning("Started.");
-
             Trace.Listeners.Add(new TaskLoggingTraceListener(this.Log));
+            Trace.WriteLine("Started tampering of assemblies.");
+
+            var resultVersion = string.IsNullOrEmpty(this.CustomVersion) ? null : new Version(this.CustomVersion);
 
             try
             {
-                var tampering = new Tampering
-                {
-                    Pair = new Pair<IAssembly>(
-                        proxy: new Assembly(this.ProxyAssemblyPath),
-                        target: new Assembly(this.TargetAssemblyPath)),
-                    ResultVersion = string.IsNullOrEmpty(this.CustomVersion) ? null : new Version(this.CustomVersion),
-                };
+                var parts = from pair in new DirectoryBasedDiscovery(new DirectoryAccess(), this.ProxiesPath).FindAssemblies()
+                            select new Tampering { Pair = pair, ResultVersion = resultVersion };
 
-                var targetPath = Path.Combine(this.DestinationPath, Path.GetFileName(this.TargetAssemblyPath));
-                this.Log.LogWarning("The proxy {0} will be generated.", targetPath);
-                tampering.Tamper(this.DestinationPath).Save(targetPath);
-                this.Log.LogWarning("Ended: file {0}.", File.Exists(targetPath) ? "exits" : "doesn't exist");
+                foreach (var tampering in parts)
+                {
+                    var targetPath = Path.Combine(this.DestinationPath, Path.GetFileName(tampering.Pair.Target.FilePath));
+                    Trace.WriteLine(string.Format("The proxy {0} will be generated.", targetPath));
+                    tampering.Tamper(this.DestinationPath).Save(targetPath);
+                }
 
                 return true;
             }

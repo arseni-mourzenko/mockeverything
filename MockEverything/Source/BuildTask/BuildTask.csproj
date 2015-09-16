@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +41,10 @@
     <Compile Include="TaskLoggingTraceListener.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Attributes\Attributes.csproj">
+      <Project>{27e2a265-f732-41a5-975a-f7348efd16b5}</Project>
+      <Name>Attributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{0330fe1b-3716-4f20-ae0c-c15fab1213b4}</Project>
       <Name>Engine</Name>

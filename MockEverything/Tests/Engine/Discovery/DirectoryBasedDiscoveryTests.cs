@@ -21,32 +21,6 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(MatchNotFoundException))]
-        public void TestDirectoryWithTargetMissing()
-        {
-            var stub = new AccessStub(p => false, @"C:\assembles\Hello.Proxy.dll");
-            new DirectoryBasedDiscovery(stub, string.Empty).FindAssemblies().ToArray();
-        }
-
-        [TestMethod]
-        public void TestDirectoryWithPairs()
-        {
-            var stub = new AccessStub(
-                p => true,
-                @"C:\assembles\Hello.Proxy.dll",
-                @"C:\assembles\World.Proxy.dll");
-
-            var actual = new DirectoryBasedDiscovery(stub, string.Empty).FindAssemblies().ToArray();
-            var expected = new[]
-            {
-                new Pair<IAssembly>(AccessStub.CreateStub(@"C:\assembles\Hello.Proxy.dll"), AccessStub.CreateStub(@"C:\assembles\Hello.dll")),
-                new Pair<IAssembly>(AccessStub.CreateStub(@"C:\assembles\World.Proxy.dll"), AccessStub.CreateStub(@"C:\assembles\World.dll")),
-            };
-
-            CollectionAssert.AreEqual(expected, actual);
-        }
-
         private class AccessStub : IDirectoryAccess
         {
             private readonly Func<string, bool> fileExists;
