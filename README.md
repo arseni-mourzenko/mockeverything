@@ -48,6 +48,8 @@ The system contains the following limitations:
 
  1. Both proxy and target assemblies should be class libraries. Given that the primary goal of this project is to tamper third-party libraries, this limitation seems fair.
 
+ 1. For a given build task, the override version is set globally; every tampered assembly will have the same version.
+
 ## See also
 
  - [The original article](http://blog.pelicandd.com/article/91/tampering-sharepoint-assemblies-part-1) where I explain that there are currently no Microsoft or third-party products which make it possible to do what this library does; this includes Microsoft Fakes with SharePoint.Emulators, proxying and AOP.
