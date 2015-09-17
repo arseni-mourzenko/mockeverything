@@ -5,10 +5,10 @@
 
 namespace MockEverything.Inspection.MonoCecil
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
-    using System.IO;
     using System.Linq;
     using System.Reflection;
     using Mono.Cecil;
@@ -16,6 +16,7 @@ namespace MockEverything.Inspection.MonoCecil
     /// <summary>
     /// Represents a type from an assembly loaded using Mono.Cecil.
     /// </summary>
+    [CLSCompliant(false)]
     public class Type : IType
     {
         /// <summary>
