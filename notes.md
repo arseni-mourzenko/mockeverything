@@ -2,7 +2,7 @@
 
  ✓ Prototype uses Reflection. Instead, use Mono.Cecil to do everything: this will make processing faster.
 
- ✗ If the proxy haven't changed, there is no need to tamper the corresponding assembly. This will make unit tests much faster. Beware of the case where the MockEverything library itself changed.
+ ✓ If the proxy haven't changed, there is no need to tamper the corresponding assembly. This will make unit tests much faster. Beware of the case where the MockEverything library itself changed.
 
  ✓ Use specific names to identify proxy assemblies. `.Proxies.dll` suffix seems a good candidate (for instance, `Microsoft.SharePoint.Proxies.dll`). (Implemented in MockEverything.Engine.Discovery.DirectoryBasedDiscovery)
 
@@ -10,11 +10,11 @@
 
  ✓ Merges should be completely independent, making it possible to do them in parallel (is it even possible?)
 
- ✗ Log to a file. Output logging is too limited.
-
  ✓ If the method is flagged as proxy but has no match in target assembly, consider this an error. It *is* an actual, very serious error, because it indicates that the author of the proxy have missed something (there is no way for a sane person to intentionnally proxy a method which doesn't exist).
 
  ✓ A good way to determine that two methods are the same is that we can't put two of them in the same class. For example, methods which take different parameters are different, but methods which differ only by their visibility are the same.
+
+ ✗ Prevents developers from creating private methods in proxy classes: they will call them from proxied methods, which will obviously fail.
 
 # Examples to use
 
