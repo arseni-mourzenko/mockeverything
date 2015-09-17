@@ -55,6 +55,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTask", "Source\BuildTask\BuildTask.csproj", "{E1C50D00-7611-42CA-9A95-F09D999C9F92}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTask", "Tests\BuildTask\BuildTask.csproj", "{BD6C11A9-84B0-4237-856C-1326FE0883B2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E1C50D00-7611-42CA-9A95-F09D999C9F92} = {E1C50D00-7611-42CA-9A95-F09D999C9F92}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTaskLibrary", "Tests\BuildTaskLibrary\BuildTaskLibrary.csproj", "{18025A20-1F15-49E1-A4A2-1FDE53A46751}"
 EndProject
