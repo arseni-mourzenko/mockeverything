@@ -14,7 +14,7 @@
 
  ✓ A good way to determine that two methods are the same is that we can't put two of them in the same class. For example, methods which take different parameters are different, but methods which differ only by their visibility are the same.
 
- ✗ Prevents developers from creating private methods in proxy classes: they will call them from proxied methods, which will obviously fail.
+ ✓ Prevents developers from creating private methods in proxy classes: they will call them from proxied methods, which will obviously fail.
 
 # Examples to use
 

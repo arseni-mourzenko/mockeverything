@@ -39,6 +39,11 @@ namespace MockEverything.Inspection
         IEnumerable<string> GenericTypes { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the method is declared as public.
+        /// </summary>
+        bool IsPublic { get; }
+
+        /// <summary>
         /// Replaces the body of this method by a body of the specified one.
         /// </summary>
         /// <remarks>

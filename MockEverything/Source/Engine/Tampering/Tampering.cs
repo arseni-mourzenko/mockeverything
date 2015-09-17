@@ -13,6 +13,7 @@ namespace MockEverything.Engine.Tampering
     using ILRepacking;
     using Inspection;
     using Inspection.MonoCecil;
+    using Attributes;
 
     /// <summary>
     /// Represents the tampering which executes the steps required to create a tampered assembly from a proxy and a target.
@@ -58,12 +59,75 @@ namespace MockEverything.Engine.Tampering
             this.Merge(tempMergedAssemblyPath);
             var result = new Assembly(tempMergedAssemblyPath, dependenciesLocations);
 
+            this.CheckForMistakes(this.Pair.Proxy);
             this.AlterVersion(result);
             result.ReplacePublicKey(this.Pair.Target);
-
             this.Rewrite(result);
 
             return result;
+        }
+
+        /// <summary>
+        /// Runs basic checks which search for common patterns which can cause difficult to debug issues.
+        /// </summary>
+        /// <param name="proxy">The proxy assembly.</param>
+        /// <exception cref="ProxyMistakeException">The assembly contains a suspicious pattern.</exception>
+        private void CheckForMistakes(IAssembly proxy)
+        {
+            Contract.Requires(proxy != null);
+
+            this.CheckForInstanceTypes(proxy);
+            this.CheckForNonPublicMethods(proxy);
+        }
+
+        /// <summary>
+        /// Ensures that the proxy assembly contains no instance types. Instance types don't make much sense in a context of a proxy, and so indicate with high probability a typo.
+        /// </summary>
+        /// <param name="proxy">The proxy assembly.</param>
+        /// <exception cref="ProxyMistakeException">The assembly contains instance types.</exception>
+        private void CheckForInstanceTypes(IAssembly proxy)
+        {
+            Contract.Requires(proxy != null);
+
+            var instanceTypes = proxy.FindTypes(MemberType.Instance).Select(t => t.FullName).Except(new[] { "<Module>" }).ToList();
+            switch (instanceTypes.Count)
+            {
+                case 0:
+                    break;
+
+                case 1:
+                    throw new ProxyMistakeException(string.Format("The proxy assembly is not expected to contain instance types. The following instance type was found: {0}.", instanceTypes.Single()));
+
+                default:
+                    throw new ProxyMistakeException(string.Format("The proxy assembly is not expected to contain instance types. The following instance types were found: {0}.", string.Join("; ", instanceTypes)));
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the proxy assembly contains no private, protected or internal methods. Those methods are dangerous in this context, since a call to a non-public method from a proxied one will compile (since both methods are in the same class), but then result in a runtime exception (since the proxied method will be in a different class).
+        /// </summary>
+        /// <param name="proxy">The proxy assembly.</param>
+        /// <exception cref="ProxyMistakeException">The assembly contains non-public methods.</exception>
+        private void CheckForNonPublicMethods(IAssembly proxy)
+        {
+            var privateMethods = proxy
+                .FindTypes(MemberType.Static, typeof(ProxyOfAttribute))
+                .SelectMany(t => t.FindMethods(MemberType.Static).Select(m => new { FullName = t.FullName + ":" + m.Name, IsPublic = m.IsPublic }))
+                .Where(m => !m.IsPublic)
+                .Select(m => m.FullName)
+                .ToList();
+
+            switch (privateMethods.Count)
+            {
+                case 0:
+                    break;
+
+                case 1:
+                    throw new ProxyMistakeException(string.Format("The proxy assembly is not expected to contain private methods, since after the merge, they could be called from a tampered class. The following private method was found: {0}.", privateMethods.Single()));
+
+                default:
+                    throw new ProxyMistakeException(string.Format("The proxy assembly is not expected to contain private methods, since after the merge, they could be called from a tampered class. The following private methods were found: {0}.", string.Join("; ", privateMethods)));
+            }
         }
 
         /// <summary>

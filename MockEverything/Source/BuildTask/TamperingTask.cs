@@ -15,8 +15,7 @@ namespace MockEverything.BuildTask
     using Engine.Tampering;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
-    using Engine.Browsers;
-    using Inspection;
+    using Engine;
 
     /// <summary>
     /// Represents the build task which transforms target assemblies corresponding to the proxy assemblies found in a specified directory.
@@ -62,6 +61,11 @@ namespace MockEverything.BuildTask
                 }
 
                 return true;
+            }
+            catch (ProxyMistakeException ex)
+            {
+                this.Log.LogError(ex.Message);
+                return false;
             }
             catch (Exception ex)
             {

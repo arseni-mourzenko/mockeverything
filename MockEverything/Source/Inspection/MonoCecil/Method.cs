@@ -95,6 +95,17 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets a value indicating whether the method is declared as public.
+        /// </summary>
+        public bool IsPublic
+        {
+            get
+            {
+                return this.definition.IsPublic;
+            }
+        }
+
+        /// <summary>
         /// Compares this object to the specified object to determine if both represent the same method.
         /// </summary>
         /// <param name="obj">The object to compare.</param>

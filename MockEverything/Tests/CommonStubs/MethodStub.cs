@@ -7,12 +7,13 @@
 
     public class MethodStub : IMethod
     {
-        public MethodStub(string name, IType returnType = null, IEnumerable<Parameter> parameters = null, IEnumerable<string> genericTypes = null)
+        public MethodStub(string name, IType returnType = null, IEnumerable<Parameter> parameters = null, IEnumerable<string> genericTypes = null, bool isPublic = true)
         {
             this.Name = name;
             this.ReturnType = returnType ?? new TypeStub("Void", "System.Void");
             this.Parameters = parameters ?? Enumerable.Empty<Parameter>();
             this.GenericTypes = genericTypes ?? Enumerable.Empty<string>();
+            this.IsPublic = isPublic;
         }
 
         public IEnumerable<string> GenericTypes { get; private set; }
@@ -22,6 +23,8 @@
         public IEnumerable<Parameter> Parameters { get; private set; }
 
         public IType ReturnType { get; private set; }
+
+        public bool IsPublic { get; private set; }
 
         public override bool Equals(object obj)
         {
