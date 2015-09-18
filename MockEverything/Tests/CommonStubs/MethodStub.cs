@@ -7,18 +7,21 @@
 
     public class MethodStub : IMethod
     {
-        public MethodStub(string name, IType returnType = null, IEnumerable<Parameter> parameters = null, IEnumerable<string> genericTypes = null, bool isPublic = true)
+        public MethodStub(string name, IType returnType = null, IEnumerable<Parameter> parameters = null, IEnumerable<string> genericTypes = null, bool isPublic = true, string virtualName = null)
         {
             this.Name = name;
             this.ReturnType = returnType ?? new TypeStub("Void", "System.Void");
             this.Parameters = parameters ?? Enumerable.Empty<Parameter>();
             this.GenericTypes = genericTypes ?? Enumerable.Empty<string>();
             this.IsPublic = isPublic;
+            this.VirtualName = virtualName ?? this.Name;
         }
 
         public IEnumerable<string> GenericTypes { get; private set; }
 
         public string Name { get; private set; }
+
+        public string VirtualName { get; private set; }
 
         public IEnumerable<Parameter> Parameters { get; private set; }
 
@@ -35,7 +38,7 @@
 
             var other = (IMethod)obj;
             return
-                this.Name == other.Name &&
+                this.VirtualName == other.VirtualName &&
                 this.ReturnType.Equals(other.ReturnType) &&
                 this.Parameters.SequenceEqual(other.Parameters) &&
                 this.GenericTypes.SequenceEqual(other.GenericTypes);

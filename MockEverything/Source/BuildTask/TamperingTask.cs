@@ -11,11 +11,11 @@ namespace MockEverything.BuildTask
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
+    using Engine;
     using Engine.Discovery;
     using Engine.Tampering;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
-    using Engine;
 
     /// <summary>
     /// Represents the build task which transforms target assemblies corresponding to the proxy assemblies found in a specified directory.

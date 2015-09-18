@@ -19,12 +19,19 @@ namespace MockEverything.Attributes
         private readonly TargetMethodType methodType;
 
         /// <summary>
+        /// The custom name of the method to proxy, if any.
+        /// </summary>
+        private readonly string name;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProxyMethodAttribute"/> class.
         /// </summary>
         /// <param name="methodType">The type of the target method.</param>
-        public ProxyMethodAttribute(TargetMethodType methodType)
+        /// <param name="name">The custom name of the method to proxy, if any.</param>
+        public ProxyMethodAttribute(TargetMethodType methodType, string name = null)
         {
             this.methodType = methodType;
+            this.name = name;
         }
 
         /// <summary>
@@ -35,6 +42,17 @@ namespace MockEverything.Attributes
             get
             {
                 return this.methodType;
+            }
+        }
+
+        /// <summary>
+        /// Gets the custom name of the method to proxy, if any.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.name;
             }
         }
     }

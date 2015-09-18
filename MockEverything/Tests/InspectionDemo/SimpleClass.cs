@@ -1,4 +1,6 @@
-﻿namespace MockEverythingTests.Inspection.Demo
+﻿using MockEverything.Attributes;
+
+namespace MockEverythingTests.Inspection.Demo
 {
     public class SimpleClass
     {
@@ -95,6 +97,16 @@
         }
 
         public void WithInfiniteParams(params string[] lines)
+        {
+        }
+
+        [ProxyMethod(TargetMethodType.Instance)]
+        public void MethodWithProxyAttribute()
+        {
+        }
+
+        [ProxyMethod(TargetMethodType.Instance, name: "CustomName")]
+        public void MethodWithNameInProxyAttribute()
         {
         }
     }

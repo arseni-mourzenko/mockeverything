@@ -25,6 +25,48 @@
         }
 
         [TestMethod]
+        public void TestGetVirtualNameNoAttribute()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "SimpleMethod")
+                .VirtualName;
+
+            var expected = "SimpleMethod";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetVirtualNameAttributeWithNull()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "MethodWithProxyAttribute")
+                .VirtualName;
+
+            var expected = "MethodWithProxyAttribute";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestGetVirtualNameAttributeWithName()
+        {
+            var actual = this.SampleAssembly
+                .FindTypes()
+                .Single(t => t.Name == "SimpleClass")
+                .FindMethods()
+                .Single(m => m.Name == "MethodWithNameInProxyAttribute")
+                .VirtualName;
+
+            var expected = "CustomName";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void TestGetReturnTypeVoid()
         {
             var actual = this.SampleAssembly

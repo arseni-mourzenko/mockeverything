@@ -9,11 +9,11 @@ namespace MockEverything.Engine.Tampering
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
+    using Attributes;
     using Browsers;
     using ILRepacking;
     using Inspection;
     using Inspection.MonoCecil;
-    using Attributes;
 
     /// <summary>
     /// Represents the tampering which executes the steps required to create a tampered assembly from a proxy and a target.
@@ -104,7 +104,7 @@ namespace MockEverything.Engine.Tampering
         }
 
         /// <summary>
-        /// Ensures that the proxy assembly contains no private, protected or internal methods. Those methods are dangerous in this context, since a call to a non-public method from a proxied one will compile (since both methods are in the same class), but then result in a runtime exception (since the proxied method will be in a different class).
+        /// Ensures that the proxy assembly contains no private, protected or internal methods. Those methods are dangerous in this context, since a call to a non-public method from a proxy one will compile (since both methods are in the same class), but then result in a runtime exception (since the method will be in a different class).
         /// </summary>
         /// <param name="proxy">The proxy assembly.</param>
         /// <exception cref="ProxyMistakeException">The assembly contains non-public methods.</exception>

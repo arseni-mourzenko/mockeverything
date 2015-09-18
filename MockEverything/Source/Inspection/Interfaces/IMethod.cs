@@ -19,6 +19,11 @@ namespace MockEverything.Inspection
         string Name { get; }
 
         /// <summary>
+        /// Gets the name which can be overwritten through the usage of <c>ProxyMethodAttribute</c> attribute.
+        /// </summary>
+        string VirtualName { get; }
+
+        /// <summary>
         /// Gets the return type of the method.
         /// </summary>
         IType ReturnType { get; }

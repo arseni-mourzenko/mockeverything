@@ -50,6 +50,27 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
+        /// Gets the name which can be overwritten through the usage of <c>ProxyMethodAttribute</c> attribute.
+        /// </summary>
+        public string VirtualName
+        {
+            get
+            {
+                var proxyMethodAttribute = this.definition.CustomAttributes.SingleOrDefault(a => a.AttributeType.FullName == "MockEverything.Attributes.ProxyMethodAttribute");
+                if (proxyMethodAttribute != null)
+                {
+                    Contract.Assume(proxyMethodAttribute.ConstructorArguments.Count >= 2);
+
+                    var arg = proxyMethodAttribute.ConstructorArguments[1];
+                    Contract.Assume(arg.Type.FullName == "System.String");
+                    return (string)arg.Value ?? this.Name;
+                }
+
+                return this.Name;
+            }
+        }
+
+        /// <summary>
         /// Gets the parameters of the method.
         /// </summary>
         public IEnumerable<Parameter> Parameters
@@ -119,7 +140,7 @@ namespace MockEverything.Inspection.MonoCecil
 
             var other = (IMethod)obj;
             return
-                this.Name == other.Name &&
+                this.VirtualName == other.VirtualName &&
                 this.ReturnType.Equals(other.ReturnType) &&
                 this.Parameters.SequenceEqual(other.Parameters) &&
                 this.GenericTypes.SequenceEqual(other.GenericTypes);
