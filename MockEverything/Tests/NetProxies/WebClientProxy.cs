@@ -1,4 +1,4 @@
-﻿namespace MockEverythingTests.NetProxies
+﻿namespace MockEverythingTests.SystemProxies
 {
     using System;
     using System.Net;

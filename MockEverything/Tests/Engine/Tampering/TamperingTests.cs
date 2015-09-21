@@ -9,7 +9,7 @@
     using MockEverything.Engine.Tampering;
     using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
-    using NetProxies;
+    using SystemProxies;
 
     [TestClass]
     public class TamperingTests

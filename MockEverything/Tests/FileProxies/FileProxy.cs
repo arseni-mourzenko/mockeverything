@@ -1,4 +1,4 @@
-﻿namespace MockEverythingTests.FileProxies
+﻿namespace MockEverythingTests.MscorlibProxies
 {
     using System.IO;
     using MockEverything.Attributes;

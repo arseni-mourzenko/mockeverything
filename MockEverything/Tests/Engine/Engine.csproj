@@ -75,13 +75,13 @@
       <Project>{68088263-8c11-46b7-a57f-b44aeeab91d5}</Project>
       <Name>CommonStubs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileProxies\FileProxies.csproj">
+    <ProjectReference Include="..\FileProxies\MscorlibProxies.csproj">
       <Project>{be5571d9-1f96-4fd2-a32e-8b679a11fcee}</Project>
-      <Name>FileProxies</Name>
+      <Name>MscorlibProxies</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NetProxies\NetProxies.csproj">
+    <ProjectReference Include="..\NetProxies\SystemProxies.csproj">
       <Project>{9f5f2360-0034-4080-a08d-00e2f949fe51}</Project>
-      <Name>NetProxies</Name>
+      <Name>SystemProxies</Name>
     </ProjectReference>
     <ProjectReference Include="..\NonStaticProxy\NonStaticProxy.csproj">
       <Project>{ec21657a-0711-41d1-97df-e292045c5a84}</Project>
