@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MscorlibProxies", "Tests\Ms
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemProxies", "Tests\SystemProxies\SystemProxies.csproj", "{9F5F2360-0034-4080-A08D-00E2F949FE51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InitializeEventArgs", "Tests\InitializeEventArgs\InitializeEventArgs.csproj", "{B275F922-B07B-4107-9826-2FDCA749AC9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{9F5F2360-0034-4080-A08D-00E2F949FE51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F5F2360-0034-4080-A08D-00E2F949FE51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F5F2360-0034-4080-A08D-00E2F949FE51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B275F922-B07B-4107-9826-2FDCA749AC9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B275F922-B07B-4107-9826-2FDCA749AC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B275F922-B07B-4107-9826-2FDCA749AC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B275F922-B07B-4107-9826-2FDCA749AC9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,5 +183,6 @@ Global
 		{737AD606-4D16-4FC7-8B5B-48D29755C91B} = {494B817A-FE54-4AC1-B406-7AF3144AF065}
 		{BE5571D9-1F96-4FD2-A32E-8B679A11FCEE} = {737AD606-4D16-4FC7-8B5B-48D29755C91B}
 		{9F5F2360-0034-4080-A08D-00E2F949FE51} = {737AD606-4D16-4FC7-8B5B-48D29755C91B}
+		{B275F922-B07B-4107-9826-2FDCA749AC9D} = {C13DD4AB-C639-4D29-B276-DBF69079B07B}
 	EndGlobalSection
 EndGlobal

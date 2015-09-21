@@ -47,6 +47,39 @@
             }
         }
 
+        [TestMethod]
+        [TestCategory("System tests")]
+        public void TestTamperingOfConstructor()
+        {
+            var testsPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(this.CurrentPath)));
+            var readFileDirectoryPath = Path.Combine(testsPath, @"InitializeEventArgs\bin\Debug");
+            var readFileExePath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.InitializeEventArgs.exe");
+            var tampering = new Tampering
+            {
+                Pair = new Pair<IAssembly>(
+                    proxy: new Assembly(this.FindAssemblyPathOf(typeof(FileSystemEventArgsProxy))),
+                    target: new Assembly(this.FindAssemblyPathOf<FileSystemEventArgs>())),
+                ResultVersion = new Version("2.0.14.2075"),
+            };
+
+            tampering.Tamper().Save(Path.Combine(readFileDirectoryPath, "System.dll"));
+
+            var info = new ProcessStartInfo(readFileExePath)
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+            };
+
+            using (var process = Process.Start(info))
+            {
+                process.WaitForExit();
+                var actual = process.StandardOutput.ReadToEnd();
+                var expected = "<null>" + Environment.NewLine;
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
         private string CurrentPath
         {
             get
