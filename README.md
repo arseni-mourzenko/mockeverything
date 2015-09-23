@@ -10,6 +10,17 @@ And then, there is SharePoint. If you have seen legacy code of SharePoint web ap
 
 Unfortunately, as I explained in [a related article](http://blog.pelicandd.com/article/91/tampering-sharepoint-assemblies-part-1), there are currently no Microsoft or third-party products which make it possible to unit test such code. There was Microsoft Fakes coupled with SharePoint.Emulators, but for .NET Framework 3.5 only. Also, the common techniques such as proxying or AOP are unable to solve this problem.
 
+## Quick start
+
+1. Download the library, compile and copy the binaries to a directory, for instance /externs/MockEverything.
+
+1. Create the exchanger project. This will be used to exchange information between the application which calls the third-party library, and the proxy.
+
+1. Create the proxy project. The name of the DLL should end by ".Proxies.dll".
+
+1. From the proxy project, reference the target assembly (that is, the third-party library) and reference MockEverything.Attributes.dll.
+
+
 ## Design
 
 The system has two parts which are called by a consumer: the discovery and the tampering.

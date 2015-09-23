@@ -8,7 +8,6 @@ namespace MockEverything.Inspection.MonoCecil
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-    using System.IO;
     using System.Linq;
     using Mono.Cecil;
 
@@ -37,7 +36,6 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(path != null);
 
             Console.WriteLine("Assembly initialized with path " + path);
-            Console.WriteLine(Environment.StackTrace);
 
             this.path = path;
             this.underlyingAssembly = new Lazy<AssemblyDefinition>(
