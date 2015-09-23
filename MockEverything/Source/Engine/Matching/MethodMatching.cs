@@ -5,6 +5,7 @@
 
 namespace MockEverything.Engine.Browsers
 {
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using Inspection;
@@ -26,6 +27,8 @@ namespace MockEverything.Engine.Browsers
             Contract.Requires(proxy != null);
             Contract.Requires(targetType != null);
             Contract.Ensures(Contract.Result<IMethod>() != null);
+
+            Trace.WriteLine(string.Format("Searching for a match of method {0} in type {1}.", proxy.Name, targetType.FullName));
 
             var match = targetType.FindMethods().SingleOrDefault(proxy.Equals);
             if (match == null)
