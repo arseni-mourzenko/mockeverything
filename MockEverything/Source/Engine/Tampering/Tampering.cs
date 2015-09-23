@@ -6,6 +6,7 @@
 namespace MockEverything.Engine.Tampering
 {
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
@@ -54,16 +55,28 @@ namespace MockEverything.Engine.Tampering
 
             var tempDirectoryPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             var tempMergedAssemblyPath = Path.Combine(tempDirectoryPath, Path.GetFileName(this.Pair.Target.FilePath));
+
+            Trace.WriteLine(string.Format("Tampering assemblies using temporary file {0}.", tempMergedAssemblyPath));
+
             Directory.CreateDirectory(tempDirectoryPath);
 
+            Trace.WriteLine("Performing the merging.");
             this.Merge(tempMergedAssemblyPath);
             var result = new Assembly(tempMergedAssemblyPath, dependenciesLocations);
 
+            Trace.WriteLine("Checking for mistakes.");
             this.CheckForMistakes(this.Pair.Proxy);
+
+            Trace.WriteLine("Altering the version, if needed.");
             this.AlterVersion(result);
+
+            Trace.WriteLine("Replacing the public key, if needed.");
             result.ReplacePublicKey(this.Pair.Target);
+
+            Trace.WriteLine("Rewriting the bodies of the methods within the target assembly.");
             this.Rewrite(result);
 
+            Trace.WriteLine("Tampering finished.");
             return result;
         }
 
@@ -178,7 +191,37 @@ namespace MockEverything.Engine.Tampering
                 KeyFile = Path.Combine(this.CurrentDirectoryPath, "MockEverything.snk"),
             };
 
-            new ILRepack(options).Repack();
+            // The `Log` property of `RepackOptions` being gracefully ignored by the library (see ILRepack/RepackLogger.cs, l. 16), the only way to get rid of the logging is to create a logger which does nothing.
+            new ILRepack(options, new NullLogger()).Repack();
+        }
+
+        private class NullLogger : ILogger
+        {
+            public bool ShouldLogVerbose{ get; set;}
+
+            public void DuplicateIgnored(string ignoredType, object ignoredObject)
+            {
+            }
+
+            public void Error(string msg)
+            {
+            }
+
+            public void Info(string msg)
+            {
+            }
+
+            public void Log(object str)
+            {
+            }
+
+            public void Verbose(string msg)
+            {
+            }
+
+            public void Warn(string msg)
+            {
+            }
         }
     }
 }
