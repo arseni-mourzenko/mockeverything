@@ -314,21 +314,24 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Ensures(Contract.Result<IEnumerable<Mono.Cecil.TypeReference>>() != null);
 
             var propertyName = methodDefinition.Name.Substring(4);
-            return methodDefinition.CustomAttributes.Concat(this.FindPropertyByName(propertyName).CustomAttributes);
+            var propertyParameters = methodDefinition.Parameters.Select(p => p.ParameterType);
+            return methodDefinition.CustomAttributes.Concat(this.FindPropertyByName(propertyName, propertyParameters).CustomAttributes);
         }
 
         /// <summary>
         /// Retrieves a property by its name.
         /// </summary>
         /// <param name="name">The short name of the property. This name doesn't contain any reference to the type, namespace or assembly.</param>
+        /// <param name="parameters">The types of parameters of the property. This is needed when working with indexers: they are considered properties, but can have overloads, which means that multiple properties will share the same name and differ only by the parameters.</param>
         /// <returns>The matching property.</returns>
         /// <exception cref="System.InvalidOperationException">The property with this name doesn't exist.</exception>
-        private Mono.Cecil.PropertyDefinition FindPropertyByName(string name)
+        private Mono.Cecil.PropertyDefinition FindPropertyByName(string name, IEnumerable<TypeReference> parameters)
         {
             Contract.Requires(name != null);
             Contract.Ensures(Contract.Result<Mono.Cecil.PropertyDefinition>() != null);
 
-            return this.definition.Properties.Single(p => p.Name == name);
+            return this.definition.Properties.Single(
+                property => property.Name == name && property.Parameters.Select(parameter => parameter.ParameterType).SequenceEqual(parameters));
         }
     }
 }

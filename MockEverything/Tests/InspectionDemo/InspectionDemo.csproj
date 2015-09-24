@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassWithIndexer.cs" />
+    <Compile Include="ClassWithIndexers.cs" />
     <Compile Include="DecoratedClass.cs" />
     <Compile Include="DecoratedCustomClass.cs" />
     <Compile Include="DemoAttribute.cs" />

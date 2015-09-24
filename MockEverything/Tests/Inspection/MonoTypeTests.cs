@@ -213,6 +213,18 @@
         }
 
         [TestMethod]
+        public void TestFindMethodsIndexers()
+        {
+            Assert.IsTrue(this.MethodExists("ClassWithIndexer", "get_Item"));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsIndexerOverloads()
+        {
+            Assert.IsTrue(this.MethodExists("ClassWithIndexers", "get_Item"));
+        }
+
+        [TestMethod]
         public void TestFindAttributeCompareTypes()
         {
             var actual = this.SampleAssembly
