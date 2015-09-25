@@ -112,6 +112,8 @@ The system contains the following limitations:
 
  1. For a given build task, the override version is set globally; every tampered assembly will have the same version.
 
+ 1. Proxies should not contain lambda expressions, since they are transformed into private methods by the compiler.
+
 ## See also
 
  - [The original article](http://blog.pelicandd.com/article/91/tampering-sharepoint-assemblies-part-1) where I explain that there are currently no Microsoft or third-party products which make it possible to do what this library does; this includes Microsoft Fakes with SharePoint.Emulators, proxying and AOP.
