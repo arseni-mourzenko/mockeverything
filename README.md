@@ -38,10 +38,10 @@ The following steps describe how MockEverything can be used to mock third-party 
 
 1. Open test project .csproj file and add the following code to the end of the file, inside `<Project/>`:
 
-      <UsingTask AssemblyFile="...\MockEverything.BuildTask.dll" TaskName="MockEverything.BuildTask.TamperingTask" />
-      <Target Name="AfterBuild">
-        <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="1.2.3.4" />
-      </Target>
+        <UsingTask AssemblyFile="...\MockEverything.BuildTask.dll" TaskName="MockEverything.BuildTask.TamperingTask" />
+        <Target Name="AfterBuild">
+          <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="1.2.3.4" />
+        </Target>
 
 1. Replace ellipsis by the path which leads to the corresponding assembly.
   
@@ -55,20 +55,20 @@ If you are tampering an assembly which is installed in the GAC:
 
 1. Add App.config file to the test project. The file should contain this:
 
-      <?xml version="1.0" encoding="utf-8" ?>
-      <configuration>
-        <runtime>
-          <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-            <dependentAssembly>
-              <assemblyIdentity name="..."
-                                publicKeyToken="..."
-                                culture="..." />
-              <bindingRedirect oldVersion="1.0.0.0-1.1.0.0"
-                               newVersion="1.2.3.4"/>
-            </dependentAssembly>
-          </assemblyBinding>
-        </runtime>
-      </configuration>
+        <?xml version="1.0" encoding="utf-8" ?>
+        <configuration>
+          <runtime>
+            <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+              <dependentAssembly>
+                <assemblyIdentity name="..."
+                                  publicKeyToken="..."
+                                  culture="..." />
+                <bindingRedirect oldVersion="1.0.0.0-1.1.0.0"
+                                 newVersion="1.2.3.4"/>
+              </dependentAssembly>
+            </assemblyBinding>
+          </runtime>
+        </configuration>
 
   Replace `name`, `publicKeyToken` and `culture` by the actual metadata of the target assembly. Change `oldVersion` so it contains the version of the target assembly, and set `newVersion` to the value you have set in the previous step.
 
