@@ -10,16 +10,67 @@ And then, there is SharePoint. If you have seen legacy code of SharePoint web ap
 
 Unfortunately, as I explained in [a related article](http://blog.pelicandd.com/article/91/tampering-sharepoint-assemblies-part-1), there are currently no Microsoft or third-party products which make it possible to unit test such code. There was Microsoft Fakes coupled with SharePoint.Emulators, but for .NET Framework 3.5 only. Also, the common techniques such as proxying or AOP are unable to solve this problem.
 
+## Terms
+
+ - **Target**: the third-party library which will be subject to tampering. This could be either the assemblies of .NET Framework or any third-party assemblies that you can't alter directly by contributing to their source code.
+
+ - **Proxy**: the assembly which contains the code to inject into the target assembly during the tampering.
+
+ - **Exchanger**: the assembly which makes it possible to communicate between the proxy and the assembly which is calling the tampered target.
+
 ## Quick start
+
+The following steps describe how MockEverything can be used to mock third-party code in a test project. [The sample](MockEverythingExample1) is available in this repository.
 
 1. Download the library, compile and copy the binaries to a directory, for instance /externs/MockEverything.
 
-1. Create the exchanger project. This will be used to exchange information between the application which calls the third-party library, and the proxy.
+1. Create the proxy project. The DLL should end by “.Proxies.dll” in order for it to be discovered. In order to change the name of the DLL, go to project properties, *Application* tab, and set *Assembly name* to end by “.Proxies”.
 
-1. Create the proxy project. The name of the DLL should end by ".Proxies.dll".
+1. Create the exchanger project. It will be used to exchange information between the application which calls the third-party library, and the proxy. Since the code from a proxy is moved to the target library, the ability for a caller to communicate directly with the proxy is lost; for instance, setting a value of a public static property which belongs to the proxy won't do anything to the corresponding public static property of the tampered target. Instead, referencing a common exchanger from both the caller and the proxy makes it possible to share state and, in general, customize the behavior of the proxy code.
 
-1. From the proxy project, reference the target assembly (that is, the third-party library) and reference MockEverything.Attributes.dll.
+1. Create the sample library which will be used as a code which should be tested without being changed. We assume that this is some legacy code which should be tested. This library references the target assembly and uses it in a way which makes it difficult to test. For instance, it can download a file from internet, or interact with the environment in any other intrusive way. This library is unaware of the fact that the underlying target assembly will be tampered.
 
+1. Create the test project.
+
+1. From the proxy project, reference the target assembly, the exchanger and `MockEverything.Attributes.dll`.
+
+1. From the test project, reference the sample library, the exchanger and the proxies.
+
+1. Open test project .csproj file and add the following code to the end of the file, inside `<Project/>`:
+
+      <UsingTask AssemblyFile="...\MockEverything.BuildTask.dll" TaskName="MockEverything.BuildTask.TamperingTask" />
+      <Target Name="AfterBuild">
+        <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="1.2.3.4" />
+      </Target>
+
+1. Replace ellipsis by the path which leads to the corresponding assembly.
+  
+If you are tampering an assembly which is available locally only, and is not deployed in the GAC:
+
+1. Remove `CustomVersion` attribute.
+
+If you are tampering an assembly which is installed in the GAC:
+
+1. Replace 1.2.3.4 by an arbitrary version which is not the actual version of the target assembly.
+
+1. Add App.config file to the test project. The file should contain this:
+
+      <?xml version="1.0" encoding="utf-8" ?>
+      <configuration>
+        <runtime>
+          <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+              <assemblyIdentity name="..."
+                                publicKeyToken="..."
+                                culture="..." />
+              <bindingRedirect oldVersion="1.0.0.0-1.1.0.0"
+                               newVersion="1.2.3.4"/>
+            </dependentAssembly>
+          </assemblyBinding>
+        </runtime>
+      </configuration>
+
+  Replace `name`, `publicKeyToken` and `culture` by the actual metadata of the target assembly. Change `oldVersion` so it contains the version of the target assembly, and set `newVersion` to the value you have set in the previous step.
 
 ## Design
 
