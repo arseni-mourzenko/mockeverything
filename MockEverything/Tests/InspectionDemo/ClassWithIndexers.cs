@@ -8,6 +8,10 @@
             {
                 return i.ToString();
             }
+
+            set
+            {
+            }
         }
 
         public string this[string i]
@@ -15,6 +19,10 @@
             get
             {
                 return i;
+            }
+
+            set
+            {
             }
         }
     }

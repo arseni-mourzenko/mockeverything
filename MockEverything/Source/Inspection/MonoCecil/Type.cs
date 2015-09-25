@@ -12,6 +12,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Linq;
     using System.Reflection;
     using Mono.Cecil;
+    using Mono.Collections.Generic;
 
     /// <summary>
     /// Represents a type from an assembly loaded using Mono.Cecil.
@@ -314,7 +315,7 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Ensures(Contract.Result<IEnumerable<Mono.Cecil.TypeReference>>() != null);
 
             var propertyName = methodDefinition.Name.Substring(4);
-            var propertyParameters = methodDefinition.Parameters.Select(p => p.ParameterType);
+            var propertyParameters = methodDefinition.Parameters.Take(methodDefinition.Parameters.Count - (methodDefinition.IsSetter ? 1 : 0));
             return methodDefinition.CustomAttributes.Concat(this.FindPropertyByName(propertyName, propertyParameters).CustomAttributes);
         }
 
@@ -325,13 +326,23 @@ namespace MockEverything.Inspection.MonoCecil
         /// <param name="parameters">The types of parameters of the property. This is needed when working with indexers: they are considered properties, but can have overloads, which means that multiple properties will share the same name and differ only by the parameters.</param>
         /// <returns>The matching property.</returns>
         /// <exception cref="System.InvalidOperationException">The property with this name doesn't exist.</exception>
-        private Mono.Cecil.PropertyDefinition FindPropertyByName(string name, IEnumerable<TypeReference> parameters)
+        private Mono.Cecil.PropertyDefinition FindPropertyByName(string name, IEnumerable<ParameterDefinition> parameters)
         {
             Contract.Requires(name != null);
             Contract.Ensures(Contract.Result<Mono.Cecil.PropertyDefinition>() != null);
 
             return this.definition.Properties.Single(
-                property => property.Name == name && property.Parameters.Select(parameter => parameter.ParameterType).SequenceEqual(parameters));
+                property => property.Name == name && this.AreParametersEqual(property.Parameters, parameters));
+        }
+
+        private bool AreParametersEqual(IEnumerable<ParameterDefinition> first, IEnumerable<ParameterDefinition> second)
+        {
+            if (first.Any())
+            {
+                return first.Select(p => p.ParameterType).SequenceEqual(second.Select(p => p.ParameterType));
+            }
+
+            return !second.Any();
         }
     }
 }

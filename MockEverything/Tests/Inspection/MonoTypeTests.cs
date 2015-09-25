@@ -219,9 +219,21 @@
         }
 
         [TestMethod]
+        public void TestFindMethodsIndexersSetter()
+        {
+            Assert.IsTrue(this.MethodExists("ClassWithIndexer", "set_Item"));
+        }
+
+        [TestMethod]
         public void TestFindMethodsIndexerOverloads()
         {
             Assert.IsTrue(this.MethodExists("ClassWithIndexers", "get_Item"));
+        }
+
+        [TestMethod]
+        public void TestFindMethodsIndexerOverloadsSetter()
+        {
+            Assert.IsTrue(this.MethodExists("ClassWithIndexers", "set_Item"));
         }
 
         [TestMethod]
