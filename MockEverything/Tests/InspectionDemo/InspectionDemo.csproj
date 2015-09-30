@@ -48,6 +48,8 @@
     <Compile Include="DemoSecondAttribute.cs" />
     <Compile Include="Generics.cs" />
     <Compile Include="InternalClass.cs" />
+    <Compile Include="ISampleInterface.cs" />
+    <Compile Include="PropertiesFromInterface.cs" />
     <Compile Include="SimpleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticClass.cs" />

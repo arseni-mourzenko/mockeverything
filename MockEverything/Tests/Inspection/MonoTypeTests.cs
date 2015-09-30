@@ -357,6 +357,12 @@
             Assert.IsFalse(second.Equals(first));
         }
 
+        [TestMethod]
+        public void TestFindMethodsPropertyGetterFromInterface()
+        {
+            Assert.IsTrue(this.MethodExists("PropertiesFromInterface", "get_Name", MemberType.Instance));
+        }
+
         private bool MethodExists(string typeName, string methodName)
         {
             return this.SampleAssembly
