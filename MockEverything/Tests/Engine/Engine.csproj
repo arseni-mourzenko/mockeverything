@@ -54,6 +54,7 @@
     <Compile Include="Discovery\DirectoryBasedDiscoveryTests.cs" />
     <Compile Include="Matching\PairTests.cs" />
     <Compile Include="Matching\MethodMatchingTests.cs" />
+    <Compile Include="Matching\StringFormat.cs" />
     <Compile Include="Matching\TypeMatchingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tampering\TamperingTests.cs" />

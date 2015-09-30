@@ -1,10 +1,13 @@
 ﻿namespace MockEverythingTests.Engine.Browsers
 {
+    using System;
+    using System.Linq;
     using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine;
     using MockEverything.Engine.Browsers;
     using MockEverything.Inspection;
+    using MockEverything.Inspection.MonoCecil;
 
     [TestClass]
     public class MethodMatchingTests
@@ -87,6 +90,37 @@
                     "TargetType",
                     "Demo.TargetType",
                     new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.Ref, stringType) })));
+        }
+
+        [TestMethod]
+        public void TestFindMatchParamsParameter()
+        {
+            var stringType = new TypeStub("String", "System.String");
+            var actual = new MethodMatching().FindMatch(
+                new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.Params, stringType) }),
+                new TypeStub(
+                    "TargetType",
+                    "Demo.TargetType",
+                    new MethodStub("DemoMethod", parameters: new[] { new Parameter(ParameterVariant.Params, stringType) }))).Name;
+
+            var expected = "DemoMethod";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [TestCategory("System tests")]
+        public void TestFindMatchParamsParameterReal()
+        {
+            var firstAssemblyPath = new Uri(typeof(StringFormat).Assembly.CodeBase).AbsolutePath;
+            var secondAssemblyPath = new Uri(typeof(string).Assembly.CodeBase).AbsolutePath;
+
+            var methodFromFirst = new Assembly(firstAssemblyPath).FindType("MockEverythingTests.Engine.Browsers.StringFormat").FindMethods(MemberType.Static).Single();
+            var typeFromSecond = new Assembly(secondAssemblyPath).FindType("System.String");
+
+            var actual = new MethodMatching().FindMatch(methodFromFirst, typeFromSecond).Name;
+
+            var expected = "Format";
+            Assert.AreEqual(expected, actual);
         }
     }
 }
