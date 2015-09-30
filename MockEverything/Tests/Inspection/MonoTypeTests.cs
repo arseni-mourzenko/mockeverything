@@ -360,7 +360,7 @@
         [TestMethod]
         public void TestFindMethodsPropertyGetterFromInterface()
         {
-            Assert.IsTrue(this.MethodExists("PropertiesFromInterface", "get_Name", MemberType.Instance));
+            Assert.IsTrue(this.MethodExists("PropertiesFromInterface", "MockEverythingTests.Inspection.Demo.ISampleInterface.get_Name", MemberType.Instance));
         }
 
         private bool MethodExists(string typeName, string methodName)

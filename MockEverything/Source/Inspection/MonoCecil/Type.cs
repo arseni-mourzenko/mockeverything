@@ -314,25 +314,23 @@ namespace MockEverything.Inspection.MonoCecil
             Contract.Requires(methodDefinition.IsGetter || methodDefinition.IsSetter);
             Contract.Ensures(Contract.Result<IEnumerable<Mono.Cecil.TypeReference>>() != null);
 
-            var propertyName = methodDefinition.Name.Substring(4);
-            var propertyParameters = methodDefinition.Parameters.Take(methodDefinition.Parameters.Count - (methodDefinition.IsSetter ? 1 : 0));
-            return methodDefinition.CustomAttributes.Concat(this.FindPropertyByName(propertyName, propertyParameters).CustomAttributes);
+            var ownerProperty = this.FindPropertyOfGetterOrSetter(methodDefinition);
+            return methodDefinition.CustomAttributes.Concat(ownerProperty.CustomAttributes);
         }
 
         /// <summary>
-        /// Retrieves a property by its name.
+        /// Retrieves a property which contains a specific getter or setter.
         /// </summary>
-        /// <param name="name">The short name of the property. This name doesn't contain any reference to the type, namespace or assembly.</param>
-        /// <param name="parameters">The types of parameters of the property. This is needed when working with indexers: they are considered properties, but can have overloads, which means that multiple properties will share the same name and differ only by the parameters.</param>
+        /// <param name="methodDefinition">The Mono.Cecil's method definition of a getter or a setter.</param>
         /// <returns>The matching property.</returns>
         /// <exception cref="System.InvalidOperationException">The property with this name doesn't exist.</exception>
-        private Mono.Cecil.PropertyDefinition FindPropertyByName(string name, IEnumerable<ParameterDefinition> parameters)
+        private Mono.Cecil.PropertyDefinition FindPropertyOfGetterOrSetter(Mono.Cecil.MethodDefinition methodDefinition)
         {
-            Contract.Requires(name != null);
+            Contract.Requires(methodDefinition != null);
+            Contract.Requires(methodDefinition.IsGetter || methodDefinition.IsSetter);
             Contract.Ensures(Contract.Result<Mono.Cecil.PropertyDefinition>() != null);
 
-            return this.definition.Properties.Single(
-                property => property.Name == name && this.AreParametersEqual(property.Parameters, parameters));
+            return this.definition.Properties.Single(property => property.GetMethod == methodDefinition || property.SetMethod == methodDefinition);
         }
 
         private bool AreParametersEqual(IEnumerable<ParameterDefinition> first, IEnumerable<ParameterDefinition> second)
