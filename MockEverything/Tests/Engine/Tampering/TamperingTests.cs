@@ -4,11 +4,13 @@
     using System.Diagnostics;
     using System.IO;
     using System.Net;
+    using ArgumentsProxies;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Engine.Browsers;
     using MockEverything.Engine.Tampering;
     using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
+    using ArgumentsTarget;
     using SystemProxies;
 
     [TestClass]
@@ -76,6 +78,39 @@
                 process.WaitForExit();
                 var actual = process.StandardOutput.ReadToEnd();
                 var expected = "<null>" + Environment.NewLine;
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("System tests")]
+        public void TestArgumentsInTampering()
+        {
+            var testsPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(this.CurrentPath)));
+            var readFileDirectoryPath = Path.Combine(testsPath, @"Arguments\bin\Debug");
+            var readFileExePath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.Arguments.exe");
+            var tampering = new Tampering
+            {
+                Pair = new Pair<IAssembly>(
+                    proxy: new Assembly(this.FindAssemblyPathOf(typeof(DemoProxy))),
+                    target: new Assembly(this.FindAssemblyPathOf<DemoInstance>())),
+            };
+
+            var resultPath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.ArgumentsTarget.dll");
+            tampering.Tamper().Save(resultPath);
+
+            var info = new ProcessStartInfo(readFileExePath)
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+            };
+
+            using (var process = Process.Start(info))
+            {
+                process.WaitForExit();
+                var actual = process.StandardOutput.ReadToEnd();
+                var expected = "Tampered hello, Jeff!" + Environment.NewLine;
                 Assert.AreEqual(expected, actual);
             }
         }
