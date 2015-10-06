@@ -11,6 +11,7 @@ namespace MockEverything.Inspection.MonoCecil
     using System.Diagnostics.Contracts;
     using System.Linq;
     using Mono.Cecil;
+    using Mono.Cecil.Cil;
     using Mono.Collections.Generic;
 
     /// <summary>
@@ -187,9 +188,49 @@ namespace MockEverything.Inspection.MonoCecil
             var source = definition.Body;
             var destination = this.definition.Body;
 
+            var instructionsTransform = definition.IsStatic && !this.definition.IsStatic ? this.ShiftArguments : default(Func<Instruction, Instruction>);
+
             this.ReplaceCollectionContents(source.Variables, destination.Variables);
             this.ReplaceCollectionContents(source.ExceptionHandlers, destination.ExceptionHandlers);
-            this.ReplaceCollectionContents(source.Instructions, destination.Instructions);
+            this.ReplaceCollectionContents(source.Instructions, destination.Instructions, instructionsTransform);
+        }
+
+        /// <summary>
+        /// Shifts the use of the arguments to the right, in a context of moving code from static to instance method, since in instance methods, the first argument corresponds to the instance itself.
+        /// </summary>
+        /// <param name="instruction">The instruction to transform.</param>
+        /// <returns>The transformed instruction.</returns>
+        private Instruction ShiftArguments(Instruction instruction)
+        {
+            Contract.Requires(instruction != null);
+            Contract.Ensures(Contract.Result<Instruction>() != null);
+
+            if (instruction.OpCode == OpCodes.Ldarg_0)
+            {
+                return Instruction.Create(OpCodes.Ldarg_1);
+            }
+
+            if (instruction.OpCode == OpCodes.Ldarg_1)
+            {
+                return Instruction.Create(OpCodes.Ldarg_2);
+            }
+
+            if (instruction.OpCode == OpCodes.Ldarg_2)
+            {
+                return Instruction.Create(OpCodes.Ldarg_3);
+            }
+
+            if (instruction.OpCode == OpCodes.Ldarg_3)
+            {
+                return Instruction.Create(OpCodes.Ldarg_S, 4);
+            }
+
+            if (instruction.OpCode == OpCodes.Ldarg_S)
+            {
+                return Instruction.Create(OpCodes.Ldarg_S, ((int)instruction.Operand) + 1);
+            }
+
+            return instruction;
         }
 
         /// <summary>
@@ -198,10 +239,16 @@ namespace MockEverything.Inspection.MonoCecil
         /// <typeparam name="TElement">The type of the elements in the collection.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="destination">The collection to modify.</param>
-        private void ReplaceCollectionContents<TElement>(IEnumerable<TElement> source, Collection<TElement> destination)
+        /// <param name="transform">The transformation to perform for every element, or <see langword="null"/> if the elements should be copied as is.</param>
+        private void ReplaceCollectionContents<TElement>(IEnumerable<TElement> source, Collection<TElement> destination, Func<TElement, TElement> transform = null)
         {
             Contract.Requires(source != null);
             Contract.Requires(destination != null);
+
+            if (transform == null)
+            {
+                transform = obj => obj;
+            }
 
             while (destination.Any())
             {
@@ -210,7 +257,7 @@ namespace MockEverything.Inspection.MonoCecil
 
             foreach (var element in source)
             {
-                destination.Add(element);
+                destination.Add(transform(element));
             }
         }
 
