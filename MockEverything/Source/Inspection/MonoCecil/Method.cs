@@ -188,7 +188,7 @@ namespace MockEverything.Inspection.MonoCecil
             var source = definition.Body;
             var destination = this.definition.Body;
 
-            var instructionsTransform = definition.IsStatic && !this.definition.IsStatic ? this.ShiftArguments : default(Func<Instruction, Instruction>);
+            var instructionsTransform = definition.IsStatic && !this.definition.IsStatic ? this.CreateShiftArgumentsTransform(this.definition.Parameters) : default(Func<Instruction, Instruction>);
 
             this.ReplaceCollectionContents(source.Variables, destination.Variables);
             this.ReplaceCollectionContents(source.ExceptionHandlers, destination.ExceptionHandlers);
@@ -196,41 +196,47 @@ namespace MockEverything.Inspection.MonoCecil
         }
 
         /// <summary>
-        /// Shifts the use of the arguments to the right, in a context of moving code from static to instance method, since in instance methods, the first argument corresponds to the instance itself.
+        /// Creates a transform which shifts the use of the arguments to the right, in a context of moving code from static to instance method, since in instance methods, the first argument corresponds to the instance itself.
         /// </summary>
-        /// <param name="instruction">The instruction to transform.</param>
-        /// <returns>The transformed instruction.</returns>
-        private Instruction ShiftArguments(Instruction instruction)
+        /// <param name="parameters">The parameters of the destination method.</param>
+        /// <returns>The transform.</returns>
+        private Func<Instruction, Instruction> CreateShiftArgumentsTransform(IEnumerable<ParameterDefinition> parameters)
         {
-            Contract.Requires(instruction != null);
-            Contract.Ensures(Contract.Result<Instruction>() != null);
+            Contract.Requires(parameters != null);
+            Contract.Ensures(Contract.Result<Func<Instruction, Instruction>>() != null);
 
-            if (instruction.OpCode == OpCodes.Ldarg_0)
+            return instruction =>
             {
-                return Instruction.Create(OpCodes.Ldarg_1);
-            }
+                if (instruction.OpCode == OpCodes.Ldarg_0)
+                {
+                    return Instruction.Create(OpCodes.Ldarg_1);
+                }
 
-            if (instruction.OpCode == OpCodes.Ldarg_1)
-            {
-                return Instruction.Create(OpCodes.Ldarg_2);
-            }
+                if (instruction.OpCode == OpCodes.Ldarg_1)
+                {
+                    return Instruction.Create(OpCodes.Ldarg_2);
+                }
 
-            if (instruction.OpCode == OpCodes.Ldarg_2)
-            {
-                return Instruction.Create(OpCodes.Ldarg_3);
-            }
+                if (instruction.OpCode == OpCodes.Ldarg_2)
+                {
+                    return Instruction.Create(OpCodes.Ldarg_3);
+                }
 
-            if (instruction.OpCode == OpCodes.Ldarg_3)
-            {
-                return Instruction.Create(OpCodes.Ldarg_S, 4);
-            }
+                if (instruction.OpCode == OpCodes.Ldarg_3)
+                {
+                    var definition = parameters.ElementAt(3);
+                    return Instruction.Create(OpCodes.Ldarg_S, definition);
+                }
 
-            if (instruction.OpCode == OpCodes.Ldarg_S)
-            {
-                return Instruction.Create(OpCodes.Ldarg_S, ((int)instruction.Operand) + 1);
-            }
+                if (instruction.OpCode == OpCodes.Ldarg_S)
+                {
+                    var index = ((ParameterDefinition)instruction.Operand).Index;
+                    var definition = parameters.ElementAt(index);
+                    return Instruction.Create(OpCodes.Ldarg_S, definition);
+                }
 
-            return instruction;
+                return instruction;
+            };
         }
 
         /// <summary>

@@ -110,7 +110,7 @@
             {
                 process.WaitForExit();
                 var actual = process.StandardOutput.ReadToEnd();
-                var expected = "Tampered hello, Jeff!" + Environment.NewLine;
+                var expected = "Tampered hello, Jeff! 1, 2, 3, 4, 5" + Environment.NewLine;
                 Assert.AreEqual(expected, actual);
             }
         }

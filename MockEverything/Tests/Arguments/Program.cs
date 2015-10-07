@@ -6,7 +6,7 @@
     {
         public static void Main()
         {
-            new DemoInstance().SayHello("Jeff");
+            new DemoInstance().SayHello("Jeff", 1, 2, 3, 4, 5);
         }
     }
 }

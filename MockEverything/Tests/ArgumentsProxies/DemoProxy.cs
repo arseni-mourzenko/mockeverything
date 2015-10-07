@@ -8,9 +8,9 @@
     public static class DemoProxy
     {
         [ProxyMethod(TargetMethodType.Instance)]
-        public static void SayHello(string name)
+        public static void SayHello(string name, int a, int b, int c, int d, int e)
         {
-            Console.WriteLine("Tampered hello, {0}!", name);
+            Console.WriteLine("Tampered hello, {0}! {1}", name, string.Join(", ", a, b, c, d, e));
         }
     }
 }
