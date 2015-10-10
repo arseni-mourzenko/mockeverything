@@ -7,6 +7,7 @@ namespace MockEverything.Engine.Tampering
 {
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
@@ -197,9 +198,13 @@ namespace MockEverything.Engine.Tampering
             new ILRepack(options, new NullLogger()).Repack();
         }
 
+        /// <summary>
+        /// Represents the logger which silently swallows the log messages.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "*", Justification = "The methods come from the interface; documenting them would lead to the duplication of the documentation.")]
         private class NullLogger : ILogger
         {
-            public bool ShouldLogVerbose{ get; set;}
+            public bool ShouldLogVerbose { get; set; }
 
             public void DuplicateIgnored(string ignoredType, object ignoredObject)
             {

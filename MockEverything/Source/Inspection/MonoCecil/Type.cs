@@ -333,8 +333,17 @@ namespace MockEverything.Inspection.MonoCecil
             return this.definition.Properties.Single(property => property.GetMethod == methodDefinition || property.SetMethod == methodDefinition);
         }
 
+        /// <summary>
+        /// Determines whether two series of parameters should be considered as equal.
+        /// </summary>
+        /// <param name="first">The first series.</param>
+        /// <param name="second">The second series.</param>
+        /// <returns><see langword="true"/> if two series look equal; otherwise, <see langword="false"/>.</returns>
         private bool AreParametersEqual(IEnumerable<ParameterDefinition> first, IEnumerable<ParameterDefinition> second)
         {
+            Contract.Requires(first != null);
+            Contract.Requires(second != null);
+
             if (first.Any())
             {
                 return first.Select(p => p.ParameterType).SequenceEqual(second.Select(p => p.ParameterType));
