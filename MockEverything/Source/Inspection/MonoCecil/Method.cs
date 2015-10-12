@@ -205,6 +205,11 @@ namespace MockEverything.Inspection.MonoCecil
             }
         }
 
+        /// <summary>
+        /// Generates the instructions which call the entry hook.
+        /// </summary>
+        /// <param name="entry">The entry hook method.</param>
+        /// <returns>Zero or more instructions to insert at the beginning of the current method.</returns>
         private IEnumerable<Instruction> GenerateEntryCall(MethodDefinition entry)
         {
             Contract.Requires(entry != null);
