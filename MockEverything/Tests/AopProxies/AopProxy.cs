@@ -16,6 +16,7 @@
         [ProxyMethod(TargetMethodType.Static)]
         public static void SayHello(string name, int something)
         {
+            ////Entry("SayHello", new object[] { name, something });
             Console.WriteLine("AOP hello, {0}! {1}", name, something);
         }
     }

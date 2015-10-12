@@ -195,6 +195,43 @@ namespace MockEverything.Inspection.MonoCecil
             this.ReplaceCollectionContents(source.Variables, destination.Variables);
             this.ReplaceCollectionContents(source.ExceptionHandlers, destination.ExceptionHandlers);
             this.ReplaceCollectionContents(source.Instructions, destination.Instructions, instructionsTransform);
+
+            if (entry != null)
+            {
+                foreach (var instruction in this.GenerateEntryCall(entry).ToList().Reverse<Instruction>())
+                {
+                    destination.Instructions.Insert(0, instruction);
+                }
+            }
+        }
+
+        private IEnumerable<Instruction> GenerateEntryCall(MethodDefinition entry)
+        {
+            Contract.Requires(entry != null);
+
+            var objectType = entry.Parameters.ElementAt(1).ParameterType.GetElementType();
+            var instructions = this.definition.Body.Instructions;
+
+            yield return Instruction.Create(OpCodes.Ldstr, this.Name);
+
+            yield return Instruction.Create(OpCodes.Ldc_I4, this.definition.Parameters.Count);
+            yield return Instruction.Create(OpCodes.Newarr, objectType);
+            int index = 0;
+            foreach (var parameter in this.definition.Parameters)
+            {
+                yield return Instruction.Create(OpCodes.Dup);
+                yield return Instruction.Create(OpCodes.Ldc_I4, index);
+                yield return Instruction.Create(OpCodes.Ldarg_S, parameter);
+                if (parameter.ParameterType.FullName == "System.Int32")
+                {
+                    yield return Instruction.Create(OpCodes.Box, parameter.ParameterType);
+                }
+
+                yield return Instruction.Create(OpCodes.Stelem_Ref);
+                index += 1;
+            }
+
+            yield return Instruction.Create(OpCodes.Call, entry);
         }
 
         /// <summary>

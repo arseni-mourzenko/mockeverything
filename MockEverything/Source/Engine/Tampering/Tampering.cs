@@ -155,13 +155,15 @@ namespace MockEverything.Engine.Tampering
             var types = new AssemblyBrowser(assembly, assembly, new TypeMatching()).FindTypes().ToList();
             foreach (var type in types)
             {
+                var entryHook = type.Proxy.FindMethods(MemberType.Static, typeof(EntryHookAttribute)).SingleOrDefault();
+
                 Trace.WriteLine(string.Format("Rewriting type {0}.", string.Join(", ", type.Target.FullName)));
                 var pairs = new TypeBrowser(type.Proxy, type.Target, new MethodMatching()).FindTypes();
 
                 foreach (var pair in pairs)
                 {
                     Trace.WriteLine(string.Format("Rewriting pair {0}.", pair.Target.Name));
-                    pair.Target.ReplaceBody(pair.Proxy);
+                    pair.Target.ReplaceBody(pair.Proxy, entryHook);
                 }
             }
         }
