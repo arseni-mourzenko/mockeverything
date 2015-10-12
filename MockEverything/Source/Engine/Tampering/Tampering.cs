@@ -153,13 +153,16 @@ namespace MockEverything.Engine.Tampering
             Contract.Requires(assembly != null);
 
             var types = new AssemblyBrowser(assembly, assembly, new TypeMatching()).FindTypes().ToList();
-            Trace.WriteLine(string.Format("Rewriting types {0}.", string.Join(", ", types.Select(c => c.Target.FullName))));
-            var pairs = types.SelectMany(t => new TypeBrowser(t.Proxy, t.Target, new MethodMatching()).FindTypes());
-
-            foreach (var pair in pairs)
+            foreach (var type in types)
             {
-                Trace.WriteLine(string.Format("Rewriting pair {0}.", pair.Target.Name));
-                pair.Target.ReplaceBody(pair.Proxy);
+                Trace.WriteLine(string.Format("Rewriting type {0}.", string.Join(", ", type.Target.FullName)));
+                var pairs = new TypeBrowser(type.Proxy, type.Target, new MethodMatching()).FindTypes();
+
+                foreach (var pair in pairs)
+                {
+                    Trace.WriteLine(string.Format("Rewriting pair {0}.", pair.Target.Name));
+                    pair.Target.ReplaceBody(pair.Proxy);
+                }
             }
         }
 

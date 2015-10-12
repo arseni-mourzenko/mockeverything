@@ -73,6 +73,14 @@
       <Project>{57a3ebd0-dab8-4a91-9db2-8a8ed3cb4cf7}</Project>
       <Name>Inspection</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AopProxies\AopProxies.csproj">
+      <Project>{32abe839-1e35-47a4-b314-f761fcdcb12d}</Project>
+      <Name>AopProxies</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AopTarget\AopTarget.csproj">
+      <Project>{fb74f35b-ddd2-4d1f-b256-34e9a5a2c7ea}</Project>
+      <Name>AopTarget</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArgumentsProxies\ArgumentsProxies.csproj">
       <Project>{45fb4d28-cb26-40f9-bf5f-bf0dc30f197a}</Project>
       <Name>ArgumentsProxies</Name>

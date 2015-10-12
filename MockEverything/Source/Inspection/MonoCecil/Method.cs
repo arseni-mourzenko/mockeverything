@@ -163,8 +163,9 @@ namespace MockEverything.Inspection.MonoCecil
         /// Replaces the body of this method by a body of the specified one.
         /// </summary>
         /// <param name="other">The method to use as a replacement.</param>
+        /// <param name="entry">The method which should be called before executing the affected method, or <see langword="null"/> if there is no method to call.</param>
         /// <exception cref="System.NotImplementedException">The other method is not an instance of the <see cref="Method"/> class.</exception>
-        public void ReplaceBody(IMethod other)
+        public void ReplaceBody(IMethod other, IMethod entry = null)
         {
             Contract.Requires(other != null);
 
@@ -174,14 +175,15 @@ namespace MockEverything.Inspection.MonoCecil
                 throw new System.NotImplementedException();
             }
 
-            this.ReplaceBody(otherMethod.definition);
+            this.ReplaceBody(otherMethod.definition, entry != null ? ((Method)entry).definition : null);
         }
 
         /// <summary>
         /// Replaces the body of this method by a body of the specified method definition.
         /// </summary>
         /// <param name="definition">The method to use as a replacement.</param>
-        private void ReplaceBody(MethodDefinition definition)
+        /// <param name="entry">The method which should be called before executing the affected method, or <see langword="null"/> if there is no method to call.</param>
+        private void ReplaceBody(MethodDefinition definition, MethodDefinition entry = null)
         {
             Contract.Requires(definition != null);
 

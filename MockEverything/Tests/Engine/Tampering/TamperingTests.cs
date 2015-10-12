@@ -12,6 +12,8 @@
     using MockEverything.Inspection.MonoCecil;
     using ArgumentsTarget;
     using SystemProxies;
+    using AopProxies;
+    using AopTarget;
 
     [TestClass]
     public class TamperingTests
@@ -111,6 +113,39 @@
                 process.WaitForExit();
                 var actual = process.StandardOutput.ReadToEnd();
                 var expected = "Tampered hello, Jeff! 1, 2, 3, 4, 5" + Environment.NewLine;
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("System tests")]
+        public void TestEntryHookInTampering()
+        {
+            var testsPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(this.CurrentPath)));
+            var readFileDirectoryPath = Path.Combine(testsPath, @"Aop\bin\Debug");
+            var readFileExePath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.Aop.exe");
+            var tampering = new Tampering
+            {
+                Pair = new Pair<IAssembly>(
+                    proxy: new Assembly(this.FindAssemblyPathOf(typeof(AopProxy))),
+                    target: new Assembly(this.FindAssemblyPathOf(typeof(AopDemo)))),
+            };
+
+            var resultPath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.AopTarget.dll");
+            tampering.Tamper().Save(resultPath);
+
+            var info = new ProcessStartInfo(readFileExePath)
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+            };
+
+            using (var process = Process.Start(info))
+            {
+                process.WaitForExit();
+                var actual = process.StandardOutput.ReadToEnd();
+                var expected = "SayHello(Jeff, 123)" + Environment.NewLine + "AOP hello, Jeff! 123" + Environment.NewLine;
                 Assert.AreEqual(expected, actual);
             }
         }
