@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Browsers\AssemblyBrowserTests.cs" />
     <Compile Include="Discovery\DirectoryBasedDiscoveryTests.cs" />
+    <Compile Include="Exceptions\InstanceProxyExceptionTests.cs" />
     <Compile Include="Matching\PairTests.cs" />
     <Compile Include="Matching\MethodMatchingTests.cs" />
     <Compile Include="Matching\StringFormat.cs" />

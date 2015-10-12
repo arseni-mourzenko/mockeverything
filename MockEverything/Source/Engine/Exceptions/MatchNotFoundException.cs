@@ -1,9 +1,9 @@
-﻿// <copyright file="TypeNotFoundException.cs">
+﻿// <copyright file="MatchNotFoundException.cs">
 //      Copyright (c) Arseni Mourzenko 2015. The code is distributed under the MIT License.
 // </copyright>
 // <author id="5c2316d3-622a-4a8d-816d-5054a48f415f">Arseni Mourzenko</author>
 
-namespace MockEverything.Inspection
+namespace MockEverything.Engine
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -11,47 +11,46 @@ namespace MockEverything.Inspection
     using System.Security.Permissions;
 
     /// <summary>
-    /// Represents an exception thrown when a type corresponding to the specific criteria cannot be found.
+    /// Represents an exception thrown when a proxy element has no match in the target container.
     /// </summary>
     [Serializable]
-    public class TypeNotFoundException : Exception
+    public class MatchNotFoundException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="MatchNotFoundException"/> class.
         /// </summary>
-        [ExcludeFromCodeCoverage]
-        public TypeNotFoundException()
+        public MatchNotFoundException()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="MatchNotFoundException"/> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         [ExcludeFromCodeCoverage]
-        public TypeNotFoundException(string message)
+        public MatchNotFoundException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="MatchNotFoundException"/> class.
         /// </summary>
         /// <param name="message">A message that describes the current exception.</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
         [ExcludeFromCodeCoverage]
-        public TypeNotFoundException(string message, Exception innerException)
+        public MatchNotFoundException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeNotFoundException"/> class with the specified serialization information and context.
+        /// Initializes a new instance of the <see cref="MatchNotFoundException"/> class with the specified serialization information and context.
         /// </summary>
         /// <param name="info">The data necessary to serialize or deserialize an object.</param>
         /// <param name="context">Description of the source and destination of the specified serialized stream.</param>
         [ExcludeFromCodeCoverage]
-        protected TypeNotFoundException(SerializationInfo info, StreamingContext context)
+        protected MatchNotFoundException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

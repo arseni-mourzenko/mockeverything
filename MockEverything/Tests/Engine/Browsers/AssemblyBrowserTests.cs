@@ -77,8 +77,8 @@
             }
             catch (InstanceProxyException ex)
             {
-                var expected = new[] { new TypeStub("NonStaticSampleProxy", "NonStaticProxy.NonStaticSampleProxy") };
-                var actual = ex.Types.ToArray();
+                var expected = new[] { "NonStaticProxy.NonStaticSampleProxy" };
+                var actual = ex.NamesOfTypes.ToArray();
                 CollectionAssert.AreEqual(expected, actual);
             }
         }

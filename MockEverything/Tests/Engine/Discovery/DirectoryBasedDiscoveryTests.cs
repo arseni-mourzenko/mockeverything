@@ -5,8 +5,6 @@
     using System.Linq;
     using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MockEverything.Engine;
-    using MockEverything.Engine.Browsers;
     using MockEverything.Engine.Discovery;
     using MockEverything.Inspection;
 

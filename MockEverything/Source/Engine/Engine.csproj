@@ -53,16 +53,16 @@
     <Compile Include="Discovery\DirectoryAccess.cs" />
     <Compile Include="Discovery\IDirectoryAccess.cs" />
     <Compile Include="Discovery\IProxiesDiscovery.cs" />
-    <Compile Include="InstanceProxyException.cs" />
+    <Compile Include="Exceptions\InstanceProxyException.cs" />
     <Compile Include="Matching\IMatching{TElement,TContainer}.cs" />
     <Compile Include="Matching\MethodMatching.cs" />
     <Compile Include="Matching\Pair{TElement}.cs" />
     <Compile Include="Browsers\TypeBrowser.cs" />
     <Compile Include="Matching\TypeMatching.cs" />
-    <Compile Include="MatchNotFoundException.cs" />
-    <Compile Include="MultipleTargetsException.cs" />
+    <Compile Include="Exceptions\MatchNotFoundException.cs" />
+    <Compile Include="Exceptions\MultipleTargetsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProxyMistakeException.cs" />
+    <Compile Include="Exceptions\ProxyMistakeException.cs" />
     <Compile Include="Tampering\ITampering.cs" />
     <Compile Include="Tampering\Tampering.cs" />
   </ItemGroup>
