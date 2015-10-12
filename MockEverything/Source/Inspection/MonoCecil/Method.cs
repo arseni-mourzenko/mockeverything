@@ -222,7 +222,7 @@ namespace MockEverything.Inspection.MonoCecil
                 yield return Instruction.Create(OpCodes.Dup);
                 yield return Instruction.Create(OpCodes.Ldc_I4, index);
                 yield return Instruction.Create(OpCodes.Ldarg_S, parameter);
-                if (parameter.ParameterType.FullName == "System.Int32")
+                if (parameter.ParameterType.IsValueType)
                 {
                     yield return Instruction.Create(OpCodes.Box, parameter.ParameterType);
                 }
