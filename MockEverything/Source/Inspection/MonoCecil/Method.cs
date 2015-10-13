@@ -255,6 +255,16 @@ namespace MockEverything.Inspection.MonoCecil
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have two and two only parameters, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters.Count));
             }
 
+            if (entry.Parameters[0].Attributes != ParameterAttributes.In)
+            {
+                throw new InvalidEntryException(string.Format("The first parameter of the entry method {0} in {1} should be an `in`, with no default values or other attributes.", entry.FullName, entry.DeclaringType.FullName));
+            }
+
+            if (entry.Parameters[1].Attributes != ParameterAttributes.In)
+            {
+                throw new InvalidEntryException(string.Format("The second parameter of the entry method {0} in {1} should be an `in`, with no default values or other attributes.", entry.FullName, entry.DeclaringType.FullName));
+            }
+
             // Notice that in the checks below, the type is compared by its full name. This means that, actually, nothing prevents the caller from creating a `System.Object` or `System.String` and use it instead of the native one; if he does, the code will fail. On the other hand, if the caller actually screws with the code at this level, there is probably no need to handle this case.
             if (entry.Parameters[0].ParameterType.FullName != "System.String")
             {

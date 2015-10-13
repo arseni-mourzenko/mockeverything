@@ -132,6 +132,28 @@
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryFirstNotIn()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.Out, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntrySecondNotIn()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.Out, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
         private MethodDefinition GenerateMethod(params Instruction[] instructions)
         {
             Contract.Requires(instructions != null);
