@@ -1,6 +1,7 @@
 ﻿namespace MockEverythingTests.Inspection
 {
     using System;
+    using System.Diagnostics.Contracts;
     using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MockEverything.Inspection.MonoCecil;
@@ -20,15 +21,12 @@
         [TestMethod]
         public void TestReplaceBodyInstructions()
         {
-            var source = this.DemoMethodDefinition;
-            var destination = this.DemoMethodDefinition;
+            var source = this.GenerateMethod(
+                Instruction.Create(OpCodes.Nop));
 
-            var sourceProcessor = source.Body.GetILProcessor();
-            source.Body.Instructions.Add(sourceProcessor.Create(OpCodes.Nop));
-
-            var destionationProcessor = destination.Body.GetILProcessor();
-            destination.Body.Instructions.Add(destionationProcessor.Create(OpCodes.Ldstr, "Hello, World!"));
-            destination.Body.Instructions.Add(destionationProcessor.Create(OpCodes.Ret));
+            var destination = this.GenerateMethod(
+                Instruction.Create(OpCodes.Ldstr, "Hello, World!"),
+                Instruction.Create(OpCodes.Ret));
 
             new Method(destination).ReplaceBody(new Method(source));
 
@@ -70,6 +68,40 @@
             Assert.AreEqual(ExceptionHandlerType.Filter, destination.Body.ExceptionHandlers[0].HandlerType);
         }
 
+        [TestMethod]
+        public void TestReplaceWithEntry()
+        {
+            var source = this.GenerateMethod(
+                Instruction.Create(OpCodes.Nop));
+
+            var destination = this.GenerateMethod(
+                Instruction.Create(OpCodes.Ldstr, "Hello, World!"),
+                Instruction.Create(OpCodes.Ret));
+
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(destination).ReplaceBody(new Method(source), new Method(entry));
+
+            Assert.IsTrue(destination.Body.Instructions.Count > 1);
+            Assert.AreEqual(OpCodes.Ldstr, destination.Body.Instructions[0].OpCode);
+        }
+
+        private MethodDefinition GenerateMethod(params Instruction[] instructions)
+        {
+            Contract.Requires(instructions != null);
+            Contract.Ensures(Contract.Result<MethodDefinition>() != null);
+
+            var method = this.DemoMethodDefinition;
+            foreach (var instruction in instructions)
+            {
+                method.Body.Instructions.Add(instruction);
+            }
+
+            return method;
+        }
+
         private MethodDefinition DemoMethodDefinition
         {
             get
@@ -80,14 +112,47 @@
 
         private TypeDefinition FindTypeDefinitionOf<T>()
         {
-            var module = ModuleDefinition.ReadModule(this.FindAssemblyPathOf<int>());
-            return module.GetType(typeof(T).FullName);
+            Contract.Ensures(Contract.Result<TypeDefinition>() != null);
+
+            var result = this.FindTypeReferenceOf<T>() as TypeDefinition;
+            if (result == null)
+            {
+                throw new NotImplementedException("The discovery of the type failed. You can still get a `TypeReference` by calling `FindTypeReferenceOf<T>()` instead.");
+            }
+
+            return result;
         }
 
-        private string FindAssemblyPathOf<T>()
+        private TypeReference FindTypeReferenceOf<T>()
         {
-                var codeBase = typeof(T).Assembly.CodeBase;
-                return System.Uri.UnescapeDataString(new System.UriBuilder(codeBase).Path);
+            Contract.Ensures(Contract.Result<TypeDefinition>() != null);
+
+            return this.FindTypeReferenceOf(typeof(T));
+        }
+
+        private TypeReference FindTypeReferenceOf(System.Type type)
+        {
+            Contract.Requires(type != null);
+            Contract.Ensures(Contract.Result<TypeDefinition>() != null);
+
+            var module = ModuleDefinition.ReadModule(this.FindAssemblyPathOf(type));
+
+            if (type.IsArray)
+            {
+                var inner = this.FindTypeReferenceOf(type.GetElementType());
+                return (TypeReference)new ArrayType(inner);
+            }
+
+            var result = module.GetType(type.FullName);
+            return result;
+        }
+
+        private string FindAssemblyPathOf(System.Type type)
+        {
+            Contract.Requires(type != null);
+
+            var codeBase = type.Assembly.CodeBase;
+            return System.Uri.UnescapeDataString(new System.UriBuilder(codeBase).Path);
         }
     }
 }

@@ -218,9 +218,9 @@ namespace MockEverything.Inspection.MonoCecil
             var instructions = this.definition.Body.Instructions;
 
             yield return Instruction.Create(OpCodes.Ldstr, this.Name);
-
             yield return Instruction.Create(OpCodes.Ldc_I4, this.definition.Parameters.Count);
             yield return Instruction.Create(OpCodes.Newarr, objectType);
+
             int index = 0;
             foreach (var parameter in this.definition.Parameters)
             {
