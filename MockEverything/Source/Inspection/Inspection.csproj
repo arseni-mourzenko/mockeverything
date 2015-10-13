@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
+    <Compile Include="Exceptions\InvalidEntryException.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Interfaces\IMethod.cs" />
     <Compile Include="Interfaces\IAssembly.cs" />

@@ -214,6 +214,8 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(entry != null);
 
+            this.VerifyEntryMethod(entry);
+
             var objectType = entry.Parameters.ElementAt(1).ParameterType.GetElementType();
             var instructions = this.definition.Body.Instructions;
 
@@ -237,6 +239,32 @@ namespace MockEverything.Inspection.MonoCecil
             }
 
             yield return Instruction.Create(OpCodes.Call, entry);
+        }
+
+        /// <summary>
+        /// Verifies that the entry method corresponds to the one expected when calling it at IL level.
+        /// </summary>
+        /// <param name="entry">The entry hook method to check.</param>
+        /// <exception cref="InvalidEntryException">The method is invalid.</exception>
+        private void VerifyEntryMethod(MethodDefinition entry)
+        {
+            Contract.Requires(entry != null);
+
+            if (entry.Parameters.Count != 2)
+            {
+                throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have two and two only parameters, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters.Count));
+            }
+
+            // Notice that in the checks below, the type is compared by its full name. This means that, actually, nothing prevents the caller from creating a `System.Object` or `System.String` and use it instead of the native one; if he does, the code will fail. On the other hand, if the caller actually screws with the code at this level, there is probably no need to handle this case.
+            if (entry.Parameters[0].ParameterType.FullName != "System.String")
+            {
+                throw new InvalidEntryException(string.Format("The first parameter of the entry method {0} in {1} should be a string, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters[0].ParameterType.FullName));
+            }
+
+            if (!entry.Parameters[1].ParameterType.IsArray || entry.Parameters[1].ParameterType.GetElementType().FullName != "System.Object")
+            {
+                throw new InvalidEntryException(string.Format("The second parameter of the entry method {0} in {1} should be an array of strings.", entry.FullName, entry.DeclaringType.FullName));
+            }
         }
 
         /// <summary>

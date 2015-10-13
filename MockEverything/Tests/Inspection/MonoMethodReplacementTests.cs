@@ -4,6 +4,7 @@
     using System.Diagnostics.Contracts;
     using CommonStubs;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockEverything.Inspection;
     using MockEverything.Inspection.MonoCecil;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
@@ -88,6 +89,49 @@
             Assert.AreEqual(OpCodes.Ldstr, destination.Body.Instructions[0].OpCode);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryNameMissing()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<Guid>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryWrongNumberOfParameters()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryWrongSecondType()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryWrongArray()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<int[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
         private MethodDefinition GenerateMethod(params Instruction[] instructions)
         {
             Contract.Requires(instructions != null);
@@ -106,7 +150,9 @@
         {
             get
             {
-                return new MethodDefinition("SayHello", MethodAttributes.Public, this.FindTypeDefinitionOf<string>());
+                var method = new MethodDefinition("SayHello", MethodAttributes.Public, this.FindTypeDefinitionOf<string>());
+                method.DeclaringType = this.FindTypeDefinitionOf<object>();
+                return method;
             }
         }
 
