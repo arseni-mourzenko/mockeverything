@@ -4,9 +4,9 @@
 
     public static class AopDemo
     {
-        public static void SayHello(string name, int something)
+        public static string SayHello(string name, int something)
         {
-            Console.WriteLine("Hello, {0}! {1}", name, something);
+            return string.Format("Hello, {0}! {1}", name, something);
         }
     }
 }

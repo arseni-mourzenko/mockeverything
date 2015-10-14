@@ -1,12 +1,14 @@
 ﻿namespace MockEverythingTests.Aop
 {
+    using System;
     using AopTarget;
 
     public static class Program
     {
         public static void Main()
         {
-            AopDemo.SayHello("Jeff", 123);
+            var result = AopDemo.SayHello("Jeff", 123);
+            Console.Write(result);
         }
     }
 }

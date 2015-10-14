@@ -13,10 +13,16 @@
             Console.WriteLine(className + "." + methodName + " called with arguments {" + string.Join(", ", args) + "}");
         }
 
-        [ProxyMethod(TargetMethodType.Static)]
-        public static void SayHello(string name, int something)
+        [ExitHook]
+        public static void Exit(string className, string methodName, string methodSignature, object value)
         {
-            Console.WriteLine("AOP hello, {0}! {1}", name, something);
+            Console.WriteLine(className + "." + methodName + " finished with value " + value);
+        }
+
+        [ProxyMethod(TargetMethodType.Static)]
+        public static string SayHello(string name, int something)
+        {
+            return string.Format("AOP hello, {0}! {1}", name, something);
         }
     }
 }

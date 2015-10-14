@@ -119,7 +119,7 @@
 
         [TestMethod]
         [TestCategory("System tests")]
-        public void TestEntryHookInTampering()
+        public void TestHooksInTampering()
         {
             var testsPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(this.CurrentPath)));
             var readFileDirectoryPath = Path.Combine(testsPath, @"Aop\bin\Debug");
@@ -145,7 +145,9 @@
             {
                 process.WaitForExit();
                 var actual = process.StandardOutput.ReadToEnd();
-                var expected = "MockEverythingTests.AopTarget.AopDemo.SayHello called with arguments {Jeff, 123}" + Environment.NewLine + "AOP hello, Jeff! 123" + Environment.NewLine;
+                var expected = @"MockEverythingTests.AopTarget.AopDemo.SayHello called with arguments {Jeff, 123}
+MockEverythingTests.AopTarget.AopDemo.SayHello finished with value AOP hello, Jeff! 123
+AOP hello, Jeff! 123";
                 Assert.AreEqual(expected, actual);
             }
         }

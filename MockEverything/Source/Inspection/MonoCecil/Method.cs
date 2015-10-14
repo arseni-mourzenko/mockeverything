@@ -7,6 +7,7 @@ namespace MockEverything.Inspection.MonoCecil
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.Linq;
@@ -164,8 +165,9 @@ namespace MockEverything.Inspection.MonoCecil
         /// </summary>
         /// <param name="other">The method to use as a replacement.</param>
         /// <param name="entry">The method which should be called before executing the affected method, or <see langword="null"/> if there is no method to call.</param>
+        /// <param name="exit">The method which should be called before the affected method returns, or <see langword="null"/> if there is no method to call.</param>
         /// <exception cref="System.NotImplementedException">The other method is not an instance of the <see cref="Method"/> class.</exception>
-        public void ReplaceBody(IMethod other, IMethod entry = null)
+        public void ReplaceBody(IMethod other, IMethod entry = null, IMethod exit = null)
         {
             Contract.Requires(other != null);
 
@@ -175,7 +177,10 @@ namespace MockEverything.Inspection.MonoCecil
                 throw new System.NotImplementedException();
             }
 
-            this.ReplaceBody(otherMethod.definition, entry != null ? ((Method)entry).definition : null);
+            this.ReplaceBody(
+                otherMethod.definition,
+                entry != null ? ((Method)entry).definition : null,
+                exit != null ? ((Method)exit).definition : null);
         }
 
         /// <summary>
@@ -183,7 +188,8 @@ namespace MockEverything.Inspection.MonoCecil
         /// </summary>
         /// <param name="definition">The method to use as a replacement.</param>
         /// <param name="entry">The method which should be called before executing the affected method, or <see langword="null"/> if there is no method to call.</param>
-        private void ReplaceBody(MethodDefinition definition, MethodDefinition entry = null)
+        /// <param name="exit">The method which should be called before the affected method returns, or <see langword="null"/> if there is no method to call.</param>
+        private void ReplaceBody(MethodDefinition definition, MethodDefinition entry = null, MethodDefinition exit = null)
         {
             Contract.Requires(definition != null);
 
@@ -203,6 +209,28 @@ namespace MockEverything.Inspection.MonoCecil
                     destination.Instructions.Insert(0, instruction);
                 }
             }
+
+            if (exit != null)
+            {
+                var index = 0;
+                while (index < destination.Instructions.Count)
+                {
+                    var instruction = destination.Instructions[index];
+                    if (instruction.OpCode.Code == Code.Ret)
+                    {
+                        var exitVariable = new VariableDefinition(destination.Method.ReturnType);
+                        destination.Variables.Add(exitVariable);
+
+                        foreach (var exitCallInstruction in this.GenerateExitCall(exit, exitVariable))
+                        {
+                            destination.Instructions.Insert(index, exitCallInstruction);
+                            index += 1;
+                        }
+                    }
+
+                    index += 1;
+                }
+            }
         }
 
         /// <summary>
@@ -217,7 +245,6 @@ namespace MockEverything.Inspection.MonoCecil
             this.VerifyEntryMethod(entry);
 
             var objectType = entry.Parameters.Last().ParameterType.GetElementType();
-            var instructions = this.definition.Body.Instructions;
 
             yield return Instruction.Create(OpCodes.Ldstr, this.definition.DeclaringType.FullName);
             yield return Instruction.Create(OpCodes.Ldstr, this.Name);
@@ -241,6 +268,25 @@ namespace MockEverything.Inspection.MonoCecil
             }
 
             yield return Instruction.Create(OpCodes.Call, entry);
+        }
+
+        /// <summary>
+        /// Generates the instructions which call the exit hook.
+        /// </summary>
+        /// <param name="exit">The exit hook method.</param>
+        /// <param name="exitVariable">The variable used to locally store the return value.</param>
+        /// <returns>Zero or more instructions to insert before every <c>ret</c> IL instruction.</returns>
+        private IEnumerable<Instruction> GenerateExitCall(MethodDefinition exit, VariableDefinition exitVariable)
+        {
+            Contract.Requires(exit != null);
+
+            yield return Instruction.Create(OpCodes.Stloc_S, exitVariable);
+            yield return Instruction.Create(OpCodes.Ldstr, this.definition.DeclaringType.FullName);
+            yield return Instruction.Create(OpCodes.Ldstr, this.Name);
+            yield return Instruction.Create(OpCodes.Ldstr, this.definition.FullName);
+            yield return Instruction.Create(OpCodes.Ldloc_S, exitVariable);
+            yield return Instruction.Create(OpCodes.Call, exit);
+            yield return Instruction.Create(OpCodes.Ldloc_S, exitVariable);
         }
 
         /// <summary>

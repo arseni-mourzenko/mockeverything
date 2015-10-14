@@ -49,7 +49,7 @@
             return 0;
         }
 
-        public void ReplaceBody(IMethod other, IMethod entry)
+        public void ReplaceBody(IMethod other, IMethod entry, IMethod exit)
         {
             throw new NotImplementedException();
         }

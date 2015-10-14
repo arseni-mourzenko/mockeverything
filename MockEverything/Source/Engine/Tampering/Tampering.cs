@@ -156,6 +156,7 @@ namespace MockEverything.Engine.Tampering
             foreach (var type in types)
             {
                 var entryHook = type.Proxy.FindMethods(MemberType.Static, typeof(EntryHookAttribute)).SingleOrDefault();
+                var exitHook = type.Proxy.FindMethods(MemberType.Static, typeof(ExitHookAttribute)).SingleOrDefault();
 
                 Trace.WriteLine(string.Format("Rewriting type {0}.", string.Join(", ", type.Target.FullName)));
                 var pairs = new TypeBrowser(type.Proxy, type.Target, new MethodMatching()).FindTypes();
@@ -163,7 +164,7 @@ namespace MockEverything.Engine.Tampering
                 foreach (var pair in pairs)
                 {
                     Trace.WriteLine(string.Format("Rewriting pair {0}.", pair.Target.Name));
-                    pair.Target.ReplaceBody(pair.Proxy, entryHook);
+                    pair.Target.ReplaceBody(pair.Proxy, entryHook, exitHook);
                 }
             }
         }

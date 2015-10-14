@@ -57,7 +57,8 @@ namespace MockEverything.Inspection
         /// </remarks>
         /// <param name="other">The method to use as a replacement.</param>
         /// <param name="entry">The method which should be called before executing the affected method, or <see langword="null"/> if there is no method to call.</param>
+        /// <param name="exit">The method which should be called before the affected method returns, or <see langword="null"/> if there is no method to call.</param>
         /// <exception cref="NotImplementedException">The type of the other method doesn't match the type of the current object.</exception>
-        void ReplaceBody(IMethod other, IMethod entry = null);
+        void ReplaceBody(IMethod other, IMethod entry = null, IMethod exit = null);
     }
 }
