@@ -145,7 +145,7 @@
             {
                 process.WaitForExit();
                 var actual = process.StandardOutput.ReadToEnd();
-                var expected = "SayHello(Jeff, 123)" + Environment.NewLine + "AOP hello, Jeff! 123" + Environment.NewLine;
+                var expected = "MockEverythingTests.AopTarget.AopDemo.SayHello called with arguments {Jeff, 123}" + Environment.NewLine + "AOP hello, Jeff! 123" + Environment.NewLine;
                 Assert.AreEqual(expected, actual);
             }
         }

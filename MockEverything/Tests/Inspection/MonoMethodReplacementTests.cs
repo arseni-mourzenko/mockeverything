@@ -86,7 +86,9 @@
                 .Build();
 
             var entry = new MethodBuilder("SayHello")
-                .AddParameter<string>("name")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<object[]>("args")
                 .Build();
 
@@ -102,7 +104,9 @@
         {
             var entry = new MethodBuilder("SayHello")
                 .MakeInstance()
-                .AddParameter<string>("name")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<object[]>("args")
                 .Build();
 
@@ -115,7 +119,9 @@
         {
             var entry = new MethodBuilder("SayHello")
                 .Returns<string>()
-                .AddParameter<string>("name")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<object[]>("args")
                 .Build();
 
@@ -128,19 +134,9 @@
         {
             var entry = new MethodBuilder("SayHello")
                 .MakePrivate()
-                .AddParameter<string>("name")
-                .AddParameter<object[]>("args")
-                .Build();
-
-            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidEntryException))]
-        public void TestReplaceWithEntryNameMissing()
-        {
-            var entry = new MethodBuilder("SayHello")
-                .AddParameter<Guid>("name")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<object[]>("args")
                 .Build();
 
@@ -160,11 +156,55 @@
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryWrongFirstType()
+        {
+            var entry = new MethodBuilder("SayHello")
+                .AddParameter<Guid>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object[]>("args")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
         public void TestReplaceWithEntryWrongSecondType()
         {
             var entry = new MethodBuilder("SayHello")
-                .AddParameter<string>("name")
-                .AddParameter<string>("args")
+                .AddParameter<string>("className")
+                .AddParameter<Guid>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object[]>("args")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryWrongThirdType()
+        {
+            var entry = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<Guid>("signature")
+                .AddParameter<object[]>("args")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryWrongFourthType()
+        {
+            var entry = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<bool>("args")
                 .Build();
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
@@ -175,7 +215,9 @@
         public void TestReplaceWithEntryWrongArray()
         {
             var entry = new MethodBuilder("SayHello")
-                .AddParameter<string>("name")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<int[]>("args")
                 .Build();
 
@@ -187,7 +229,9 @@
         public void TestReplaceWithEntryFirstNotIn()
         {
             var entry = new MethodBuilder("SayHello")
-                .AddParameter<string>("name", ParameterAttributes.Out)
+                .AddParameter<string>("className", ParameterAttributes.Out)
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<object[]>("args")
                 .Build();
 
@@ -199,7 +243,37 @@
         public void TestReplaceWithEntrySecondNotIn()
         {
             var entry = new MethodBuilder("SayHello")
-                .AddParameter<string>("name")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName", ParameterAttributes.Out)
+                .AddParameter<string>("signature")
+                .AddParameter<object[]>("args")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryThirdNotIn()
+        {
+            var entry = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature", ParameterAttributes.Out)
+                .AddParameter<object[]>("args")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryFourthNotIn()
+        {
+            var entry = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
                 .AddParameter<object[]>("args", ParameterAttributes.Out)
                 .Build();
 

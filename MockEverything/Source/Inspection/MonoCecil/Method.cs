@@ -216,10 +216,12 @@ namespace MockEverything.Inspection.MonoCecil
 
             this.VerifyEntryMethod(entry);
 
-            var objectType = entry.Parameters.ElementAt(1).ParameterType.GetElementType();
+            var objectType = entry.Parameters.Last().ParameterType.GetElementType();
             var instructions = this.definition.Body.Instructions;
 
+            yield return Instruction.Create(OpCodes.Ldstr, this.definition.DeclaringType.FullName);
             yield return Instruction.Create(OpCodes.Ldstr, this.Name);
+            yield return Instruction.Create(OpCodes.Ldstr, this.definition.FullName);
             yield return Instruction.Create(OpCodes.Ldc_I4, this.definition.Parameters.Count);
             yield return Instruction.Create(OpCodes.Newarr, objectType);
 
@@ -250,6 +252,7 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(entry != null);
 
+            // Notice that in the checks below, the type is compared by its full name. This means that, actually, nothing prevents the caller from creating a `System.Object` or `System.String` and use it instead of the native one; if he does, the code will fail. On the other hand, if the caller actually screws with the code at this level, there is probably no need to handle this case.
             if (!entry.IsPublic || !entry.IsStatic || entry.HasGenericParameters)
             {
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should be a public, static, non-generic method.", entry.FullName, entry.DeclaringType.FullName));
@@ -260,28 +263,28 @@ namespace MockEverything.Inspection.MonoCecil
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should not return a value.", entry.FullName, entry.DeclaringType.FullName));
             }
 
-            if (entry.Parameters.Count != 2)
+            if (entry.Parameters.Count != 4)
             {
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have two and two only parameters, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters.Count));
             }
 
-            if (entry.Parameters[0].Attributes != ParameterAttributes.None)
+            foreach (var parameter in entry.Parameters)
             {
-                throw new InvalidEntryException(string.Format("The first parameter of the entry method {0} in {1} should be an `in`, with no default values or other attributes.", entry.FullName, entry.DeclaringType.FullName));
+                if (parameter.Attributes != ParameterAttributes.None)
+                {
+                    throw new InvalidEntryException(string.Format("The parameter `{0}` of the entry method {1} in {2} should not contain default values or other attributes such as `ref` or `out`.", parameter.Name, entry.FullName, entry.DeclaringType.FullName));
+                }
             }
 
-            if (entry.Parameters[1].Attributes != ParameterAttributes.None)
+            foreach (var parameter in entry.Parameters.Take(3))
             {
-                throw new InvalidEntryException(string.Format("The second parameter of the entry method {0} in {1} should be an `in`, with no default values or other attributes.", entry.FullName, entry.DeclaringType.FullName));
+                if (parameter.ParameterType.FullName != "System.String")
+                {
+                    throw new InvalidEntryException(string.Format("The parameter `{0}` of the entry method {1} in {2} should be a string, not {3}.", parameter.Name, entry.FullName, entry.DeclaringType.FullName, entry.Parameters[0].ParameterType.FullName));
+                }
             }
 
-            // Notice that in the checks below, the type is compared by its full name. This means that, actually, nothing prevents the caller from creating a `System.Object` or `System.String` and use it instead of the native one; if he does, the code will fail. On the other hand, if the caller actually screws with the code at this level, there is probably no need to handle this case.
-            if (entry.Parameters[0].ParameterType.FullName != "System.String")
-            {
-                throw new InvalidEntryException(string.Format("The first parameter of the entry method {0} in {1} should be a string, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters[0].ParameterType.FullName));
-            }
-
-            if (!entry.Parameters[1].ParameterType.IsArray || entry.Parameters[1].ParameterType.GetElementType().FullName != "System.Object")
+            if (!entry.Parameters[3].ParameterType.IsArray || entry.Parameters[3].ParameterType.GetElementType().FullName != "System.Object")
             {
                 throw new InvalidEntryException(string.Format("The second parameter of the entry method {0} in {1} should be an array of strings.", entry.FullName, entry.DeclaringType.FullName));
             }
