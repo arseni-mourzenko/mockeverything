@@ -80,8 +80,8 @@
                 Instruction.Create(OpCodes.Ret));
 
             var entry = this.DemoMethodDefinition;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<object[]>()));
 
             new Method(destination).ReplaceBody(new Method(source), new Method(entry));
 
@@ -95,8 +95,8 @@
         {
             var entry = this.DemoMethodDefinition;
             entry.Attributes = MethodAttributes.Public;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<object[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -107,8 +107,8 @@
         {
             var entry = this.DemoMethodDefinition;
             entry.ReturnType = this.FindTypeDefinitionOf<string>();
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<object[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -119,8 +119,8 @@
         {
             var entry = this.DemoMethodDefinition;
             entry.Attributes = MethodAttributes.Private | MethodAttributes.Static;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<object[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -130,8 +130,8 @@
         public void TestReplaceWithEntryNameMissing()
         {
             var entry = this.DemoMethodDefinition;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<Guid>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<Guid>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<object[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -141,7 +141,7 @@
         public void TestReplaceWithEntryWrongNumberOfParameters()
         {
             var entry = this.DemoMethodDefinition;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -151,8 +151,8 @@
         public void TestReplaceWithEntryWrongSecondType()
         {
             var entry = this.DemoMethodDefinition;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -162,8 +162,8 @@
         public void TestReplaceWithEntryWrongArray()
         {
             var entry = this.DemoMethodDefinition;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<int[]>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<int[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -174,7 +174,7 @@
         {
             var entry = this.DemoMethodDefinition;
             entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.Out, this.FindTypeReferenceOf<string>()));
-            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.None, this.FindTypeReferenceOf<object[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
@@ -184,7 +184,7 @@
         public void TestReplaceWithEntrySecondNotIn()
         {
             var entry = this.DemoMethodDefinition;
-            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.None, this.FindTypeReferenceOf<string>()));
             entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.Out, this.FindTypeReferenceOf<object[]>()));
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));

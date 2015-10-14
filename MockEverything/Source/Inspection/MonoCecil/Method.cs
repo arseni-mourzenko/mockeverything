@@ -265,12 +265,12 @@ namespace MockEverything.Inspection.MonoCecil
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have two and two only parameters, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters.Count));
             }
 
-            if (entry.Parameters[0].Attributes != ParameterAttributes.In)
+            if (entry.Parameters[0].Attributes != ParameterAttributes.None)
             {
                 throw new InvalidEntryException(string.Format("The first parameter of the entry method {0} in {1} should be an `in`, with no default values or other attributes.", entry.FullName, entry.DeclaringType.FullName));
             }
 
-            if (entry.Parameters[1].Attributes != ParameterAttributes.In)
+            if (entry.Parameters[1].Attributes != ParameterAttributes.None)
             {
                 throw new InvalidEntryException(string.Format("The second parameter of the entry method {0} in {1} should be an `in`, with no default values or other attributes.", entry.FullName, entry.DeclaringType.FullName));
             }
