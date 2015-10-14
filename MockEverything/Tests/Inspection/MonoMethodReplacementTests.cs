@@ -91,6 +91,42 @@
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryNonStatic()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Attributes = MethodAttributes.Public;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryNonVoid()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.ReturnType = this.FindTypeDefinitionOf<string>();
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithEntryNonPublic()
+        {
+            var entry = this.DemoMethodDefinition;
+            entry.Attributes = MethodAttributes.Private | MethodAttributes.Static;
+            entry.Parameters.Add(new ParameterDefinition("name", ParameterAttributes.In, this.FindTypeReferenceOf<string>()));
+            entry.Parameters.Add(new ParameterDefinition("args", ParameterAttributes.In, this.FindTypeReferenceOf<object[]>()));
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
         public void TestReplaceWithEntryNameMissing()
         {
             var entry = this.DemoMethodDefinition;
@@ -172,7 +208,7 @@
         {
             get
             {
-                var method = new MethodDefinition("SayHello", MethodAttributes.Public, this.FindTypeDefinitionOf<string>());
+                var method = new MethodDefinition("SayHello", MethodAttributes.Public | MethodAttributes.Static, this.FindTypeDefinitionOf(typeof(void)));
                 method.DeclaringType = this.FindTypeDefinitionOf<object>();
                 return method;
             }
@@ -182,7 +218,14 @@
         {
             Contract.Ensures(Contract.Result<TypeDefinition>() != null);
 
-            var result = this.FindTypeReferenceOf<T>() as TypeDefinition;
+            return this.FindTypeDefinitionOf(typeof(T));
+        }
+
+        private TypeDefinition FindTypeDefinitionOf(System.Type type)
+        {
+            Contract.Ensures(Contract.Result<TypeDefinition>() != null);
+
+            var result = this.FindTypeReferenceOf(type) as TypeDefinition;
             if (result == null)
             {
                 throw new NotImplementedException("The discovery of the type failed. You can still get a `TypeReference` by calling `FindTypeReferenceOf<T>()` instead.");

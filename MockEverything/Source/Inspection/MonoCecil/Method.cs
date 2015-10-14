@@ -250,6 +250,16 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(entry != null);
 
+            if (!entry.IsPublic || !entry.IsStatic || entry.HasGenericParameters)
+            {
+                throw new InvalidEntryException(string.Format("The entry method {0} in {1} should be a public, static, non-generic method.", entry.FullName, entry.DeclaringType.FullName));
+            }
+
+            if (entry.ReturnType.FullName != "System.Void")
+            {
+                throw new InvalidEntryException(string.Format("The entry method {0} in {1} should not return a value.", entry.FullName, entry.DeclaringType.FullName));
+            }
+
             if (entry.Parameters.Count != 2)
             {
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have two and two only parameters, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters.Count));
