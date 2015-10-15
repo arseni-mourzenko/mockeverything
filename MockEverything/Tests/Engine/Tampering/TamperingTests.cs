@@ -136,6 +136,7 @@
 
             var info = new ProcessStartInfo(readFileExePath)
             {
+                Arguments = "with-result",
                 WindowStyle = ProcessWindowStyle.Hidden,
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
@@ -148,6 +149,43 @@
                 var expected = @"MockEverythingTests.AopTarget.AopDemo.SayHello called with arguments {Jeff, 123}
 MockEverythingTests.AopTarget.AopDemo.SayHello finished with value AOP hello, Jeff! 123
 AOP hello, Jeff! 123";
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("System tests")]
+        public void TestHooksInTamperingVoidMethod()
+        {
+            var testsPath = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(this.CurrentPath)));
+            var readFileDirectoryPath = Path.Combine(testsPath, @"Aop\bin\Debug");
+            var readFileExePath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.Aop.exe");
+            var tampering = new Tampering
+            {
+                Pair = new Pair<IAssembly>(
+                    proxy: new Assembly(this.FindAssemblyPathOf(typeof(AopProxy))),
+                    target: new Assembly(this.FindAssemblyPathOf(typeof(AopDemo)))),
+            };
+
+            var resultPath = Path.Combine(readFileDirectoryPath, "MockEverythingTests.AopTarget.dll");
+            tampering.Tamper().Save(resultPath);
+
+            var info = new ProcessStartInfo(readFileExePath)
+            {
+                Arguments = "void-method",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+            };
+
+            using (var process = Process.Start(info))
+            {
+                process.WaitForExit();
+                var actual = process.StandardOutput.ReadToEnd();
+                var expected = @"MockEverythingTests.AopTarget.AopDemo.DoStuff called with arguments {Alice}
+AOP direct hello, Alice!
+MockEverythingTests.AopTarget.AopDemo.DoStuff finished with value null
+";
                 Assert.AreEqual(expected, actual);
             }
         }

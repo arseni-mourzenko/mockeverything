@@ -218,8 +218,14 @@ namespace MockEverything.Inspection.MonoCecil
                     var instruction = destination.Instructions[index];
                     if (instruction.OpCode.Code == Code.Ret)
                     {
-                        var exitVariable = new VariableDefinition(destination.Method.ReturnType);
-                        destination.Variables.Add(exitVariable);
+                        var exitVariable = this.definition.ReturnType.MetadataType != MetadataType.Void ?
+                            new VariableDefinition(destination.Method.ReturnType) :
+                            null;
+
+                        if (exitVariable != null)
+                        {
+                            destination.Variables.Add(exitVariable);
+                        }
 
                         foreach (var exitCallInstruction in this.GenerateExitCall(exit, exitVariable))
                         {
@@ -280,13 +286,24 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(exit != null);
 
-            yield return Instruction.Create(OpCodes.Stloc_S, exitVariable);
-            yield return Instruction.Create(OpCodes.Ldstr, this.definition.DeclaringType.FullName);
-            yield return Instruction.Create(OpCodes.Ldstr, this.Name);
-            yield return Instruction.Create(OpCodes.Ldstr, this.definition.FullName);
-            yield return Instruction.Create(OpCodes.Ldloc_S, exitVariable);
-            yield return Instruction.Create(OpCodes.Call, exit);
-            yield return Instruction.Create(OpCodes.Ldloc_S, exitVariable);
+            if (this.definition.ReturnType.MetadataType != MetadataType.Void)
+            {
+                yield return Instruction.Create(OpCodes.Stloc_S, exitVariable);
+                yield return Instruction.Create(OpCodes.Ldstr, this.definition.DeclaringType.FullName);
+                yield return Instruction.Create(OpCodes.Ldstr, this.Name);
+                yield return Instruction.Create(OpCodes.Ldstr, this.definition.FullName);
+                yield return Instruction.Create(OpCodes.Ldloc_S, exitVariable);
+                yield return Instruction.Create(OpCodes.Call, exit);
+                yield return Instruction.Create(OpCodes.Ldloc_S, exitVariable);
+            }
+            else
+            {
+                yield return Instruction.Create(OpCodes.Ldstr, this.definition.DeclaringType.FullName);
+                yield return Instruction.Create(OpCodes.Ldstr, this.Name);
+                yield return Instruction.Create(OpCodes.Ldstr, this.definition.FullName);
+                yield return Instruction.Create(OpCodes.Ldnull);
+                yield return Instruction.Create(OpCodes.Call, exit);
+            }
         }
 
         /// <summary>

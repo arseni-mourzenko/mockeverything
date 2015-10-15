@@ -16,13 +16,19 @@
         [ExitHook]
         public static void Exit(string className, string methodName, string methodSignature, object value)
         {
-            Console.WriteLine(className + "." + methodName + " finished with value " + value);
+            Console.WriteLine(className + "." + methodName + " finished with value " + (value ?? "null"));
         }
 
         [ProxyMethod(TargetMethodType.Static)]
         public static string SayHello(string name, int something)
         {
             return string.Format("AOP hello, {0}! {1}", name, something);
+        }
+
+        [ProxyMethod(TargetMethodType.Static)]
+        public static void DoStuff(string name)
+        {
+            Console.WriteLine("AOP direct hello, {0}!", name);
         }
     }
 }
