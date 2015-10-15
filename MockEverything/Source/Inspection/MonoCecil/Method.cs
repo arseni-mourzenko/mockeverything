@@ -286,6 +286,8 @@ namespace MockEverything.Inspection.MonoCecil
         {
             Contract.Requires(exit != null);
 
+            this.VerifyExitMethod(exit);
+
             if (this.definition.ReturnType.MetadataType != MetadataType.Void)
             {
                 yield return Instruction.Create(OpCodes.Stloc_S, exitVariable);
@@ -326,9 +328,10 @@ namespace MockEverything.Inspection.MonoCecil
                 throw new InvalidEntryException(string.Format("The entry method {0} in {1} should not return a value.", entry.FullName, entry.DeclaringType.FullName));
             }
 
-            if (entry.Parameters.Count != 4)
+            const int NumberOfParameters = 4;
+            if (entry.Parameters.Count != NumberOfParameters)
             {
-                throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have two and two only parameters, not {2}.", entry.FullName, entry.DeclaringType.FullName, entry.Parameters.Count));
+                throw new InvalidEntryException(string.Format("The entry method {0} in {1} should have exactly {2} parameters, not {3}.", entry.FullName, entry.DeclaringType.FullName, NumberOfParameters, entry.Parameters.Count));
             }
 
             foreach (var parameter in entry.Parameters)
@@ -349,7 +352,55 @@ namespace MockEverything.Inspection.MonoCecil
 
             if (!entry.Parameters[3].ParameterType.IsArray || entry.Parameters[3].ParameterType.GetElementType().FullName != "System.Object")
             {
-                throw new InvalidEntryException(string.Format("The second parameter of the entry method {0} in {1} should be an array of strings.", entry.FullName, entry.DeclaringType.FullName));
+                throw new InvalidEntryException(string.Format("The last parameter of the entry method {0} in {1} should be an array of strings.", entry.FullName, entry.DeclaringType.FullName));
+            }
+        }
+
+        /// <summary>
+        /// Verifies that the entry method corresponds to the one expected when calling it at IL level.
+        /// </summary>
+        /// <param name="entry">The entry hook method to check.</param>
+        /// <exception cref="InvalidEntryException">The method is invalid.</exception>
+        private void VerifyExitMethod(MethodDefinition entry)
+        {
+            Contract.Requires(entry != null);
+
+            // Notice that in the checks below, the type is compared by its full name. This means that, actually, nothing prevents the caller from creating a `System.Object` or `System.String` and use it instead of the native one; if he does, the code will fail. On the other hand, if the caller actually screws with the code at this level, there is probably no need to handle this case.
+            if (!entry.IsPublic || !entry.IsStatic || entry.HasGenericParameters)
+            {
+                throw new InvalidEntryException(string.Format("The exit method {0} in {1} should be a public, static, non-generic method.", entry.FullName, entry.DeclaringType.FullName));
+            }
+
+            if (entry.ReturnType.FullName != "System.Void")
+            {
+                throw new InvalidEntryException(string.Format("The exit method {0} in {1} should not return a value.", entry.FullName, entry.DeclaringType.FullName));
+            }
+
+            const int NumberOfParameters = 4;
+            if (entry.Parameters.Count != NumberOfParameters)
+            {
+                throw new InvalidEntryException(string.Format("The exit method {0} in {1} should have exactly {2} parameters, not {3}.", entry.FullName, entry.DeclaringType.FullName, NumberOfParameters, entry.Parameters.Count));
+            }
+
+            foreach (var parameter in entry.Parameters)
+            {
+                if (parameter.Attributes != ParameterAttributes.None)
+                {
+                    throw new InvalidEntryException(string.Format("The parameter `{0}` of the exit method {1} in {2} should not contain default values or other attributes such as `ref` or `out`.", parameter.Name, entry.FullName, entry.DeclaringType.FullName));
+                }
+            }
+
+            foreach (var parameter in entry.Parameters.Take(3))
+            {
+                if (parameter.ParameterType.FullName != "System.String")
+                {
+                    throw new InvalidEntryException(string.Format("The parameter `{0}` of the exit method {1} in {2} should be a string, not {3}.", parameter.Name, entry.FullName, entry.DeclaringType.FullName, entry.Parameters[0].ParameterType.FullName));
+                }
+            }
+
+            if (entry.Parameters[3].ParameterType.FullName != "System.Object")
+            {
+                throw new InvalidEntryException(string.Format("The last parameter of the exit method {0} in {1} should be an object.", entry.FullName, entry.DeclaringType.FullName));
             }
         }
 
