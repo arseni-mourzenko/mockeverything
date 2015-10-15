@@ -101,6 +101,7 @@ namespace MockEverything.Inspection.MonoCecil
         /// Generates the hash code of this object.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
+        [ExcludeFromCodeCoverage]
         public override int GetHashCode()
         {
             var hash = 17;

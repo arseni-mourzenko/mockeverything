@@ -64,5 +64,14 @@
             var p2 = new Parameter(ParameterVariant.Params, type);
             Assert.IsFalse(p1.Equals(p2));
         }
+
+        [TestMethod]
+        public void TestGetHashCode()
+        {
+            var type = new TypeStub("Hello", "Demo.Hello");
+            var p1 = new Parameter(ParameterVariant.In, type);
+            var p2 = new Parameter(ParameterVariant.In, type);
+            Assert.AreEqual(p1.GetHashCode(), p2.GetHashCode());
+        }
     }
 }

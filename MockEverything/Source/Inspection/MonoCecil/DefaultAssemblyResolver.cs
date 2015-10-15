@@ -72,6 +72,7 @@ namespace MockEverything.Inspection.MonoCecil
         /// Provides the invariant contracts for the fields and properties of this object.
         /// </summary>
         [ContractInvariantMethod]
+        [ExcludeFromCodeCoverage]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Required for code contracts.")]
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
         private void ObjectInvariant()

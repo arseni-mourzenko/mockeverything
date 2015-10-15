@@ -7,6 +7,7 @@ namespace MockEverything.Inspection.MonoCecil
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using Mono.Cecil;
@@ -41,16 +42,8 @@ namespace MockEverything.Inspection.MonoCecil
             this.underlyingAssembly = new Lazy<AssemblyDefinition>(
                 () =>
                 {
-                    try
-                    {
-                        var readerParams = new ReaderParameters { AssemblyResolver = new DefaultAssemblyResolver(dependenciesLocations) };
-                        return AssemblyDefinition.ReadAssembly(this.path, readerParams);
-                    }
-                    catch (BadImageFormatException)
-                    {
-                        Console.WriteLine(this.path);
-                        throw;
-                    }
+                    var readerParams = new ReaderParameters { AssemblyResolver = new DefaultAssemblyResolver(dependenciesLocations) };
+                    return AssemblyDefinition.ReadAssembly(this.path, readerParams);
                 });
         }
 
@@ -113,6 +106,7 @@ namespace MockEverything.Inspection.MonoCecil
         /// Generates the hash code of this object.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
+        [ExcludeFromCodeCoverage]
         public override int GetHashCode()
         {
             var hash = 17;
