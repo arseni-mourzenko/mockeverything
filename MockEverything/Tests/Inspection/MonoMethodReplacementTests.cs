@@ -73,6 +73,7 @@
             Assert.AreEqual(ExceptionHandlerType.Filter, destination.Body.ExceptionHandlers[0].HandlerType);
         }
 
+        #region Replace body with entry method
         [TestMethod]
         public void TestReplaceWithEntry()
         {
@@ -279,6 +280,202 @@
 
             new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), new Method(entry));
         }
+        #endregion
+
+        #region Replace body with entry method
+        [TestMethod]
+        public void TestReplaceWithExit()
+        {
+            var source = new MethodBuilder("SayHello")
+                .AddInstruction(OpCodes.Ret)
+                .Build();
+
+            var destination = new MethodBuilder("SayHello")
+                .AddInstruction(OpCodes.Ldstr, "Hello, World!")
+                .AddInstruction(OpCodes.Ret)
+                .Build();
+
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(destination).ReplaceBody(new Method(source), exit: new Method(exit));
+
+            Assert.IsTrue(destination.Body.Instructions.Count > 1);
+            Assert.AreEqual(OpCodes.Stloc_S, destination.Body.Instructions[0].OpCode);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitNonStatic()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .MakeInstance()
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitNonVoid()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .Returns<string>()
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitNonPublic()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .MakePrivate()
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitWrongNumberOfParameters()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("name")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitWrongFirstType()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<Guid>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitWrongSecondType()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<Guid>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitWrongThirdType()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<Guid>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitWrongFourthType()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<bool>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitFirstNotIn()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className", ParameterAttributes.Out)
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitSecondNotIn()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName", ParameterAttributes.Out)
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitThirdNotIn()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature", ParameterAttributes.Out)
+                .AddParameter<object>("value")
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEntryException))]
+        public void TestReplaceWithExitFourthNotIn()
+        {
+            var exit = new MethodBuilder("SayHello")
+                .AddParameter<string>("className")
+                .AddParameter<string>("methodName")
+                .AddParameter<string>("signature")
+                .AddParameter<object>("value", ParameterAttributes.Out)
+                .Build();
+
+            new Method(this.DemoMethodDefinition).ReplaceBody(new Method(this.DemoMethodDefinition), exit: new Method(exit));
+        }
+        #endregion
 
         private class TypeDiscovery
         {
@@ -455,6 +652,7 @@
                 return new MethodBuilder("SayHello")
                     .AddParameter<string>("name")
                     .AddParameter<object[]>("args")
+                    .AddInstruction(OpCodes.Ret)
                     .Build();
             }
         }
