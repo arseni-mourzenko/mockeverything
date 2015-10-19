@@ -138,7 +138,7 @@ One issue I encountered when using MockEverything is when it comes to customizin
 
 Proxies are static. This means that whoever references an assembly containing a proxy can invoke methods within this proxy, which also means calling getters and setters. What if the unit test could simply use the proxy? Consider the following diagram:
 
-![](Illustrations/1.png)
+![](MockEverything/Illustrations/1.png?raw=true)
 
 here, we need to test `Lib.ShoppingCart.RefreshPrice()` which, unfortunately, relies on `Lib.ProductsStore.FindProduct()` which in turn interacts with the database. The solution is to create a proxy which overwrites the actual implementation of `Lib.ProductsStore.FindProduct()` by either returning a sample product every time the method is invoked with specific product IDs, or throws an exception when other IDs are passed to the method (simulating a case where the product doesn't exist).
 
@@ -150,37 +150,37 @@ here, we need to test `Lib.ShoppingCart.RefreshPrice()` which, unfortunately, re
 
 During the tampering, the proxy is merged with the third-party assembly (the target).
 
-![](Illustrations/1b.png)
+![](MockEverything/Illustrations/1b.png?raw=true)
 
 Now, when `FindProduct` refers to `existingIds`, does it refer to `existingIds` within the tampered `Lib.ProductsStore`? Absolutely not: `Lib.ProductsStore` doesn't contain any `existingIds`, which still resides in `Proxy.ProducsStore`. **This is exactly why all members of proxies are necessarily public:** otherwise, a proxy could compile, but fail at runtime when the methods copied to the target try to access private members of the proxy. Thus, the previous illustration is wrong.
 
 Let's get back to the original problem of changing the data used by the proxies from within the tests. Now, we put the sequence of IDs not as a private field within the proxy class itself, but as a public property of a public class within the same assembly as the proxy class. Since everything is public, there will be no visibility issues after the tampering.
 
-![](Illustrations/2.png)
+![](MockEverything/Illustrations/2.png?raw=true)
 
 After the tampering:
 
-![](Illustrations/2b.png)
+![](MockEverything/Illustrations/2b.png?raw=true)
 
 What if the unit test fills the sequence with specific values during its initialization, and then calls `RefreshPrice`? This won't work either. In fact, what happens is that the unit test assembly references the proxy assembly; what is actually used by the shopping cart class is the code within the tampered assembly. This mismatch means that the unit test will modify a property of a class within one assembly, while, through the third-party library, it's a different assembly which will be used. As a result, the changes to the sequence made directly by the unit test won't appear when accessing it through the tampered code.
 
 This is better illustrated with the component diagram:
 
-![](Illustrations/2c.png)
+![](MockEverything/Illustrations/2c.png?raw=true)
 
 There is no link between the proxy and the tampered third party; thus, when the unit test changes the values of the properties within the proxy, the third party is not affected by the changes.
 
 The solution is to use a separate assembly to exchange information between the unit test and the tampered target:
 
-![](Illustrations/3.png)
+![](MockEverything/Illustrations/3.png?raw=true)
 
 After the tampering:
 
-![](Illustrations/3b.png)
+![](MockEverything/Illustrations/3b.png?raw=true)
 
 What happens here is that when the code from the proxy `FindProduct` is copied to the target, both still reference the exchanger assembly—the same assembly in both cases. Affecting `ExistingIds` property from amywhere, would it be from the unit test or the proxy moved to the target, will lead to the change which will be global to all consumers. The component diagram shows the new relations:
 
-![](Illustrations/3c.png)
+![](MockEverything/Illustrations/3c.png?raw=true)
 
 ## Design
 
