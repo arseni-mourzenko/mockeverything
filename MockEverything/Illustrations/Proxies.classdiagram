@@ -1,0 +1,1189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" dslVersion="1.0.0.0" Id="7648cc26-6362-4cb3-bc8f-64e5e3a5ed44" name="Proxies" linkedPackageId="0a7267a7-46d9-43da-835e-c8913e5759d5" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="c90cc244-b2d7-4425-831d-019145cc7a1e">
+      <profileInstance Id="e84c499a-1a6c-4609-98da-49cf629470c3" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="afe9777d-7cb6-4375-b06e-b14b75295e5a">
+      <profileInstance Id="cfdcee6b-2bd7-4254-a79b-b0762a63fc0d" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="2bab74c7-fe2a-4fd6-a1b2-d4c36e9dd433" name="ThirdParty">
+        <elementDefinition Id="abbebe64-d83a-438c-8711-83196ce6313a" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="f2add3d4-8eb9-42e3-9d22-7efdff1f104f" name="Lib.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a75e0344-29ca-4e17-a27e-19ce32728dfb" />
+              <ownedAttributesInternal>
+                <property Id="b6d48df6-9429-41e3-a01c-87ba82b370b5" name="DatabaseLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b25cc409-d334-4fe3-bb82-b08576163147" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="c52d127c-6c9b-4e34-937f-e28ca68132db" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="fd3581c0-b0ed-47a0-942b-b8555ca32fcf" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="7fdbd5c1-8195-4938-8762-984fbaca81a6" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="981e0a78-3516-41e5-8ab8-17eae10c0b49" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="2171ec3d-d460-4ed9-8952-60ffa56397d4" direction="Return" isUnique="false">
+                        <elementDefinition Id="bbfca180-5f5a-44fe-be0b-a12edef06a78" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="5c41cbfa-fb8c-48c6-9ee7-cb4dc31721a4" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="75ce1a94-3f6d-43ce-b2c6-c950a6f7f398" name="Purchase" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="e444d8d8-efd1-40e2-aaef-703b8b3e1926" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="f3e77080-797b-4ed4-811b-3848d183ab5f" name="Product" direction="In" isUnique="false">
+                        <elementDefinition Id="f8040e22-6679-4ec5-9579-bf37ad154f1d" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="24d7eac0-ddc5-40e7-8c3d-d7ef024c0571" name="Lib.ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="9879004e-b391-46ec-85d5-d7a56676ae6c" />
+              <targetEnds>
+                <association Id="78a7cb38-d67e-4567-8707-b9295fcc3fb6" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="ProductsStore" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="f2add3d4-8eb9-42e3-9d22-7efdff1f104f" LastKnownName="Lib.ProductsStore" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="46a872a4-52ea-4f2b-94a0-cf1fbf28ddbb" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="f369e586-d84c-49a5-af4b-936dc36a87a1" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="99432c10-9dc0-4675-9e41-4e9afe1336ec" name="ProductsStore" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="9de78f49-5d79-4c9c-8f99-6c3960a4865c" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="125b2ee3-ef02-4486-8c18-cac3fc868be2" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="c1d035c2-5fdc-4475-9aaf-343a5bd5adf5" name="products" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="ef83bd17-e617-4739-aded-09b24e838131" name="Lower" value="*">
+                      <elementDefinition Id="55334925-c015-4d4a-b81c-ad14c25e2ce0" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="2b51f4c6-cf9d-4e01-b96a-1b6e84e63a28" name="Upper" value="*">
+                      <elementDefinition Id="8345f0db-8bdd-420e-ac26-0cd2b1177cc9" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="ea2bc805-dd64-4959-a3e3-ba11465c79a6" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="2b8e6ed8-1384-4ab9-9e46-8afa7c80d22a" LastKnownName="Product" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="332403af-9993-412b-9d12-13f981e5da6e" name="RefreshPrice" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="b42805af-6596-4adb-9e43-97e286fe80ef" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="5c41cbfa-fb8c-48c6-9ee7-cb4dc31721a4" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="6cd9f1f7-a3e8-405e-b718-e6850e90ed45" name="Proxy">
+        <elementDefinition Id="50bb9462-9100-428b-9548-d5702ef61df4" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="5be7d50c-9f15-417d-a42e-7e65d21eae8e" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="9dc9eab6-fc83-4455-89ca-5c13ea96d395" />
+              <ownedAttributesInternal>
+                <property Id="48e5423c-8595-4785-8e49-2825dd09c275" name="existingIds" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="0b895b96-c447-451a-9507-bdc87158fae7" name="Lower" value="*">
+                      <elementDefinition Id="c1e351a1-e581-4108-b4db-b4754e31c65e" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="15484e7d-ed19-440b-9de1-7c7e2df791dd" name="Upper" value="*">
+                      <elementDefinition Id="c69c7b49-769b-4ecd-a73f-23c3b029d2ae" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="da933ed6-b105-45f8-a72f-0b3605c436dc" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="6687d6cf-ba00-42f1-95e7-297fc81a79bd" LastKnownName="int" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="373cd9c5-ae5c-46ba-ada0-41424d1d5623" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="9441998d-e98f-48c3-b2b0-9c7d653a104d" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="24d56934-588f-435d-bf45-ad19d6e708bf" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="9e0c7bc1-bf9a-4297-9812-fb4f16692cd1" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="f940be39-09e9-42d1-b5f6-b12f5502cfc8" direction="Return" isUnique="false">
+                        <elementDefinition Id="b6d85790-1cf0-44ab-96ec-f8ec67ce0558" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="ff1d0a73-b322-4fb6-96e3-09d020a52865" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="ff1d0a73-b322-4fb6-96e3-09d020a52865" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="2b8e6ed8-1384-4ab9-9e46-8afa7c80d22a" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="c091081a-acc2-47e8-8734-f8b73bce8461" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="ea307a27-d48c-4212-8aff-352bc05cd27a" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="17e57c70-746a-40b2-879f-f2bfdcd75851" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="f2956434-fbec-4632-b0cd-d85294795ecd" name="ThirdParty">
+        <elementDefinition Id="4a3ec50c-d4f1-43ba-a8da-0c21405a7055" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="d19041b0-04c1-4e98-8dcb-25b7c8781266" name="Lib.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d3a71a18-579d-4ebc-b3a5-8753ec9d4c9c" />
+              <ownedAttributesInternal>
+                <property Id="5eb4db83-0446-4782-8583-126258c367fd" name="DatabaseLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7c9b4745-e900-4701-a1a0-c6173fb0812c" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="d4e6537f-563e-4d71-b5c0-e619daa324bb" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="1a298916-99f5-4970-bd68-0f6c4c4c35d4" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="925c8de9-812a-40b6-8a5c-35f9d1513fd0" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="fd6f1684-3411-4a7d-9c75-944f3604e744" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="46a41b3f-4c0e-4c11-a64a-25bb35c8d151" direction="Return" isUnique="false">
+                        <elementDefinition Id="627425df-8272-4443-9389-0a898e1f352e" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="ea307a27-d48c-4212-8aff-352bc05cd27a" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="5aac3e35-ad5d-4d8c-9991-ece8f3b57977" name="Purchase" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="6ddc9e15-fb37-47cc-835a-923d4e96b1b2" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="ab1cfd6f-f3be-4258-81b4-0d7b9f65857f" name="Product" direction="In" isUnique="false">
+                        <elementDefinition Id="3f52cf67-2e83-4601-82fd-a5e1f4b8afb1" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="333eed6b-1e58-4bd9-b583-6bcf5057d1f9" name="Lib.ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2f8e9c2b-fc1e-4ade-a35a-3e59daf75131" />
+              <targetEnds>
+                <association Id="3048b552-2d8f-477d-8432-44ce5103f3fd" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="ProductsStore" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="d19041b0-04c1-4e98-8dcb-25b7c8781266" LastKnownName="Lib.ProductsStore" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="72e11d7f-5523-4f0c-b67b-2a91faa567e6" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="6651b9b1-318e-4108-b0f5-6e0a6631e57f" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="a1d81961-fb6f-460d-aa43-aacecd3a5826" name="ProductsStore" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="f974a3d1-c0ad-4a2a-a201-4d191c9ec67e" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="2818dbb5-9a05-4688-b5ee-77853f32cc29" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="c10f39cb-dc03-43f2-9f96-47a24dfec9b1" name="products" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="311f3a4a-d735-4d66-bef9-9dc8ce1bbf39" name="Lower" value="*">
+                      <elementDefinition Id="f47148ab-e781-4c59-ae2f-904b59c267cb" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="6d1f4735-fee0-4796-a610-5a3ed67f5fee" name="Upper" value="*">
+                      <elementDefinition Id="b75406ca-f2f0-4565-b672-88ac69665be7" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="930ce6f5-1356-47d3-8e88-6f1479ea5612" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="c091081a-acc2-47e8-8734-f8b73bce8461" LastKnownName="Product" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="34099bd2-2020-4bb6-8878-e4c3de562aac" name="RefreshPrice" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="23f31381-3d30-4a16-8f63-d263a2ec4cd0" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="147dac7a-456b-451d-a6ea-fdddffb9d4fb" name="Proxy">
+        <elementDefinition Id="fc6fb958-2e94-412d-88e3-88db0ab3d35d" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="eccac922-1522-467e-8b68-2857217d7373" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e8494925-69ff-43c9-9061-65d6a533eb6f" />
+              <suppliersInternal>
+                <dependency Id="515f813a-75b2-429a-b4c9-f910f07a1147">
+                  <classMoniker Id="84e71ddf-4da4-4dc1-9891-9416276c644a" LastKnownName="Proxy.ProductsStoreData" />
+                  <elementDefinition Id="7549d25d-5c7c-4911-92fb-af05bc5c6de9" />
+                </dependency>
+              </suppliersInternal>
+              <ownedOperationsInternal>
+                <operation Id="de62677b-d884-4c7d-8441-7ff36450e85e" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="782fcd88-e003-4619-934d-6e18c2fae487" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="7a9c7155-297c-4b35-ae02-3fbecf2aac2b" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="a7350ec9-3302-4da1-b5d1-e4bb99b760be" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="3cb11053-764d-40a0-9d78-8b0f789c2b5a" direction="Return" isUnique="false">
+                        <elementDefinition Id="5d44d17a-0020-4e05-b3b4-c4544f919e42" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="17e57c70-746a-40b2-879f-f2bfdcd75851" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="84e71ddf-4da4-4dc1-9891-9416276c644a" name="Proxy.ProductsStoreData" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="33999179-173d-459a-bafc-21b70de47de8" />
+              <ownedAttributesInternal>
+                <property Id="7a0b444f-780e-40de-bbe8-89f164b69298" name="ExistingIds" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="bf447362-e0cf-4f4c-9762-55c8b35bb06e" name="Lower" value="*">
+                      <elementDefinition Id="09743605-198f-47ea-91ca-465be193f713" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="cf5ed2fd-a36f-42c9-9caf-2d4888987668" name="Upper" value="*">
+                      <elementDefinition Id="765159a6-9cbf-4713-89be-129343a5dcfc" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="36c2d6c9-2a91-4a79-94e0-db105db734be" />
+                </property>
+              </ownedAttributesInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="6687d6cf-ba00-42f1-95e7-297fc81a79bd" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="ad8a153c-07c1-449b-a02b-6c5af77cb4f0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="ed1cd4cc-8fdc-4ebb-8952-e8bccf019770" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="1351488a-c457-4a11-9527-d825829c5582" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="28790973-ea39-4a2d-8da6-6596b50c7e2a" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="60068322-6d2c-457e-a952-d5f23fe3e7cf" name="ThirdParty">
+        <elementDefinition Id="52372051-02c9-40fc-85e4-4dd6965956f9" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="cdb5160d-2f27-4ed7-a888-6f61d6b82ea9" name="Lib.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5c21b160-49cc-4520-9f4e-88b9e5c6a303" />
+              <ownedAttributesInternal>
+                <property Id="fa4550ba-a8af-4e96-b890-bf6c9f2157fc" name="DatabaseLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="9871179a-c90a-43d5-be4b-c2ae4b7b297a" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="a74d3450-f299-4413-b55d-f3ccf63f19ca" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="dd25f407-9554-4064-9217-2c7dcfb8dfcb" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="150e059b-b29d-48bc-bdee-95fcf49fffb1" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="b93919e5-29f3-426d-b32a-505f2d41c1be" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="636b48e9-6154-4e1a-9142-434c70e12e64" direction="Return" isUnique="false">
+                        <elementDefinition Id="a09dd1a2-6821-444f-a583-24a1fec3f162" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="1351488a-c457-4a11-9527-d825829c5582" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="42532cd4-c042-4053-970c-285c229df664" name="Purchase" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="c1d633ea-d880-4d3e-9cca-63493b2d9fa8" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="87e4c8b8-5e19-409b-8035-a0e2d69a8ce4" name="Product" direction="In" isUnique="false">
+                        <elementDefinition Id="87f0e508-7838-47fc-b2ab-409e77c7999e" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5e9ab434-fd5b-4c46-90ce-ac449122f2de" name="Lib.ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1fdc6d65-aae3-43bf-93a4-76a5f49b875b" />
+              <targetEnds>
+                <association Id="97a346c4-e2fd-463a-8742-397baeb0cc4e" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="ProductsStore" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="cdb5160d-2f27-4ed7-a888-6f61d6b82ea9" LastKnownName="Lib.ProductsStore" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="d29d0421-10ac-4b48-aefb-ca3541ff7dc3" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="7fcad83a-31af-49fa-a8ad-58f4df035dc8" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="6be3f260-3d64-4ac7-bbcb-10e5a272ddc2" name="ProductsStore" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="6a2a70d6-bf4f-4bd8-95ee-2f65f7409154" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="974ec706-75e2-4112-9656-74b3c6d4771a" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="03195674-b292-4ca4-8ee6-73168f8ab174" name="products" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="da227ccf-f5af-46f4-9d6d-fc7a0898a8e2" name="Lower" value="*">
+                      <elementDefinition Id="57b7aae0-f933-4602-8658-63bd6a64ea55" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="733fad7f-e68f-48f3-ad1e-96bf107dd029" name="Upper" value="*">
+                      <elementDefinition Id="20334c9b-4dab-49a3-85ec-87e1c0d8a2e3" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="d86b0879-5a5c-4fad-8a05-2b0ddc18a811" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="ed1cd4cc-8fdc-4ebb-8952-e8bccf019770" LastKnownName="Product" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="55507a81-982c-409a-afc5-8026cca20d41" name="RefreshPrice" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="c64184ea-3e99-411b-b4df-072fb0a466a4" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="f9811d3a-a25d-4b1e-9bbd-8acd486fbab9" name="Proxy">
+        <elementDefinition Id="ba55a52d-3b4b-432e-ac9a-692aa1bdb870" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="c7c51a0f-db74-4407-a6b3-0864bbccbf97" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="84e4c351-1afd-42b6-b7f3-1be037ca542d" />
+              <suppliersInternal>
+                <dependency Id="b47a0654-94e7-4d53-831c-1391478e44fd">
+                  <classMoniker Id="f6e35593-7b96-4dba-a04c-4faa407382f4" LastKnownName="Exchanger.ProductsStoreData" />
+                  <elementDefinition Id="4547434d-32cb-4051-ac0d-50c50a655cec" />
+                </dependency>
+              </suppliersInternal>
+              <ownedOperationsInternal>
+                <operation Id="084051c3-1450-4f51-8ab3-1cf61c019a8e" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="cea8d962-7e91-47e3-aaeb-76cf89e297e7" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="4bf1b39a-0b9f-428a-9ac1-c77a646bf965" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="e122aeed-5899-4526-8d1f-d30264594451" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="e5dac83f-c2fc-41af-9882-141919e141f5" direction="Return" isUnique="false">
+                        <elementDefinition Id="42f4e323-d4ab-44c2-891c-e8dd1b5faf69" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="28790973-ea39-4a2d-8da6-6596b50c7e2a" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="528de9a3-4185-4dbd-bcf8-e592e0a9ed10" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="cf1e91a3-7638-44b6-baaf-f1e6eceaaad1" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="6979236e-efdf-43f4-b376-1249f203b94e" name="ThirdParty (tampered)">
+        <elementDefinition Id="9eb14618-70ac-4532-980a-54a3e17753e8" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="5f9b9aa5-95d4-41f3-9c48-0e69cc272552" name="Lib.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8e011390-26da-4217-8638-ac40969acb8c" />
+              <suppliersInternal>
+                <dependency Id="28f0898f-63a3-477e-924f-ed1e1f6bfe27">
+                  <classMoniker Id="f61de8d5-3c8a-4c5b-ad0a-1a72516712e3" LastKnownName="Proxy.ProductsStore" />
+                  <elementDefinition Id="48b7e86f-c0df-41c7-a6c5-c87b595631c6" />
+                </dependency>
+              </suppliersInternal>
+              <ownedAttributesInternal>
+                <property Id="053ec5f7-592b-42a7-8ae1-8943fe6e3072" name="DatabaseLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ac277442-b3bd-4f5c-87c5-7c4ac0d82a78" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="93dabf44-4bc9-4585-ad87-e51da3ffbeef" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="4f8dcb6a-11b3-4ce5-9985-c8c9d93d4af3" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="9fdd0943-7546-47c5-9fa6-c76ef922c709" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="dcc471d8-8d2f-4f2b-b42c-21c37c3af2e3" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="e240d16e-b9f6-4fc8-8151-4f863f2bddd0" direction="Return" isUnique="false">
+                        <elementDefinition Id="b7a3794b-26ba-438e-a11a-983cd9546acc" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="cf1e91a3-7638-44b6-baaf-f1e6eceaaad1" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="4975c426-e9e2-4379-955a-cec3b39cd024" name="Purchase" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="285519ba-7ac3-4b2b-872f-fdcc235469c3" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="aab7b330-4598-47ba-9d2c-d8fbf6704c8a" name="Product" direction="In" isUnique="false">
+                        <elementDefinition Id="e43da5cc-3aba-4cca-9922-a4ebc898a9cb" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="8d2df7fe-b33b-409b-80da-0cf0f6b4553c" name="Lib.ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="c5961230-e8a7-45e3-90b3-b210c9aaffbb" />
+              <targetEnds>
+                <association Id="65c509c6-aff4-41d7-8a26-6901e9facb64" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="ProductsStore" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5f9b9aa5-95d4-41f3-9c48-0e69cc272552" LastKnownName="Lib.ProductsStore" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="786967c1-34f8-4e6e-9b29-8a4a7526b843" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="2b568d49-e76a-4a77-988d-e9405b47f14c" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="db9bf0d8-2e32-4759-b507-c56ce39d156c" name="ProductsStore" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="4a898b86-039d-4e79-9424-6eff4b682480" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="98fc3df8-31f1-487f-a343-e09023e6796d" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="85b2ac5f-1987-4b4a-8b19-77520a3a62c2" name="products" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="bb451af1-75e5-4298-ba01-b19418d23e20" name="Lower" value="*">
+                      <elementDefinition Id="1ec7347a-046d-4109-81ed-6195428ece52" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="069832bb-01f1-40c1-8820-5ec96ff8d9ca" name="Upper" value="*">
+                      <elementDefinition Id="c531614b-dcb8-4ec1-9f16-d9370cd8c21b" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="ae7478f0-4aca-4069-806a-5660a50ffb37" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="528de9a3-4185-4dbd-bcf8-e592e0a9ed10" LastKnownName="Product" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="9678f28b-1c08-4265-8474-71e68f368aa6" name="RefreshPrice" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="24d0ebce-3c59-4530-b083-24d5ea6db76a" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f61de8d5-3c8a-4c5b-ad0a-1a72516712e3" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a25a914d-5112-416a-8605-b99e179132aa" />
+              <ownedAttributesInternal>
+                <property Id="e85de1d2-52c3-4c55-b170-8687a8754e9f" name="existingIds" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="516691b6-01e3-47dc-b563-ca4fbbae497a" name="Lower" value="*">
+                      <elementDefinition Id="2edc4190-b0b1-4ba6-98c2-eeaa593db5ac" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="5e74728f-ffe8-49ee-b902-cffa360d5284" name="Upper" value="*">
+                      <elementDefinition Id="48ce0d9c-cf92-476d-8ce1-98a7326c255f" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="8ed32270-732d-4557-88c0-4d85a723a6f5" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="c8c6d920-21f7-4973-8d8a-a7024665efd6" LastKnownName="int" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="541cb86c-e252-4af8-8b10-ddb38c3cdd51" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="c285fc77-7d62-4f94-8862-c32ac41c8e9b" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="6770fe6c-55dd-4393-95c7-0abbfea6e500" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="22dc8ea0-8b18-4788-a240-7878dbeffc7b" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="54c6362d-733b-4068-b6a4-e3f3c122e9c6" direction="Return" isUnique="false">
+                        <elementDefinition Id="ae1d2175-4759-430e-9aa4-820058cb6cbe" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="9b1bd7fc-ec37-4fd4-ace0-f73f14845afd" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="c8c6d920-21f7-4973-8d8a-a7024665efd6" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="ad8a153c-07c1-449b-a02b-6c5af77cb4f0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="9b1bd7fc-ec37-4fd4-ace0-f73f14845afd" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="6e167a8e-f204-4f89-8eee-1cc5f7db6205" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="c8bc157b-257c-40fa-8a93-46ab1c796ff0" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="650bd5a2-8451-44f9-8c95-a48777059740" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="c52c8340-4056-4eb7-80ae-5ef03b2b90ed" name="ThirdParty (tampered)">
+        <elementDefinition Id="0310c192-1de5-4bfb-a3e9-02fde2a4bea7" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="e480491b-3ff3-4538-9f29-9de4bb3d4604" name="Lib.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8ac95c7e-f82c-4549-9cd8-469a7103790a" />
+              <suppliersInternal>
+                <dependency Id="d82bddba-902f-4b87-a4f8-d09c55c5d68f">
+                  <classMoniker Id="6384134b-70c6-4ea5-982c-bf73a863b435" LastKnownName="Proxy.ProductsStoreData" />
+                  <elementDefinition Id="6c06c6a0-3ed2-4b5a-b0d4-f673906367b4" />
+                </dependency>
+              </suppliersInternal>
+              <ownedAttributesInternal>
+                <property Id="e5cf6a9c-d9a0-4ad5-a49c-1a6c25030e4e" name="DatabaseLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="468c1b53-0339-419d-a959-01b97645c2d4" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="694d460b-6dd5-48ed-984b-62b0ed5aac56" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="f98abed7-83a7-4698-b0ac-df70ecb7b032" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="80d950bb-f541-467c-93db-13e2e02adb48" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="299ebff5-cb2c-4266-89d7-dc428eb801eb" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="8a7bf983-340d-40a3-b876-f115453fbdeb" direction="Return" isUnique="false">
+                        <elementDefinition Id="cf70ad14-2749-4cea-aa47-87c5b1d6839b" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="c8bc157b-257c-40fa-8a93-46ab1c796ff0" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="a3eff379-9905-4a48-a61e-e8232a16eac6" name="Purchase" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="976ffc13-67aa-4182-913b-cd6f516f1d53" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="a026ad4e-2293-4cce-8527-dbcdcb1ace07" name="Product" direction="In" isUnique="false">
+                        <elementDefinition Id="117e1e0c-2cb6-4799-b685-f2bc24807e2a" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="2d823340-29c6-4794-b1df-68312022415e" name="Lib.ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="3cc71b79-4870-4018-8e78-876eb51cda0f" />
+              <targetEnds>
+                <association Id="94deaef8-ee08-4129-811b-aba3f2df2501" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="ProductsStore" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="e480491b-3ff3-4538-9f29-9de4bb3d4604" LastKnownName="Lib.ProductsStore" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="ccd50217-9340-4122-b658-3c67d054de28" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="286ebac5-67db-4d6b-a46e-a132940d334c" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="2abce7bc-f49d-46cc-ad24-6a5fda496fd7" name="ProductsStore" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="881da7ca-7621-407f-81bb-10849b75de49" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="16369378-56e9-4749-bd98-46316a6df15d" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="5d0a30a7-b833-42f0-8172-c050dd254fc5" name="products" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="376c2873-45ae-4734-8ee9-88b1a774630a" name="Lower" value="*">
+                      <elementDefinition Id="08e3b3cb-de8c-4785-a8c9-36ff666b1c17" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="ec03a7fd-ec0f-4d8e-b38a-0b5975f500d4" name="Upper" value="*">
+                      <elementDefinition Id="f6886b37-3ad6-4475-a3c4-388c0a819285" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="4b25743f-512c-4aa2-8dd1-858b226cf6be" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="6e167a8e-f204-4f89-8eee-1cc5f7db6205" LastKnownName="Product" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="16bb5a0c-4021-4e72-b1c4-fc88edb0b06d" name="RefreshPrice" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="70a9bc4d-d70e-41cd-a172-116b07551e74" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="1c59c7de-510b-445d-ae82-a625321c91ed" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="0f47bcea-b7de-4e43-87c1-9994ce2e5799" />
+              <suppliersInternal>
+                <dependency Id="3bd91019-567b-4ba7-9c8b-d7c7fddc1d53">
+                  <classMoniker Id="6384134b-70c6-4ea5-982c-bf73a863b435" LastKnownName="Proxy.ProductsStoreData" />
+                  <elementDefinition Id="911a018d-c57d-49c6-80ab-237e0f600631" />
+                </dependency>
+              </suppliersInternal>
+              <ownedOperationsInternal>
+                <operation Id="e641911c-60bd-448f-ab64-78f3f779113d" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="2389a9f4-86d8-4c5e-8490-229720f94fc5" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="073d912e-4230-4173-a702-6397c47fc44d" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="f4158a5d-fd24-45f7-ba2c-24e0d47f5999" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="cba7429d-0bed-4436-a28b-06736693c1e0" direction="Return" isUnique="false">
+                        <elementDefinition Id="55ce7a54-692b-4ffa-8fff-3b016a798c73" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="650bd5a2-8451-44f9-8c95-a48777059740" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="6384134b-70c6-4ea5-982c-bf73a863b435" name="Proxy.ProductsStoreData" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a0d14eac-dba2-4d0f-a765-2d4863f7e7e9" />
+              <ownedAttributesInternal>
+                <property Id="dfa0817e-b448-47eb-817b-de8f16f52452" name="ExistingIds" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="6ae4ecf6-fed1-423f-959d-680fe29d1d45" name="Lower" value="*">
+                      <elementDefinition Id="ba937a98-8504-49f2-b460-f1ebc9f57c73" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="22096416-4b68-48aa-ba28-03980fb7ca2f" name="Upper" value="*">
+                      <elementDefinition Id="2216c6b7-152f-4ed1-a410-0961882bdb2a" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="bb850834-25be-47e4-a12c-344135d06869" />
+                </property>
+              </ownedAttributesInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="bdbee146-4d2b-47b2-a658-0cf409fdac8c" name="Exchanger">
+        <elementDefinition Id="f02ce902-55c3-4dba-b98e-ada1cd662d58" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="f6e35593-7b96-4dba-a04c-4faa407382f4" name="Exchanger.ProductsStoreData" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="4f7f2951-2a6d-4c89-b48e-7257406cfd61" />
+              <ownedAttributesInternal>
+                <property Id="ff1d6391-80b7-49c4-b0d8-6ce73db31d3d" name="ExistingIds" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="99cb37a3-cf66-4823-9d5f-b47b1e599929" name="Lower" value="*">
+                      <elementDefinition Id="33588912-12ea-4a9b-a839-7d1892bc202d" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="84926c7d-b91d-4f16-a312-4b4f4a32f51a" name="Upper" value="*">
+                      <elementDefinition Id="183eea11-b730-4bf5-a709-9b9b692ed3e7" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="2adafb8b-102b-4246-8b51-94dd58425378" />
+                </property>
+              </ownedAttributesInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="ca779a27-7ffc-4e62-aaec-92d9e5fc9aa9" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="006f94d5-de23-4a00-84c8-302a15524515" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="b8c97a23-cb1f-445f-8adc-50a5730c1843" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="d70d134c-feb4-4368-be7a-dc327020ad4c" name="ThirdParty (tampered)">
+        <elementDefinition Id="d53b7f95-9515-4692-9b48-288f768f69ab" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="e0e6e4a3-2129-4f25-8602-f438c70f3dcb" name="Lib.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e4b38efa-0a60-432e-ae2c-c597cfe0276c" />
+              <suppliersInternal>
+                <dependency Id="82239a72-cae5-4740-8c34-a34c90c5631c">
+                  <classMoniker Id="87c3983e-d0bc-4f7d-9085-dbf9e6b92d2b" LastKnownName="Exchanger.ProductsStoreData" />
+                  <elementDefinition Id="93b135c2-8c74-4341-8d55-157139ab33ff" />
+                </dependency>
+              </suppliersInternal>
+              <ownedAttributesInternal>
+                <property Id="2c971956-ef69-45ca-82e3-0606c01c3b31" name="DatabaseLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a2ee3af3-7b49-4c6b-926c-8b518d1bda1c" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="d56e152b-9e7b-4598-9aeb-baff4c22cf31" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="ec1b2eaa-1b01-49e2-be31-bc41553fce7b" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="ed4dcd40-0cd7-4dd5-94e6-c3abbeb89955" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="15147968-6606-4e08-ba88-1266f4088540" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="cb3e13e7-99fc-4cfd-af3d-e4ff998f13dc" direction="Return" isUnique="false">
+                        <elementDefinition Id="4a4b04c9-8193-4bce-b69a-0368cbd71b04" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="006f94d5-de23-4a00-84c8-302a15524515" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="b454de60-c155-495a-8f47-ebea7de7dacb" name="Purchase" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="a7380681-f186-40ad-a842-24f22a4e7f00" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="7b343301-459f-4569-b790-aa41ae193704" name="Product" direction="In" isUnique="false">
+                        <elementDefinition Id="a16924c5-2c2d-42f4-8012-e5760e5804d5" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="1c093280-0d71-4ec1-8d2c-10857559d03b" name="Lib.ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="58628784-d2db-403f-a910-177a4237864b" />
+              <targetEnds>
+                <association Id="7608c2bc-bb1c-4afb-96b2-13013cd43739" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="ProductsStore" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="e0e6e4a3-2129-4f25-8602-f438c70f3dcb" LastKnownName="Lib.ProductsStore" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="1a0487ff-8274-4f8a-afad-b4b740cb7af6" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="30a46b85-78c4-4d66-97ad-52c2d51bc684" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="7b6c7868-b691-49fe-8251-a86e46506e5c" name="ProductsStore" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="0399ea23-4c72-42f2-818c-31d6ecce7ddb" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="a959c8b5-ba15-49ed-a0e6-aa58a366d125" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="566bbfa1-a6c3-432c-a33b-f73efcf02df8" name="products" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="9b1a1b1d-3349-40fd-bf9c-8589be3def0b" name="Lower" value="*">
+                      <elementDefinition Id="41179828-4a7c-45be-8bba-60193689dcbb" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="27a436ad-3faf-4b55-a506-0ef88ad6d312" name="Upper" value="*">
+                      <elementDefinition Id="7e547d99-08c5-46a7-aec2-9c5df505f2eb" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="70ce5b5a-0365-471d-a29e-3797a2fe2456" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="ca779a27-7ffc-4e62-aaec-92d9e5fc9aa9" LastKnownName="Product" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="1edd204a-3238-48a0-a3b6-1c18f0d4438e" name="RefreshPrice" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="55b3dafb-e807-4052-998e-91c98958ce28" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="69e7405f-4249-4dcd-9450-9a43d99f453e" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ec6d838c-9cfd-4706-9186-fb10329819e1" />
+              <suppliersInternal>
+                <dependency Id="50f1a9e9-7439-480d-9932-bd7091fbfdde">
+                  <classMoniker Id="87c3983e-d0bc-4f7d-9085-dbf9e6b92d2b" LastKnownName="Exchanger.ProductsStoreData" />
+                  <elementDefinition Id="84557d20-09a6-4a3c-8c5a-b4ab98420a3b" />
+                </dependency>
+              </suppliersInternal>
+              <ownedOperationsInternal>
+                <operation Id="71cf273e-5a74-4962-bc62-6a18c9a84537" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="379da636-d1d4-47bc-aca5-d967ccb68fb0" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="cc5f1888-ba56-4813-83fa-fac070475edc" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="0f15fe62-87b2-4313-a471-1ee0cb38461b" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="acf8da5c-dfed-4d97-996f-0e25e2185a3a" direction="Return" isUnique="false">
+                        <elementDefinition Id="e679b2ea-b97b-459e-b606-7ba5183e9947" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="d3abfd46-df05-447b-bf33-f227758ae43c" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="cd5b117a-7da3-45a8-a983-5b49cc5134d4" name="Proxy">
+        <elementDefinition Id="fdc69d4b-27d6-4d49-85e2-378457278267" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="6a4e0d0b-ce59-4580-acd6-8ffa469b38f0" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ea38ad7b-95fd-44d6-a7a7-3a1e66a43713" />
+              <suppliersInternal>
+                <dependency Id="db0f1797-6150-4e8a-ad77-9cd41f902417">
+                  <classMoniker Id="87c3983e-d0bc-4f7d-9085-dbf9e6b92d2b" LastKnownName="Exchanger.ProductsStoreData" />
+                  <elementDefinition Id="cd274479-ad25-46a7-b5ff-02b17057202e" />
+                </dependency>
+              </suppliersInternal>
+              <ownedOperationsInternal>
+                <operation Id="8110433d-b4d2-43c3-89b3-7692c04789d9" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="92a05743-54bd-41e5-b18c-ca972e9fe84e" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="7f671b0e-499e-472b-8b7d-6e9a0453ba0f" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="d18eb203-6ca1-42bf-ac27-de329014bb8d" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="a21a0083-8bd0-41c1-abd8-6e6eff0197fc" direction="Return" isUnique="false">
+                        <elementDefinition Id="80fa38fd-744e-43e1-ae8f-9ef3c1ebdf34" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="b8c97a23-cb1f-445f-8adc-50a5730c1843" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="fe2d3f3e-15e7-4390-88b6-bac54c7c3ef2" name="Exchanger">
+        <elementDefinition Id="64182ad6-7f97-4f6d-81cf-052034e3fb84" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="87c3983e-d0bc-4f7d-9085-dbf9e6b92d2b" name="Exchanger.ProductsStoreData" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6a6915ed-5e91-42ba-ba85-b976cc4e560f" />
+              <ownedAttributesInternal>
+                <property Id="18fe83e3-725a-466c-8176-7f9cb089c81f" name="ExistingIds" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="1eb102cb-75be-4108-9e11-46a6077e1fbf" name="Lower" value="*">
+                      <elementDefinition Id="04999252-25e3-4d72-830e-ac3cbd8ec3d5" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="ed37388c-0420-4838-b8ef-13a74c386e4d" name="Upper" value="*">
+                      <elementDefinition Id="99ba9e5f-486c-45e4-8f2b-747c6ef72708" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="13b24617-f0ca-434a-a843-5f248df40794" />
+                </property>
+              </ownedAttributesInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="e5f70234-af4b-43cc-9566-09d4bc84a9bb" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="ad8a153c-07c1-449b-a02b-6c5af77cb4f0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="d76886eb-ae0f-4185-8bc3-2f2f9b94b447" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="60326b34-142f-4e9c-85b8-62186e6cd5a7" name="Proxy">
+        <elementDefinition Id="686065e2-0413-4adc-b372-d45261eab62d" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="2c824ffe-83a0-4e76-9adc-715c4a45b786" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="f511d9f4-5f52-4269-9bed-b304c56f8f22" />
+              <ownedAttributesInternal>
+                <property Id="fe391510-8a0e-4d51-9dd4-6fad01096790" name="existingIds" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="7bb820c1-923f-41c9-a329-f6305b7381e5" name="Lower" value="*">
+                      <elementDefinition Id="a0d664f2-7682-460e-a736-f823e228408d" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="7be7c3fd-8da3-4c28-88f9-ac092e41966d" name="Upper" value="*">
+                      <elementDefinition Id="d2000cdb-73cf-4225-a3e4-0d5c03059d60" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="8f4fc3ba-8ee7-422c-af6e-1886d508b7a2" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="e5f70234-af4b-43cc-9566-09d4bc84a9bb" LastKnownName="int" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="f0634a61-b52b-4191-a8b0-c5e103ebfc73" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="21fcd61c-51fa-4907-b94f-ae0e21743731" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="7d23d6c7-d3c9-45ef-8a0a-917af3fa14e3" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="e8da56fe-874d-41ca-bb90-0de794e1fa21" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="099e0661-b613-48a2-aab8-a3877b7374cf" direction="Return" isUnique="false">
+                        <elementDefinition Id="306af4d1-e7dd-4235-a0e7-a259247ee803" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="d76886eb-ae0f-4185-8bc3-2f2f9b94b447" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="b02b434e-6d47-45bc-988f-d34968f7a9c8" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="049c4a79-598e-4bcf-abd4-87fe9565ed96" name="Proxy">
+        <elementDefinition Id="929c8c58-22e0-4ca0-af12-75165c6b2ed6" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="0b8de53f-f64e-4255-97e1-7dd3b700b3c4" name="Proxy.ProductsStore" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="99038551-3398-48f6-9857-00dcdbf9aa83" />
+              <suppliersInternal>
+                <dependency Id="df24e5e1-d7fe-4734-8eb7-4592d5067493">
+                  <classMoniker Id="26f5afbe-774a-4c08-ab83-f44eca2dfd1e" LastKnownName="Proxy.ProductsStoreData" />
+                  <elementDefinition Id="f6ca61ec-b2fb-4da0-acd7-2572239bcc66" />
+                </dependency>
+              </suppliersInternal>
+              <ownedOperationsInternal>
+                <operation Id="90b24a31-5efc-46b2-9699-2709aa0bfa51" name="FindProduct" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="00b2fe83-d636-40ae-8b42-dc80f76a2e8c" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="47bfca7f-f912-4b5e-9921-4699702633f6" name="int id" direction="In" isUnique="false">
+                        <elementDefinition Id="7237abd0-2639-4532-800d-31c69fc1e0a9" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="dd63d245-2121-46c9-bafa-5d2024d1ec48" direction="Return" isUnique="false">
+                        <elementDefinition Id="0155d21e-f49d-4e41-990d-cf4daccf9918" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="b02b434e-6d47-45bc-988f-d34968f7a9c8" LastKnownName="Product" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="26f5afbe-774a-4c08-ab83-f44eca2dfd1e" name="Proxy.ProductsStoreData" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ef4f5d24-aa1c-4edb-8a46-df3679f88fa9" />
+              <ownedAttributesInternal>
+                <property Id="90e778ff-9904-48cb-aa78-c2323602578c" name="ExistingIds" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="ad7ef730-2414-472d-9006-b8a2f8cf1893" name="Lower" value="*">
+                      <elementDefinition Id="2912e219-b744-47af-899b-d17d1c94deef" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="8cad3e2a-89b2-493d-82b9-d4aa513c5e63" name="Upper" value="*">
+                      <elementDefinition Id="19247fcf-c6c3-4aee-911b-5300656f969d" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="7bf65631-5963-4e3f-9586-ee0831a1cee3" />
+                </property>
+              </ownedAttributesInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="d3abfd46-df05-447b-bf33-f227758ae43c" name="Product" isAbstract="false" isLeaf="false" cachedFullName="Product">
+        <elementDefinition Id="69846566-0f44-42c3-8d06-de559dcd6fda" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="0a7267a7-46d9-43da-835e-c8913e5759d5" name="Illustrations">
+    <elementDefinition Id="ad9ea621-41ef-42c8-96af-429afd7d9bce" />
+  </package>
+</logicalClassDesignerModel>

@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="33e626ab-dcd1-4165-a6ba-e2c9da67d89d" name="Proxies" linkedPackageId="b81057fc-2685-4fbb-8743-f57042a4a12a" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="59bc6e11-3252-4f35-8fed-4cb149da2c6c">
+      <profileInstance Id="ad826de1-dc26-4a31-b91b-e4b36c40818e" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="a7c17c55-27e5-4737-a313-fc00f9e9f4b6">
+      <profileInstance Id="171de7a1-ee55-42d9-b833-f534194529f1" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <componentModelHasComponents>
+      <component Id="ad7c5e9b-81c8-4a43-888a-99ce988d9585" name="Unit test" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8a81a577-944a-46d1-9d09-a90ad785ed33" />
+        <suppliersInternal>
+          <dependency Id="771b6120-9e18-4b1e-8ae0-6fa832f4aff3">
+            <providedInterfaceMoniker Id="666db968-4c13-4806-8f94-641ef2425d1f" LastKnownName="Port1" />
+            <elementDefinition Id="b0b04d7a-d0ed-4387-91d4-0ce8aa39bbff" />
+          </dependency>
+          <dependency Id="dcc306fc-423d-4b1e-847e-09064cb21412">
+            <componentMoniker Id="7def0c1d-c368-4e08-b35c-a52a08a49d2b" LastKnownName="Proxy" />
+            <elementDefinition Id="e4e89730-2f57-489a-ac3e-1919aa93996c" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="f295a2a7-b35e-48ea-a05d-6ff8121a2385" name="Third party (tampered)" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="5a4cd20f-24c2-4ee6-beec-f078cb387287" />
+        <ownedAttributesInternal>
+          <providedInterface Id="666db968-4c13-4806-8f94-641ef2425d1f" name="Port1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isService="false" isBehavior="false">
+            <elementDefinition Id="ed5b5a80-832c-44f7-93ad-cd8d0d667a7a" />
+            <type_NamedElement>
+              <interfaceMoniker Id="03453e4a-9906-4e09-b3a4-988405dfd5c9" LastKnownName="Shopping cart" />
+            </type_NamedElement>
+          </providedInterface>
+          <providedInterface Id="e26a8f5d-6afe-4f65-ab70-acf313fd5330" name="Port2" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isService="false" isBehavior="false">
+            <elementDefinition Id="ca047b40-ca7d-4f2d-be90-388ce84a4b9f" />
+            <type_NamedElement>
+              <interfaceMoniker Id="f8ba70a4-dcaf-47b9-b345-663bb18a4b3d" LastKnownName="Products store" />
+            </type_NamedElement>
+          </providedInterface>
+        </ownedAttributesInternal>
+      </component>
+    </componentModelHasComponents>
+    <modelContainsNamedElements>
+      <Interface Id="03453e4a-9906-4e09-b3a4-988405dfd5c9" name="Shopping cart" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="891da8a3-eca4-4d0d-a6d5-e191173e3f50" />
+      </Interface>
+    </modelContainsNamedElements>
+    <modelContainsNamedElements>
+      <Interface Id="f8ba70a4-dcaf-47b9-b345-663bb18a4b3d" name="Products store" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4dce34ad-10f9-45b5-b265-d145fb09b950" />
+      </Interface>
+    </modelContainsNamedElements>
+    <componentModelHasComponents>
+      <component Id="7def0c1d-c368-4e08-b35c-a52a08a49d2b" name="Proxy" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="eb7f52da-e76e-4b86-8362-9e17ebe3b494" />
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="b3a5b02e-8170-45f6-aa0b-ec0b8244481c" name="Unit test" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e1a4f7b6-6e48-4b31-a3ee-c1659088a5a0" />
+        <suppliersInternal>
+          <dependency Id="45615c8b-3119-49a2-b7e7-5877d3f5f370">
+            <providedInterfaceMoniker Id="5379c355-22bc-4590-92b6-535b0d937eee" LastKnownName="Port1" />
+            <elementDefinition Id="b0b04d7a-d0ed-4387-91d4-0ce8aa39bbff" />
+          </dependency>
+          <dependency Id="4c682f6d-d5bd-4832-8979-0862cf41bf88">
+            <componentMoniker Id="7e2ba6f2-3c2a-40c5-8117-7f28fec8de2e" LastKnownName="Exchanger" />
+            <elementDefinition Id="809b632f-198d-4b61-99e6-23f8812e9c7e" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="0862c22b-150b-47eb-8faa-99d1f2099a15" name="Third party (tampered)" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="03e4cc74-2d9a-4e7d-b6e2-a279fa0d1307" />
+        <suppliersInternal>
+          <dependency Id="81e2c9ed-1d65-4d3f-b443-79adcba6fe8d">
+            <componentMoniker Id="7e2ba6f2-3c2a-40c5-8117-7f28fec8de2e" LastKnownName="Exchanger" />
+            <elementDefinition Id="17297fc4-3b2d-4d76-affe-7064e62a8848" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <providedInterface Id="5379c355-22bc-4590-92b6-535b0d937eee" name="Port1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isService="false" isBehavior="false">
+            <elementDefinition Id="6d46c8d2-9d96-489b-927a-ea25ce39ce53" />
+            <type_NamedElement>
+              <interfaceMoniker Id="a9328bee-7630-4f54-ac34-80d0db3b5fd1" LastKnownName="Shopping cart" />
+            </type_NamedElement>
+          </providedInterface>
+          <providedInterface Id="efdd12a8-db04-458f-80ef-edb5bbf708c8" name="Port2" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isService="false" isBehavior="false">
+            <elementDefinition Id="2db44c48-35ce-4322-83fc-1849c0e7a550" />
+            <type_NamedElement>
+              <interfaceMoniker Id="9c0b247a-275d-474e-9ba6-43bca5cc0743" LastKnownName="Products store" />
+            </type_NamedElement>
+          </providedInterface>
+        </ownedAttributesInternal>
+      </component>
+    </componentModelHasComponents>
+    <modelContainsNamedElements>
+      <Interface Id="a9328bee-7630-4f54-ac34-80d0db3b5fd1" name="Shopping cart" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="891da8a3-eca4-4d0d-a6d5-e191173e3f50" />
+      </Interface>
+    </modelContainsNamedElements>
+    <modelContainsNamedElements>
+      <Interface Id="9c0b247a-275d-474e-9ba6-43bca5cc0743" name="Products store" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4dce34ad-10f9-45b5-b265-d145fb09b950" />
+      </Interface>
+    </modelContainsNamedElements>
+    <componentModelHasComponents>
+      <component Id="d4b4fc54-47e8-4438-9087-9ca89cf50347" name="Proxy" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="fec6d804-b959-429e-8907-224a5800b591" />
+        <suppliersInternal>
+          <dependency Id="1c3cf7a6-85ef-4a43-b889-aa57d57857ce">
+            <componentMoniker Id="7e2ba6f2-3c2a-40c5-8117-7f28fec8de2e" LastKnownName="Exchanger" />
+            <elementDefinition Id="7d74a42d-993c-41ed-b71d-556853bf6990" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="7e2ba6f2-3c2a-40c5-8117-7f28fec8de2e" name="Exchanger" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="dc512be0-8b2f-424a-ae65-1cdefe726af9" />
+      </component>
+    </componentModelHasComponents>
+  </packagedElements>
+  <package Id="b81057fc-2685-4fbb-8743-f57042a4a12a" name="Illustrations">
+    <elementDefinition Id="ad9ea621-41ef-42c8-96af-429afd7d9bce" />
+  </package>
+</componentModel>

@@ -40,10 +40,13 @@ The following steps describe how MockEverything can be used to mock third-party 
 
 1. Open test project .csproj file and add the following code to the end of the file, inside `<Project/>`:
 
-        <UsingTask AssemblyFile="...\MockEverything.BuildTask.dll" TaskName="MockEverything.BuildTask.TamperingTask" />
-        <Target Name="AfterBuild">
-          <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="1.2.3.4" />
-        </Target>
+    ```xml
+    <UsingTask AssemblyFile="...\MockEverything.BuildTask.dll"
+               TaskName="MockEverything.BuildTask.TamperingTask" />
+    <Target Name="AfterBuild">
+        <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="1.2.3.4" />
+    </Target>
+    ```
 
 1. Replace ellipsis by the path which leads to the corresponding assembly.
   
@@ -57,20 +60,22 @@ If you are tampering an assembly which is installed in the GAC:
 
 1. Add App.config file to the test project. The file should contain this:
 
-        <?xml version="1.0" encoding="utf-8" ?>
-        <configuration>
-          <runtime>
-            <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-              <dependentAssembly>
-                <assemblyIdentity name="..."
-                                  publicKeyToken="..."
-                                  culture="..." />
-                <bindingRedirect oldVersion="1.0.0.0-1.1.0.0"
-                                 newVersion="1.2.3.4"/>
-              </dependentAssembly>
-            </assemblyBinding>
-          </runtime>
-        </configuration>
+    ```xml
+    <?xml version="1.0" encoding="utf-8" ?>
+    <configuration>
+        <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+            <assemblyIdentity name="..."
+                              publicKeyToken="..."
+                              culture="..." />
+            <bindingRedirect oldVersion="1.0.0.0-1.1.0.0"
+                             newVersion="1.2.3.4"/>
+            </dependentAssembly>
+        </assemblyBinding>
+        </runtime>
+    </configuration>
+    ```
 
   Replace `name`, `publicKeyToken` and `culture` by the actual metadata of the target assembly. Change `oldVersion` so it contains the version of the target assembly, and set `newVersion` to the value you have set in the previous step.
 
@@ -80,11 +85,14 @@ Sometimes, you may need to track the calls to the methods within the proxies. Yo
 
 The entry hook looks like this:
 
-    [Entry]
-    public static void HookNameGoesHere(string className, string methodName, string signature, object[] args)
-    {
-        ...
-    }
+```csharp
+[Entry]
+public static void HookNameGoesHere(
+    string className, string methodName, string signature, object[] args)
+{
+    ...
+}
+```
 
 The method is called before executing the proxy method. It will receive the following arguments:
 
@@ -106,11 +114,14 @@ The method is called before executing the proxy method. It will receive the foll
 
 The exit hook looks like this:
 
-    [Exit]
-    public static void HookNameGoesHere(string className, string methodName, string signature, object value)
-    {
-        ...
-    }
+```csharp
+[Exit]
+public static void HookNameGoesHere(
+    string className, string methodName, string signature, object value)
+{
+    ...
+}
+```
 
 The method is called before executing the proxy method. It will receive the following arguments:
 
@@ -120,6 +131,56 @@ The method is called before executing the proxy method. It will receive the foll
   - The value returned by this method. If the method is `void`, the value will be `null`.
 
 Note that since proxies are necessarily static and static classes don't support inheritance, hooks should be implemented on every proxy class. If the hooks are identical for several proxies, make sure you put the actual implementation of those hooks in a static class, called from the actual hooks within each proxy, in order to reduce code duplication.
+
+## Exchangers
+
+One issue I encountered when using MockEverything is when it comes to customizing a proxy from a given test. Let's imagine I'm testing business logic which loads a number from a database. MockEverything is used to tamper the data access layer by replacing the method which loads the actual number: its proxy just returns a constant. This works well if I need to test a single case (for example when the returned number is always equal to 1), but what if I want to test the business logic when the number is 0, or when it's 500?
+
+Proxies are static. This means that whoever references an assembly containing a proxy can invoke methods within this proxy, which also means calling getters and setters. What if the unit test could simply use the proxy? Consider the following diagram:
+
+![](Illustrations/1.png)
+
+here, we need to test `Lib.ShoppingCart.RefreshPrice()` which, unfortunately, relies on `Lib.ProductsStore.FindProduct()` which in turn interacts with the database. The solution is to create a proxy which overwrites the actual implementation of `Lib.ProductsStore.FindProduct()` by either returning a sample product every time the method is invoked with specific product IDs, or throws an exception when other IDs are passed to the method (simulating a case where the product doesn't exist).
+
+**Test cases:**
+
+  - Test `Lib.ShoppingCart.RefreshPrice()` when all products exist; we expect a price to correspond to the sum of the prices of the sample products sent by the proxy.
+  
+  - Test `Lib.ShoppingCart.RefreshPrice()` when some products in cart are reported as missing; we expect the exception to be handled by the shopping cart in a specific way.
+
+During the tampering, the proxy is merged with the third-party assembly (the target).
+
+![](Illustrations/1b.png)
+
+Now, when `FindProduct` refers to `existingIds`, does it refer to `existingIds` within the tampered `Lib.ProductsStore`? Absolutely not: `Lib.ProductsStore` doesn't contain any `existingIds`, which still resides in `Proxy.ProducsStore`. **This is exactly why all members of proxies are necessarily public:** otherwise, a proxy could compile, but fail at runtime when the methods copied to the target try to access private members of the proxy. Thus, the previous illustration is wrong.
+
+Let's get back to the original problem of changing the data used by the proxies from within the tests. Now, we put the sequence of IDs not as a private field within the proxy class itself, but as a public property of a public class within the same assembly as the proxy class. Since everything is public, there will be no visibility issues after the tampering.
+
+![](Illustrations/2.png)
+
+After the tampering:
+
+![](Illustrations/2b.png)
+
+What if the unit test fills the sequence with specific values during its initialization, and then calls `RefreshPrice`? This won't work either. In fact, what happens is that the unit test assembly references the proxy assembly; what is actually used by the shopping cart class is the code within the tampered assembly. This mismatch means that the unit test will modify a property of a class within one assembly, while, through the third-party library, it's a different assembly which will be used. As a result, the changes to the sequence made directly by the unit test won't appear when accessing it through the tampered code.
+
+This is better illustrated with the component diagram:
+
+![](Illustrations/2c.png)
+
+There is no link between the proxy and the tampered third party; thus, when the unit test changes the values of the properties within the proxy, the third party is not affected by the changes.
+
+The solution is to use a separate assembly to exchange information between the unit test and the tampered target:
+
+![](Illustrations/3.png)
+
+After the tampering:
+
+![](Illustrations/3b.png)
+
+What happens here is that when the code from the proxy `FindProduct` is copied to the target, both still reference the exchanger assembly—the same assembly in both cases. Affecting `ExistingIds` property from amywhere, would it be from the unit test or the proxy moved to the target, will lead to the change which will be global to all consumers. The component diagram shows the new relations:
+
+![](Illustrations/3c.png)
 
 ## Design
 

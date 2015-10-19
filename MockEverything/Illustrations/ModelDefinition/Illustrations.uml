@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="ad9ea621-41ef-42c8-96af-429afd7d9bce"
+  name="Illustrations" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="abbebe64-d83a-438c-8711-83196ce6313a"
+        LastKnownName="ThirdParty"
+        LastKnownLocation="Package_1442.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="50bb9462-9100-428b-9548-d5702ef61df4"
+        LastKnownName="Proxy"
+        LastKnownLocation="Package_1451.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="4a3ec50c-d4f1-43ba-a8da-0c21405a7055"
+        LastKnownName="ThirdParty"
+        LastKnownLocation="Package_1512.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="fc6fb958-2e94-412d-88e3-88db0ab3d35d"
+        LastKnownName="Proxy"
+        LastKnownLocation="Package1_1512.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="71a63b2a-20ec-4262-9956-b8f50bed52db"
+        name="Exchanger"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="52372051-02c9-40fc-85e4-4dd6965956f9"
+        LastKnownName="ThirdParty"
+        LastKnownLocation="Package_1534.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="ba55a52d-3b4b-432e-ac9a-692aa1bdb870"
+        LastKnownName="Proxy"
+        LastKnownLocation="Package1_1534.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="9eb14618-70ac-4532-980a-54a3e17753e8"
+        LastKnownName="ThirdParty (tampered)"
+        LastKnownLocation="Package_1535.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="0310c192-1de5-4bfb-a3e9-02fde2a4bea7"
+        LastKnownName="ThirdParty (tampered)"
+        LastKnownLocation="Package_1540.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="8a81a577-944a-46d1-9d09-a90ad785ed33"
+        name="Unit test"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="b0b04d7a-d0ed-4387-91d4-0ce8aa39bbff">
+            <providedInterfaceMoniker
+              Id="ed5b5a80-832c-44f7-93ad-cd8d0d667a7a"
+              LastKnownName="Port1"
+              LastKnownLocation="Illustrations.uml" />
+          </dependency>
+          <dependency
+            Id="e4e89730-2f57-489a-ac3e-1919aa93996c">
+            <componentMoniker
+              Id="eb7f52da-e76e-4b86-8362-9e17ebe3b494"
+              LastKnownName="Proxy"
+              LastKnownLocation="Illustrations.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="5a4cd20f-24c2-4ee6-beec-f078cb387287"
+        name="Third party (tampered)"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <providedInterface
+            Id="ed5b5a80-832c-44f7-93ad-cd8d0d667a7a"
+            name="Port1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="891da8a3-eca4-4d0d-a6d5-e191173e3f50"
+                LastKnownName="Shopping cart"
+                LastKnownLocation="Illustrations.uml" />
+            </type_NamedElement>
+          </providedInterface>
+          <providedInterface
+            Id="ca047b40-ca7d-4f2d-be90-388ce84a4b9f"
+            name="Port2"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="4dce34ad-10f9-45b5-b265-d145fb09b950"
+                LastKnownName="Products store"
+                LastKnownLocation="Illustrations.uml" />
+            </type_NamedElement>
+          </providedInterface>
+        </ownedAttributesInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="891da8a3-eca4-4d0d-a6d5-e191173e3f50"
+        name="Shopping cart"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="4dce34ad-10f9-45b5-b265-d145fb09b950"
+        name="Products store"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="eb7f52da-e76e-4b86-8362-9e17ebe3b494"
+        name="Proxy"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="e1a4f7b6-6e48-4b31-a3ee-c1659088a5a0"
+        name="Unit test"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="809b632f-198d-4b61-99e6-23f8812e9c7e">
+            <componentMoniker
+              Id="dc512be0-8b2f-424a-ae65-1cdefe726af9"
+              LastKnownName="Exchanger"
+              LastKnownLocation="Illustrations.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="03e4cc74-2d9a-4e7d-b6e2-a279fa0d1307"
+        name="Third party (tampered)"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="17297fc4-3b2d-4d76-affe-7064e62a8848">
+            <componentMoniker
+              Id="dc512be0-8b2f-424a-ae65-1cdefe726af9"
+              LastKnownName="Exchanger"
+              LastKnownLocation="Illustrations.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <providedInterface
+            Id="6d46c8d2-9d96-489b-927a-ea25ce39ce53"
+            name="Port1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="891da8a3-eca4-4d0d-a6d5-e191173e3f50"
+                LastKnownName="Shopping cart"
+                LastKnownLocation="Illustrations.uml" />
+            </type_NamedElement>
+          </providedInterface>
+          <providedInterface
+            Id="2db44c48-35ce-4322-83fc-1849c0e7a550"
+            name="Port2"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="4dce34ad-10f9-45b5-b265-d145fb09b950"
+                LastKnownName="Products store"
+                LastKnownLocation="Illustrations.uml" />
+            </type_NamedElement>
+          </providedInterface>
+        </ownedAttributesInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="fec6d804-b959-429e-8907-224a5800b591"
+        name="Proxy"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="7d74a42d-993c-41ed-b71d-556853bf6990">
+            <componentMoniker
+              Id="dc512be0-8b2f-424a-ae65-1cdefe726af9"
+              LastKnownName="Exchanger"
+              LastKnownLocation="Illustrations.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="dc512be0-8b2f-424a-ae65-1cdefe726af9"
+        name="Exchanger"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="f02ce902-55c3-4dba-b98e-ada1cd662d58"
+        LastKnownName="Exchanger"
+        LastKnownLocation="Package_2020.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="d53b7f95-9515-4692-9b48-288f768f69ab"
+        LastKnownName="ThirdParty (tampered)"
+        LastKnownLocation="Package_2022.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="fdc69d4b-27d6-4d49-85e2-378457278267"
+        LastKnownName="Proxy"
+        LastKnownLocation="Package1_2022.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="64182ad6-7f97-4f6d-81cf-052034e3fb84"
+        LastKnownName="Exchanger"
+        LastKnownLocation="Package2_2022.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="686065e2-0413-4adc-b372-d45261eab62d"
+        LastKnownName="Proxy"
+        LastKnownLocation="Package_2023.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="929c8c58-22e0-4ca0-af12-75165c6b2ed6"
+        LastKnownName="Proxy"
+        LastKnownLocation="Package1_2023.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="fe41a902-5329-4f85-ac20-9470161a36bf"
+        name="Unit test1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="42e26589-4fd9-489e-9057-5e6e4267cdac">
+            <componentMoniker
+              Id="83f7902f-f114-4909-bd81-ff1d3cddb387"
+              LastKnownName="Proxy1"
+              LastKnownLocation="Illustrations.uml" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="2f9fc73c-2b51-4281-81ce-91cf84924120"
+        name="Third party1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <providedInterface
+            Id="38580a5a-084e-4e40-9189-ae902664a446"
+            name="Port1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="891da8a3-eca4-4d0d-a6d5-e191173e3f50"
+                LastKnownName="Shopping cart"
+                LastKnownLocation="Illustrations.uml" />
+            </type_NamedElement>
+          </providedInterface>
+          <providedInterface
+            Id="bd0c9910-71f3-4b5e-80e0-51a564a360e2"
+            name="Port2"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false"
+            isService="false"
+            isBehavior="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="4dce34ad-10f9-45b5-b265-d145fb09b950"
+                LastKnownName="Products store"
+                LastKnownLocation="Illustrations.uml" />
+            </type_NamedElement>
+          </providedInterface>
+        </ownedAttributesInternal>
+      </component>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="83f7902f-f114-4909-bd81-ff1d3cddb387"
+        name="Proxy1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>
