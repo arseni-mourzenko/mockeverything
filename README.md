@@ -74,6 +74,53 @@ If you are tampering an assembly which is installed in the GAC:
 
   Replace `name`, `publicKeyToken` and `culture` by the actual metadata of the target assembly. Change `oldVersion` so it contains the version of the target assembly, and set `newVersion` to the value you have set in the previous step.
 
+## Entry and exit hooks
+
+Sometimes, you may need to track the calls to the methods within the proxies. You can do it by using hooks. Those hooks consist of specific methods which are called either before invoking a proxy method (entry hooks), or before returning to the caller (exit hooks). Those hooks are declared through attributes `[Entry]` and `[Exit]`. They should have specific signatures to work.
+
+The entry hook looks like this:
+
+    [Entry]
+    public static void HookNameGoesHere(string className, string methodName, string signature, object[] args)
+    {
+        ...
+    }
+
+The method is called before executing the proxy method. It will receive the following arguments:
+
+  - The full name of the class, that is the namespace and the class name. Note that **the name corresponds to the target, not the proxy**.
+
+    Example: `Company.Project.Something`
+
+  - The short name of the target method.
+
+    Example: `FindProductName`
+
+  - The signature of the method, which contains additional information about the method, such as the return value or the types of arguments. This can be used, for instance, in logs to determine which overload was actually called.
+
+    Example: `System.String Company.Project.Something::FindProductName(System.Int32)`
+
+  - The arguments passed to the method.
+
+    Example: `123`
+
+The exit hook looks like this:
+
+    [Exit]
+    public static void HookNameGoesHere(string className, string methodName, string signature, object value)
+    {
+        ...
+    }
+
+The method is called before executing the proxy method. It will receive the following arguments:
+
+  - The full name of the class, that is the namespace and the class name. Note that this information is about the target, not the proxy.
+  - The short name of the target method.
+  - The signature of the method, which contains additional information about the method, such as the return value or the types of arguments. This can be used, for instance, in logs to determine which overload was actually called.
+  - The value returned by this method. If the method is `void`, the value will be `null`.
+
+Note that since proxies are necessarily static and static classes don't support inheritance, hooks should be implemented on every proxy class. If the hooks are identical for several proxies, make sure you put the actual implementation of those hooks in a static class, called from the actual hooks within each proxy, in order to reduce code duplication.
+
 ## Design
 
 The system has two parts which are called by a consumer: the discovery and the tampering.
