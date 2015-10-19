@@ -44,7 +44,9 @@ The following steps describe how MockEverything can be used to mock third-party 
     <UsingTask AssemblyFile="...\MockEverything.BuildTask.dll"
                TaskName="MockEverything.BuildTask.TamperingTask" />
     <Target Name="AfterBuild">
-        <TamperingTask ProxiesPath="$(TargetDir)" DestinationPath="$(TargetDir)" CustomVersion="1.2.3.4" />
+        <TamperingTask ProxiesPath="$(TargetDir)"
+                       DestinationPath="$(TargetDir)"
+                       CustomVersion="1.2.3.4" />
     </Target>
     ```
 
